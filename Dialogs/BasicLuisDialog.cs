@@ -46,21 +46,21 @@ namespace Microsoft.Bot.Sample.LuisBot
         }
 
 		[LuisIntent("Catalog.FindItem")]
-		public async Task CatalogIntent(IDialogContext context, LuisResult result)
+		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
 			//await this.ShowLuisExtendedt(context, result);
 			await this.ShowLuisResult(context, result);
 		}
 
 		[LuisIntent("CRM.LeadCreation")]
-		public async Task CatalogIntent(IDialogContext context, LuisResult result)
+		public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
 		{
 			//await this.ShowLuisExtendedt(context, result);
 			await this.ShowLuisResult(context, result);
 		}
 
 		[LuisIntent("Product Name")]
-		public async Task CatalogIntent(IDialogContext context, LuisResult result)
+		public async Task ProductNameIntent(IDialogContext context, LuisResult result)
 		{
 			//await this.ShowLuisExtendedt(context, result);
 			await this.ShowLuisResult(context, result);
