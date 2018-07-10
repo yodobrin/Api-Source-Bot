@@ -79,13 +79,19 @@ namespace Microsoft.Bot.Sample.LuisBot
 			{
 				foreach (EntityRecommendation inst in entities)
 				{
-					if (PRODUCT.Equals(inst.Type))
-					{
+                    if (PRODUCT.Equals(inst.Type))
+                    {
                         await context.PostAsync($"in find item u said: {result.Query} ");
                         searchResult = Utilities.Search(inst.Entity);
-                        await context.PostAsync($"after search for {inst.Entity}");
-                        resultsCount = (long)searchResult.Count;
-					}
+                        if (searchResult != null)
+                        {
+                            await context.PostAsync($"after search for {inst.Entity}");
+                            await context.PostAsync($"cnt =  {searchResult.Results.Count}");
+                            resultsCount = (long)searchResult.Count;
+                        }
+                        else await context.PostAsync($" search for {inst.Entity} failed/returned no results");
+
+                    }
 					else continue;
 				}
 			}
