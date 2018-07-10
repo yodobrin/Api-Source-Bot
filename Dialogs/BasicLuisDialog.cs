@@ -1,3 +1,18 @@
+/*
+Sample Code is provided for the purpose of illustration only and is not intended to be used in a production environment.
+THIS SAMPLE CODE AND ANY RELATED INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, 
+INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+We grant You a nonexclusive, royalty-free right to use and modify the Sample Code and to reproduce and distribute the object code form of the Sample Code, provided that. 
+You agree: 
+	(i) to not use Our name, logo, or trademarks to market Your software product in which the Sample Code is embedded;
+    (ii) to include a valid copyright notice on Your software product in which the Sample Code is embedded; and
+	(iii) to indemnify, hold harmless, and defend Us and Our suppliers from and against any claims or lawsuits, including attorneys’ fees, that arise or result from the use or distribution of the Sample Code
+**/
+
+// Copyright © Microsoft Corporation.  All Rights Reserved.
+// This code released under the terms of the 
+// Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
+
 using System;
 using System.Configuration;
 using System.Threading.Tasks;
@@ -6,12 +21,18 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 
+using System.Collections;
+using System.Collections.Generic;
+using SourceBot.Utils;
+using Microsoft.Azure.Search.Models;
+
 namespace Microsoft.Bot.Sample.LuisBot
 {
     // For more information about this template visit http://aka.ms/azurebots-csharp-luis
     [Serializable]
     public class BasicLuisDialog : LuisDialog<object>
     {
+		public static string PRODUCT = "product";
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
             ConfigurationManager.AppSettings["LuisAPIKey"], 
@@ -48,8 +69,22 @@ namespace Microsoft.Bot.Sample.LuisBot
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
+			IList<EntityRecommendation> entities = result.Entities;
+			DocumentSearchResult  searchResult;
+			long resultsCount = 0;
+			// loop over the entities find the "Product" entity
+			foreach (EntityRecommendation inst in entities)
+			{
+				if (PRODUCT.Equals(inst.Type))
+				{
+					searchResult = Utilities.Search(inst.Entity);
+					resultsCount = (long)searchResult.Count;
+				}
+				else continue;
+			}
+			await context.PostAsync($"The number of results {resultsCount} ");
 			//await this.ShowLuisExtendedt(context, result);
-			await this.ShowLuisResult(context, result);
+			context.Wait(MessageReceived);
 		}
 
 		[LuisIntent("CRM.LeadCreation")]
