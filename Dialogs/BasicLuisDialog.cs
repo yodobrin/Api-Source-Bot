@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                             foreach (SearchResult<ProductDocument> temp in searchResult.Results)
                             {
                                 
-                                await context.PostAsync($" did u want this {temp.Document.ToString()} ");
+                                await context.PostAsync($" did u want this {temp.Document.Status} ");
                             }
                             resultsCount = (long)searchResult.Results.Count;
                         }
