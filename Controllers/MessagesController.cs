@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         /// </summary>
         /// <param name="activity"></param>
         [ResponseType(typeof(void))]
-        public virtual async Task<HttpResponseMessage> Post([FromBody] Activity activity)
+        public virtual async Task<HttpResponseMessage> Post([FromBody] Microsoft.Bot.Connector.Activity activity)
         {
             // check if activity is of type message
             if (activity.GetActivityType() == ActivityTypes.Message)
@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
         }
 
-        private Activity HandleSystemMessage(Activity message)
+        private Microsoft.Bot.Connector.Activity HandleSystemMessage(Microsoft.Bot.Connector.Activity message)
         {
             if (message.Type == ActivityTypes.DeleteUserData)
             {
