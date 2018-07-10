@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 				{
 					if (PRODUCT.Equals(inst.Type))
 					{
-                        await context.PostAsync($"in find item u said: {result.Query} ");
+                        await context.PostAsync($"in find item u said: {result.Query} and entity is {inst.Entity} ");
                         searchResult = Utilities.Search(inst.Entity);
 						resultsCount = (long)searchResult.Count;
 					}
