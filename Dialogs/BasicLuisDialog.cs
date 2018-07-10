@@ -85,7 +85,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 					else continue;
 				}
 			}
-			await context.PostAsync($"The number of results {resultsCount} ");
+			await context.PostAsync($"The number of  results {resultsCount} ");
 			//await this.ShowLuisExtendedt(context, result);
 			context.Wait(MessageReceived);
 		}
