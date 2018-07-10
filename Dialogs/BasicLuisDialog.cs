@@ -24,6 +24,7 @@ using Microsoft.Bot.Builder.Luis.Models;
 using System.Collections;
 using System.Collections.Generic;
 using SourceBot.Utils;
+using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 
 namespace Microsoft.Bot.Sample.LuisBot
@@ -71,8 +72,9 @@ namespace Microsoft.Bot.Sample.LuisBot
 		{
             
             IList<EntityRecommendation> entities = result.Entities;
-            
-			DocumentSearchResult  searchResult;
+            ISearchIndexClient searchClient = Utilities.GetSearchClient();
+
+            DocumentSearchResult<ProductDocument>  searchResult;
 			long resultsCount = 0;
 			// loop over the entities find the "Product" entity
 			if (entities != null && entities.Count>0)
@@ -82,12 +84,18 @@ namespace Microsoft.Bot.Sample.LuisBot
                     if (PRODUCT.Equals(inst.Type))
                     {
                         await context.PostAsync($"in find item u said: {result.Query} ");
-                        searchResult = Utilities.Search(inst.Entity);
+                        //searchResult = Utilities.Search(inst.Entity);
+                        searchResult = searchClient.Documents.Search<ProductDocument>(inst.Entity);
                         if (searchResult != null)
                         {
                             await context.PostAsync($"after search for {inst.Entity}");
                             await context.PostAsync($"cnt =  {searchResult.Results.Count}");
-                            resultsCount = (long)searchResult.Count;
+                            foreach (SearchResult<ProductDocument> temp in searchResult.Results)
+                            {
+                                
+                                await context.PostAsync($" did u want this {temp.Document.ToString()} ");
+                            }
+                            resultsCount = (long)searchResult.Results.Count;
                         }
                         else await context.PostAsync($" search for {inst.Entity} failed/returned no results");
 

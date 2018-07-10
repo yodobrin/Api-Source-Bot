@@ -14,12 +14,9 @@ You agree:
 // Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using System.Text;
-using System.Threading;
+
 using System.Threading.Tasks;
 using System.Configuration;
 
@@ -28,6 +25,7 @@ using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 
 using Newtonsoft.Json;
+
 
 namespace SourceBot.Utils
 {
@@ -46,7 +44,7 @@ namespace SourceBot.Utils
 		static string SearchIndexName = null;
 		static string SearchServiceName = null;
 		static string SearchServiceQueryApiKey = null;
-		static SearchIndexClient IndexClient = null;
+		static ISearchIndexClient IndexClient = null;
 
 		/*
 		 * Used to initilize the queue client - will be used to send messages to service bus
@@ -111,7 +109,13 @@ namespace SourceBot.Utils
 			return IndexClient.Documents.Search(searchText, sp);
 		}
 
-	}
+        public static ISearchIndexClient GetSearchClient()
+        {
+            InitSearch();
+            return IndexClient;
+        }
+
+    }
 
 	public class CommonMessage
 	{
@@ -122,4 +126,21 @@ namespace SourceBot.Utils
 		[JsonProperty("APIID")]
 		public string APIID { get; set; }
 	}
+
+    public class ProductDocument
+    {
+        [JsonProperty("Molecule (Level 1) ID")]
+        public string MoleculeID { get; set; }
+        [JsonProperty("Molecule Name (Level 1)")]
+        public string MoleculeName { get; set; }
+        [JsonProperty("Tapi Product Name (Level 2)")]
+        public string TapiProductName { get; set; }
+        [JsonProperty("Status (Calculated)")]
+        public string Status { get; set; }
+        [JsonProperty("Sub Status (Calculated)")]
+        public string SubStatus { get; set; }
+        [JsonProperty("ATC 1")]
+        public string ATC { get; set; }
+
+    }
 }
