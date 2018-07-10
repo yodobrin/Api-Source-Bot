@@ -69,7 +69,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
-            await context.PostAsync($"in find item u said: {result.Query} ");
+            
             IList<EntityRecommendation> entities = result.Entities;
             
 			DocumentSearchResult  searchResult;
@@ -81,7 +81,8 @@ namespace Microsoft.Bot.Sample.LuisBot
 				{
 					if (PRODUCT.Equals(inst.Type))
 					{
-						searchResult = Utilities.Search(inst.Entity);
+                        await context.PostAsync($"in find item u said: {result.Query} ");
+                        searchResult = Utilities.Search(inst.Entity);
 						resultsCount = (long)searchResult.Count;
 					}
 					else continue;
