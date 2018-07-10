@@ -73,14 +73,17 @@ namespace Microsoft.Bot.Sample.LuisBot
 			DocumentSearchResult  searchResult;
 			long resultsCount = 0;
 			// loop over the entities find the "Product" entity
-			foreach (EntityRecommendation inst in entities)
+			if (entities != null && entities.Count>0)
 			{
-				if (PRODUCT.Equals(inst.Type))
+				foreach (EntityRecommendation inst in entities)
 				{
-					searchResult = Utilities.Search(inst.Entity);
-					resultsCount = (long)searchResult.Count;
+					if (PRODUCT.Equals(inst.Type))
+					{
+						searchResult = Utilities.Search(inst.Entity);
+						resultsCount = (long)searchResult.Count;
+					}
+					else continue;
 				}
-				else continue;
 			}
 			await context.PostAsync($"The number of results {resultsCount} ");
 			//await this.ShowLuisExtendedt(context, result);
@@ -99,6 +102,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 		public async Task ProductNameIntent(IDialogContext context, LuisResult result)
 		{
 			//await this.ShowLuisExtendedt(context, result);
+			
 			await this.ShowLuisResult(context, result);
 		}
 		private async Task ShowLuisResult(IDialogContext context, LuisResult result) 
