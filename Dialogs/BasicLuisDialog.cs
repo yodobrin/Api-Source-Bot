@@ -69,7 +69,9 @@ namespace Microsoft.Bot.Sample.LuisBot
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
-			IList<EntityRecommendation> entities = result.Entities;
+            await context.PostAsync($"in find item u said: {result.Query} ");
+            IList<EntityRecommendation> entities = result.Entities;
+            
 			DocumentSearchResult  searchResult;
 			long resultsCount = 0;
 			// loop over the entities find the "Product" entity
