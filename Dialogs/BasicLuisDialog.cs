@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 		public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
 		{
 			//await this.ShowLuisExtendedt(context, result);
-			Utilities.AddMessageToQueueAsync("wow");
+			await Utilities.AddMessageToQueueAsync("wow");
 			await this.ShowLuisResult(context, result);
 		}
 
