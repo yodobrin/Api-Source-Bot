@@ -95,6 +95,8 @@ namespace Microsoft.Bot.Sample.LuisBot
                                 
                                 await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
                                 await context.PostAsync($" did u want this {temp.Document["metadata_storage_path"]} ");
+                                await context.PostAsync($" did u want this {temp.Document["content"]} ");
+                                
                             }
                             resultsCount = (long)searchResult.Results.Count;
                         }
