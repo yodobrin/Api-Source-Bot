@@ -117,15 +117,7 @@ namespace SourceBot.Utils
 
     }
 
-	public class CommonMessage
-	{
-		[JsonProperty("MessageType")]
-		public string MessageType { get; set; }
-		[JsonProperty("Email")]
-		public string Email { get; set; }
-		[JsonProperty("APIID")]
-		public string APIID { get; set; }
-	}
+	
 
     public class ProductDocument
     {

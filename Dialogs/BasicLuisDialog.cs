@@ -74,7 +74,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             IList<EntityRecommendation> entities = result.Entities;
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
 
-            DocumentSearchResult<ProductDocument>  searchResult;
+            DocumentSearchResult  searchResult;
 			long resultsCount = 0;
 			// loop over the entities find the "Product" entity
 			if (entities != null && entities.Count>0)
@@ -85,15 +85,15 @@ namespace Microsoft.Bot.Sample.LuisBot
                     {
                         await context.PostAsync($"in find item u said: {result.Query} ");
                         //searchResult = Utilities.Search(inst.Entity);
-                        searchResult = searchClient.Documents.Search<ProductDocument>(inst.Entity);
+                        searchResult = searchClient.Documents.Search(inst.Entity);
                         if (searchResult != null)
                         {
                             await context.PostAsync($"after search for {inst.Entity}");
                             await context.PostAsync($"cnt =  {searchResult.Results.Count}");
-                            foreach (SearchResult<ProductDocument> temp in searchResult.Results)
+                            foreach (SearchResult temp in searchResult.Results)
                             {
                                 
-                                await context.PostAsync($" did u want this {temp.Document} ");
+                                await context.PostAsync($" did u want this {temp.Document["Status (Calculated)"]} ");
                             }
                             resultsCount = (long)searchResult.Results.Count;
                         }
