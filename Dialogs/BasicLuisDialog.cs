@@ -77,41 +77,83 @@ namespace Microsoft.Bot.Sample.LuisBot
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
 
             DocumentSearchResult  searchResult;
-			long resultsCount = 0;
-			// loop over the entities find the "Product" entity
-			if (entities != null && entities.Count>0)
-			{
-				foreach (EntityRecommendation inst in entities)
-				{
+            //long resultsCount = 0;
+            // loop over the entities find the "Product" entity
+            if (entities != null && entities.Count > 0)
+            {
+                foreach (EntityRecommendation inst in entities)
+                {
                     if (PRODUCT.Equals(inst.Type))
                     {
-                        await context.PostAsync($"in find item u said: {result.Query} ");
-                        //searchResult = Utilities.Search(inst.Entity);
-                        searchResult = searchClient.Documents.Search(inst.Entity);
-                        if (searchResult != null)
-                        {
-                            await context.PostAsync($"after search for {inst.Entity}");
-                            await context.PostAsync($"cnt =  {searchResult.Results.Count}");
-                            foreach (SearchResult temp in searchResult.Results)
-                            {
-                                
-                                await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
-                                await context.PostAsync($" did u want this {temp.Document["metadata_storage_path"]} ");
-                                await context.PostAsync($" did u want this {temp.Document["content"]} ");
-                                
-                            }
-                            resultsCount = (long)searchResult.Results.Count;
-                        }
-                        else await context.PostAsync($" search for {inst.Entity} failed/returned no results");
+
+                        await searchProduct(context, inst, searchClient);
+
+                        //await context.PostAsync($"in find item u said: {result.Query} ");
+                        ////searchResult = Utilities.Search(inst.Entity);
+                        //searchResult = searchClient.Documents.Search(inst.Entity);
+                        //if (searchResult != null)
+                        //{
+                        //    await context.PostAsync($"after search for {inst.Entity}");
+                        //    await context.PostAsync($"cnt =  {searchResult.Results.Count}");
+                        //    foreach (SearchResult temp in searchResult.Results)
+                        //    {
+
+                        //        await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
+                        //        await context.PostAsync($" did u want this {temp.Document["metadata_storage_path"]} ");
+                        //        await context.PostAsync($" did u want this {temp.Document["content"]} ");
+
+                        //    }
+                        //    resultsCount = (long)searchResult.Results.Count;
+                        //}
+                        //else await context.PostAsync($" search for {inst.Entity} failed/returned no results");
 
                     }
-					else continue;
-				}
-			}
-			await context.PostAsync($"The number of  results {resultsCount} ");
-			//await this.ShowLuisExtendedt(context, result);
-			context.Wait(MessageReceived);
+                    else continue;
+                }
+            }
+            else await searchQuery(context, result.Query, searchClient);
+            //await context.PostAsync($"The number of  results {resultsCount} ");
+            //await this.ShowLuisExtendedt(context, result);
+            context.Wait(MessageReceived);
 		}
+
+        private async Task searchProduct(IDialogContext context, EntityRecommendation prod, ISearchIndexClient searchClient)
+        {
+            DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity);
+            if (searchResult != null)
+            {
+                await context.PostAsync($"after search for {prod.Entity}");
+                await context.PostAsync($"cnt =  {searchResult.Results.Count}");
+                foreach (SearchResult temp in searchResult.Results)
+                {
+
+                   // await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
+                    await context.PostAsync($" did u want this {temp.Document["metadata_storage_path"]} ");
+                    await context.PostAsync($" did u want this {temp.Document["content"]} ");
+
+                }                
+            }
+            else await context.PostAsync($" search for {prod.Entity} failed/returned no results");
+        }
+
+        private async Task searchQuery(IDialogContext context, string query, ISearchIndexClient searchClient)
+        {
+            DocumentSearchResult searchResult = searchClient.Documents.Search(query);
+            if (searchResult != null)
+            {
+                await context.PostAsync($"after search for {query}");
+                await context.PostAsync($"cnt =  {searchResult.Results.Count}");
+                foreach (SearchResult temp in searchResult.Results)
+                {
+
+                    await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
+                    await context.PostAsync($" did u want this {temp.Document["metadata_storage_path"]} ");
+                    await context.PostAsync($" did u want this {temp.Document["content"]} ");
+
+                }
+            }
+            else await context.PostAsync($" search for {query} failed/returned no results");
+        }
 
         private string extractFromDict(Document document)
         {
