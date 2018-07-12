@@ -27,6 +27,8 @@ using SourceBot.Utils;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 
+
+
 namespace Microsoft.Bot.Sample.LuisBot
 {
     // For more information about this template visit http://aka.ms/azurebots-csharp-luis
@@ -142,5 +144,11 @@ namespace Microsoft.Bot.Sample.LuisBot
             await context.PostAsync($"You have reached {result.Intents[0].Intent}. You said: {result.Query}");
             context.Wait(MessageReceived);
         }
+
+
+        // copied from carosel git
+       
+
+        
     }
 }
