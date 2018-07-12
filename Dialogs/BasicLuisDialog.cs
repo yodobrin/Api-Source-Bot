@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                             foreach (SearchResult temp in searchResult.Results)
                             {
                                 
-                                await context.PostAsync($" did u want this {temp.Document["Status (Calculated)"]} ");
+                                await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
                             }
                             resultsCount = (long)searchResult.Results.Count;
                         }
@@ -107,6 +107,17 @@ namespace Microsoft.Bot.Sample.LuisBot
 			//await this.ShowLuisExtendedt(context, result);
 			context.Wait(MessageReceived);
 		}
+
+        private string extractFromDict(Document document)
+        {
+            string result="";
+            foreach (KeyValuePair<string, object> kvp in document)
+            {
+                result = string.Concat( kvp.Key, "::", kvp.Value, "\n",result);
+            }
+
+            return result;
+        }
 
 		[LuisIntent("CRM.LeadCreation")]
 		public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
