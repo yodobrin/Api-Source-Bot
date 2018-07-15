@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Luis.Models;
 
 using System.Collections;
@@ -36,6 +37,9 @@ namespace Microsoft.Bot.Sample.LuisBot
     public class BasicLuisDialog : LuisDialog<object>
     {
 		public static string PRODUCT = "product";
+        public const string emailOption = "email";
+        public const string botOption = "bot";
+
         public IList<ProductDocument> products;
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
@@ -96,8 +100,37 @@ namespace Microsoft.Bot.Sample.LuisBot
             // in case it is a find intent, but not recognized as a product
 
             else await SearchQuery(context, result.Query, searchClient);
-            context.Wait(MessageReceived);
+            context.Wait(MessageReceivedAsync);
 		}
+
+        public async virtual Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        {
+            var message = await result;
+
+            PromptDialog.Choice<string>(
+                context,
+                this.AfterMenuSelection,
+                new List<string>() { botOption, emailOption },
+                "How would you prefer to obtain the information found?",
+                "Ooops, what you wrote is not a valid option, please try again",
+                3,
+                PromptStyle.PerLine);
+        }
+
+        private async Task AfterMenuSelection(IDialogContext context, IAwaitable<string> result)
+        {
+            var optionSelected = await result;
+            switch (optionSelected)
+            {
+                case botOption:
+                    await context.PostAsync($"Ok, cool. here is the inforation:\n {products}");
+                    break;
+                case emailOption:
+                    await context.PostAsync($"Ok, will be sending email to ... whom? in the mail you will have information about {products.Count} you searched for");
+                    break;
+            }
+
+        }
 
         private async Task SearchProduct(IDialogContext context, EntityRecommendation prod, ISearchIndexClient searchClient)
         {
