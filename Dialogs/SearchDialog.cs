@@ -33,12 +33,16 @@ namespace LuisBot.Dialogs
     public class SearchDialog : IDialog<object>
     {
         public IList<ProductDocument> products;
-        LuisResult LuisResult;
+        //[NonSerialized]
 
-        public SearchDialog(LuisResult luisResult)
+        IList<EntityRecommendation> Entities;
+        string Query;
+
+        public SearchDialog(IList<EntityRecommendation> entities,string query)
         {
             products = new List<ProductDocument>();
-            LuisResult = luisResult;
+            Entities = entities;
+            Query = query;
         }
             
         public async Task StartAsync(IDialogContext context)
@@ -50,13 +54,13 @@ namespace LuisBot.Dialogs
         {
             var message = await result;
             int count = 0;
-            IList<EntityRecommendation> entities = LuisResult.Entities;
+            //IList<EntityRecommendation> entities = LuisResult.Entities;
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
             // loop over the entities find the "Product" entity
             // todo need to ensure the number of results is accounted for BEFORE displayed
-            if (entities != null && entities.Count > 0)
+            if (Entities != null && Entities.Count > 0)
             {
-                foreach (EntityRecommendation inst in entities)
+                foreach (EntityRecommendation inst in Entities)
                 {
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
@@ -67,7 +71,7 @@ namespace LuisBot.Dialogs
             }
             // in case it is a find intent, but not recognized as a product
 
-            else count = SearchQuery(context, LuisResult.Query, searchClient);
+            else count = SearchQuery(context, Query, searchClient);
             //context.Wait(MessageReceivedAsync);
 
             await context.PostAsync($"Your search resulted in: {count} results.");
