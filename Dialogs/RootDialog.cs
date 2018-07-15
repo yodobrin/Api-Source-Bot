@@ -115,7 +115,13 @@ namespace Microsoft.Bot.Sample.LuisBot
 		}
         private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
         {
-            products =(IList<ProductDocument>) await result;   
+            products =(IList<ProductDocument>) await result;
+            string message = "";
+            foreach (ProductDocument prd in products)
+            {
+                string.Concat(message, prd.MoleculeName," - ");
+            }
+            await context.PostAsync($"I got results: {message} ");
             context.Wait(this.MessageReceived);
         }
 
