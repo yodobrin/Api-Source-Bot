@@ -119,20 +119,5 @@ namespace SourceBot.Utils
 
 	
 
-    public class ProductDocument
-    {
-        [JsonProperty("Molecule (Level 1) ID")]
-        public string MoleculeID { get; set; }
-        [JsonProperty("Molecule Name (Level 1)")]
-        public string MoleculeName { get; set; }
-        [JsonProperty("Tapi Product Name (Level 2)")]
-        public string TapiProductName { get; set; }
-        [JsonProperty("Status (Calculated)")]
-        public string Status { get; set; }
-        [JsonProperty("Sub Status (Calculated)")]
-        public string SubStatus { get; set; }
-        [JsonProperty("ATC 1")]
-        public string ATC { get; set; }
-
-    }
+   
 }

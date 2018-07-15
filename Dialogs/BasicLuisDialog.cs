@@ -26,8 +26,8 @@ using System.Collections.Generic;
 using SourceBot.Utils;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-
-
+using Newtonsoft.Json;
+using LuisBot.DataTypes;
 
 namespace Microsoft.Bot.Sample.LuisBot
 {
@@ -109,7 +109,9 @@ namespace Microsoft.Bot.Sample.LuisBot
 
                    // await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
                     await context.PostAsync($" did u want this json {temp.Document["metadata_storage_path"]} ");
-                    await context.PostAsync($" did u want this json {temp.Document["content"]} ");
+                    //await context.PostAsync($" did u want this json {temp.Document["content"]} ");
+                    ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
+                    await context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
 
                 }                
             }

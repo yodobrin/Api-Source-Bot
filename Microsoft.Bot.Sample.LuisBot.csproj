@@ -239,6 +239,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="DataTypes\EmailMessage.cs" />
     <Compile Include="DataTypes\Lead.cs" />
+    <Compile Include="DataTypes\ProductDocument.cs" />
     <Compile Include="Dialogs\BasicLuisDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\CarouselCardsDialog.cs" />
