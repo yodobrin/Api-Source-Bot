@@ -124,7 +124,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             {
                 string.Concat(message, prd.MoleculeName," - ");
             }
-            await context.PostAsync($"I got results: {message} ");
+            await context.PostAsync($"I got {products.Count}results: {message} ");
             context.Wait(this.MessageReceived);
         }
 

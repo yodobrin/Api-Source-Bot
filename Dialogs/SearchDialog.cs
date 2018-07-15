@@ -74,7 +74,7 @@ namespace LuisBot.Dialogs
             else count = SearchQuery(context, Query, searchClient);
             //context.Wait(MessageReceivedAsync);
 
-            await context.PostAsync($"Your search resulted in: {count} results.");
+            await context.PostAsync($"Your search resulted in: {count} results. And in the list i have: {products.Count}");
 
             context.Done(products);
         }
@@ -90,7 +90,7 @@ namespace LuisBot.Dialogs
                 {
                     ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
                     products.Add(prodDoc);
-                    //await context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
+                    context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
                 }
                 //context.Wait(MessageReceivedAsync);
                 //await context.PostAsync($" do you wana to c them? {products.Count}");
