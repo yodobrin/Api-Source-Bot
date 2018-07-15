@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 
 namespace LuisBot.DataTypes
 {
+    [Serializable]
     public class EmailMessage
     {
         [JsonProperty("MessageType")]

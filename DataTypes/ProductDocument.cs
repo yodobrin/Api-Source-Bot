@@ -21,6 +21,7 @@ using Newtonsoft.Json;
 
 namespace LuisBot.DataTypes
 {
+    [Serializable]
     public class ProductDocument
     {
         [JsonProperty("Molecule (Level 1) ID")]
