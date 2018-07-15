@@ -91,8 +91,8 @@ namespace Microsoft.Bot.Sample.LuisBot
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             await context.PostAsync($"Ok, let me find relevant information...");
-            //var message = await result;
-            await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog,result, CancellationToken.None);
+           
+            await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             //IList<EntityRecommendation> entities = result.Entities;
             //ISearchIndexClient searchClient = Utilities.GetSearchClient();
 
