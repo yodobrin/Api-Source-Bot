@@ -36,11 +36,13 @@ namespace Microsoft.Bot.Sample.LuisBot
     public class BasicLuisDialog : LuisDialog<object>
     {
 		public static string PRODUCT = "product";
+        public IList<ProductDocument> products;
         public BasicLuisDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
             ConfigurationManager.AppSettings["LuisAPIKey"], 
             domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
         {
+            products = new List<ProductDocument>();
         }
 
         [LuisIntent("None")]
@@ -102,18 +104,15 @@ namespace Microsoft.Bot.Sample.LuisBot
             DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity);
             if (searchResult != null)
             {
-                await context.PostAsync($"after search for {prod.Entity}");
-                await context.PostAsync($"cnt =  {searchResult.Results.Count}");
+                await context.PostAsync($"Searched for {prod.Entity}. \n Result count:{searchResult.Results.Count}");
+                
                 foreach (SearchResult temp in searchResult.Results)
                 {
-
-                   // await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
-                    await context.PostAsync($" did u want this json {temp.Document["metadata_storage_path"]} ");
-                    //await context.PostAsync($" did u want this json {temp.Document["content"]} ");
                     ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
-                    await context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
-
-                }                
+                    products.Add(prodDoc);
+                    //await context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
+                }
+                await context.PostAsync($" do you wana to c them? {products.Count}");
             }
             else await context.PostAsync($" search for {prod.Entity} failed/returned no results");
         }
@@ -123,14 +122,13 @@ namespace Microsoft.Bot.Sample.LuisBot
             DocumentSearchResult searchResult = searchClient.Documents.Search(query);
             if (searchResult != null)
             {
-                await context.PostAsync($"after search for {query}");
-                await context.PostAsync($"cnt =  {searchResult.Results.Count}");
+                await context.PostAsync($"Search for {query}. \n Result count:{searchResult.Results.Count}");
+                
+                // TODO - should proceed or not?
                 foreach (SearchResult temp in searchResult.Results)
                 {
-
-                    await context.PostAsync($" did u want this {extractFromDict(temp.Document)} ");
-                    await context.PostAsync($" did u want this json {temp.Document["metadata_storage_path"]} ");
-                    await context.PostAsync($" did u want this json {temp.Document["content"]} ");
+                    ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
+                    products.Add(prodDoc);
 
                 }
             }
