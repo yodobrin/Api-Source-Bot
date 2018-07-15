@@ -46,12 +46,16 @@ namespace SourceBot.Utils
 		static string SearchServiceQueryApiKey = null;
 		static ISearchIndexClient IndexClient = null;
 
-		/*
+
+        // constants
+        public static string PRODUCT = "product";
+
+        /*
 		 * Used to initilize the queue client - will be used to send messages to service bus
 		 * 
 		 **/
 
-		public static async void InitQ()
+        public static async void InitQ()
 		{
 			// verify global setting were not initilized yet
 			if (queueClient == null || QueueName == null || ServiceBusKey == null || ServiceBusConnString == null)

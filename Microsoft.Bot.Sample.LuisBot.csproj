@@ -240,9 +240,11 @@
     <Compile Include="DataTypes\EmailMessage.cs" />
     <Compile Include="DataTypes\Lead.cs" />
     <Compile Include="DataTypes\ProductDocument.cs" />
-    <Compile Include="Dialogs\BasicLuisDialog.cs" />
+    <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\CarouselCardsDialog.cs" />
+    <Compile Include="Dialogs\NameDialog.cs" />
+    <Compile Include="Dialogs\SearchDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
