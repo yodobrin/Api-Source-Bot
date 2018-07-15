@@ -145,7 +145,8 @@ namespace Microsoft.Bot.Sample.LuisBot
                     products.Add(prodDoc);
                     //await context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
                 }
-                await context.PostAsync($" do you wana to c them? {products.Count}");
+                context.Wait(MessageReceivedAsync);
+                //await context.PostAsync($" do you wana to c them? {products.Count}");
             }
             else await context.PostAsync($" search for {prod.Entity} failed/returned no results");
         }
@@ -164,6 +165,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                     products.Add(prodDoc);
 
                 }
+                context.Wait(MessageReceivedAsync);
             }
             else await context.PostAsync($" search for {query} failed/returned no results");
         }
