@@ -33,10 +33,10 @@ namespace LuisBot.Dialogs
     public class SearchDialog : IDialog<object>
     {
         public IList<ProductDocument> products;
-        //[NonSerialized]
+        
 
         IList<EntityRecommendation> Entities;
-        string Query;
+        readonly string Query;
 
         public SearchDialog(IList<EntityRecommendation> entities,string query)
         {
@@ -54,10 +54,8 @@ namespace LuisBot.Dialogs
         {
             var message = await result;
             int count = 0;
-            //IList<EntityRecommendation> entities = LuisResult.Entities;
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
             // loop over the entities find the "Product" entity
-            // todo need to ensure the number of results is accounted for BEFORE displayed
             if (Entities != null && Entities.Count > 0)
             {
                 foreach (EntityRecommendation inst in Entities)
@@ -70,12 +68,10 @@ namespace LuisBot.Dialogs
                 }
             }
             // in case it is a find intent, but not recognized as a product
-
             else count = SearchQuery(context, Query, searchClient);
-            //context.Wait(MessageReceivedAsync);
-
-            await context.PostAsync($"Your search resulted in: {count} results. And in the list i have: {products.Count}");
-
+            // TODO decide what to do with the count
+            //await context.PostAsync($"Your search resulted in: {count} results. And in the list i have: {products.Count}");
+            // pass control back to the calling dialog (root)
             context.Done(products);
         }
 
@@ -84,19 +80,15 @@ namespace LuisBot.Dialogs
             DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity);
             if (searchResult != null)
             {
-                //await context.PostAsync($"Searched for {prod.Entity}. \n Result count:{searchResult.Results.Count}");
-
                 foreach (SearchResult temp in searchResult.Results)
                 {
                     ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
-                    products.Add(prodDoc);
-                    context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
+                    products.Add(prodDoc);                    
                 }
-                //context.Wait(MessageReceivedAsync);
-                //await context.PostAsync($" do you wana to c them? {products.Count}");
+
                 return products.Count;
             }
-            else return 0;// await context.PostAsync($" search for {prod.Entity} failed/returned no results");
+            else return 0;
         }
 
         private int SearchQuery(IDialogContext context, string query, ISearchIndexClient searchClient)
@@ -104,9 +96,6 @@ namespace LuisBot.Dialogs
             DocumentSearchResult searchResult = searchClient.Documents.Search(query);
             if (searchResult != null)
             {
-                //await context.PostAsync($"Search for {query}. \n Result count:{searchResult.Results.Count}");
-
-                // TODO - should proceed or not?
                 foreach (SearchResult temp in searchResult.Results)
                 {
                     ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
@@ -114,9 +103,8 @@ namespace LuisBot.Dialogs
 
                 }
                 return products.Count;
-                //await context.PostAsync($" do you wana to c them? {products.Count}");
             }
-            else return 0; // await context.PostAsync($" search for {query} failed/returned no results");
+            else return 0; 
         }
     }
 }

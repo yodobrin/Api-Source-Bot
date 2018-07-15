@@ -53,13 +53,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             products = new List<ProductDocument>();
         }
-
         
-        //public async override Task StartAsync(IDialogContext context)
-        //{
-        //    await context.PostAsync("Welcome to APISource Bot, I will help in finding information");
-        //    await StartAsync(context);
-        //}
 
         [LuisIntent("None")]
         public async Task NoneIntent(IDialogContext context, LuisResult result)
@@ -87,39 +81,29 @@ namespace Microsoft.Bot.Sample.LuisBot
             await this.ShowLuisResult(context, result);
         }
 
+        /**
+         * 
+         * In case of a find item intent, the context is forwaded to the search dialog. 
+         * The search dialog will return a list of products it retrived from the azure search
+         * 
+         */ 
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             await context.PostAsync($"Ok, let me find relevant information...");
            
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
-            //IList<EntityRecommendation> entities = result.Entities;
-            //ISearchIndexClient searchClient = Utilities.GetSearchClient();
 
-            ////DocumentSearchResult  searchResult;
-            
-            //// loop over the entities find the "Product" entity
-            //// todo need to ensure the number of results is accounted for BEFORE displayed
-            //if (entities != null && entities.Count > 0)
-            //{
-            //    foreach (EntityRecommendation inst in entities)
-            //    {
-            //        if (Utilities.PRODUCT.Equals(inst.Type))
-            //        {
-            //            await SearchProduct(context, inst, searchClient);                    
-            //        }
-            //        else continue;
-            //    }
-            //}
-            //// in case it is a find intent, but not recognized as a product
-
-            //else await SearchQuery(context, result.Query, searchClient);
-            //context.Wait(MessageReceivedAsync);
 		}
+
+        /**
+         * Spits out the products found
+         * 
+         */ 
         private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
         {
             products =(IList<ProductDocument>) await result;
-            //string message = "";
+            
             foreach (ProductDocument prd in products)
             {
                 await context.PostAsync($"I got {prd.MoleculeID} -- {prd.MoleculeName} -- {prd.TapiProductName} ");
@@ -131,55 +115,6 @@ namespace Microsoft.Bot.Sample.LuisBot
         
 
         
-
-        //private async Task SearchProduct(IDialogContext context, EntityRecommendation prod, ISearchIndexClient searchClient)
-        //{
-        //    DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity);
-        //    if (searchResult != null)
-        //    {
-        //        await context.PostAsync($"Searched for {prod.Entity}. \n Result count:{searchResult.Results.Count}");
-                
-        //        foreach (SearchResult temp in searchResult.Results)
-        //        {
-        //            ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
-        //            products.Add(prodDoc);
-        //            //await context.PostAsync($" did u want this param {prodDoc.MoleculeName} ");
-        //        }
-        //        context.Wait(MessageReceivedAsync);
-        //        await context.PostAsync($" do you wana to c them? {products.Count}");
-        //    }
-        //    else await context.PostAsync($" search for {prod.Entity} failed/returned no results");
-        //}
-
-        //private async Task SearchQuery(IDialogContext context, string query, ISearchIndexClient searchClient)
-        //{
-        //    DocumentSearchResult searchResult = searchClient.Documents.Search(query);
-        //    if (searchResult != null)
-        //    {
-        //        await context.PostAsync($"Search for {query}. \n Result count:{searchResult.Results.Count}");
-                
-        //        // TODO - should proceed or not?
-        //        foreach (SearchResult temp in searchResult.Results)
-        //        {
-        //            ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
-        //            products.Add(prodDoc);
-
-        //        }
-        //        await context.PostAsync($" do you wana to c them? {products.Count}");
-        //    }
-        //    else await context.PostAsync($" search for {query} failed/returned no results");
-        //}
-
-        //private string extractFromDict(Document document)
-        //{
-        //    string result="";
-        //    foreach (KeyValuePair<string, object> kvp in document)
-        //    {
-        //        result = string.Concat( kvp.Key, "::", kvp.Value, "\n",result);
-        //    }
-
-        //    return result;
-        //}
 
 		[LuisIntent("CRM.LeadCreation")]
 		public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
@@ -202,9 +137,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             context.Wait(MessageReceived);
         }
 
-
-        // copied from carosel git
-       
+               
 
         
     }
