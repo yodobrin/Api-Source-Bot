@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         public const string botOption = "bot";
 
         public string UserName = "";
-        Lead Lead = new Lead(); 
+        Lead MyLead = new Lead(); 
 
 
         public IList<ProductDocument> products;
@@ -101,15 +101,15 @@ namespace Microsoft.Bot.Sample.LuisBot
 
 		}
 
-        private static Attachment GetOpenCard()
+        private static Attachment GetOpenCard(string name, string company)
         {
             var heroCard = new HeroCard
             {
-                Title = "API Source Bot",
+                Title = $"API Source Bot tailor for {name} @ {company}",
                 Subtitle = "Tapi bots — Welcome tapi your api partner",
                 Text = "Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts. It's all here!",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework"), new CardAction(ActionTypes.PostBack, "WTF", value: "find me Aztreonam") }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
             };
 
             return heroCard.ToAttachment();
@@ -133,20 +133,20 @@ namespace Microsoft.Bot.Sample.LuisBot
 
         private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
         {
-            Lead.Name = await result;
-            await context.PostAsync($"Hi { Lead.Name}! \n Thank you for using APISourceBot.");
+            MyLead.Name = await result;
+            await context.PostAsync($"Hi { MyLead.Name}! \n Thank you for using APISourceBot.");
             
             context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);
             //context.Wait(this.MessageReceived);
         }
         private async Task ResumeAfterCompany(IDialogContext context, IAwaitable<string> result)
         {
-            Lead.Company = await result;
-            await context.PostAsync($"Glad to see you work for {Lead.Company}");
+            MyLead.Company = await result;
+            await context.PostAsync($"Glad to see you work for {MyLead.Company}");
 
             var message = context.MakeMessage();
 
-            message.Attachments.Add(GetOpenCard());
+            message.Attachments.Add(GetOpenCard(MyLead.Name,MyLead.Company));
 
             await context.PostAsync(message);
 
