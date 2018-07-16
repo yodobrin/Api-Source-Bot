@@ -33,6 +33,9 @@ namespace LuisBot.DataTypes
         [JsonProperty("Company")]
         public string Company { get; set; }
 
+        [JsonProperty("Name")]
+        public string Name { get; set; }
+
         [JsonProperty("First Name")]
         public string FirstName { get; set; }
 

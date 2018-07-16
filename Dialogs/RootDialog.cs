@@ -44,6 +44,8 @@ namespace Microsoft.Bot.Sample.LuisBot
         public const string botOption = "bot";
 
         public string UserName = "";
+        Lead Lead = new Lead(); 
+
 
         public IList<ProductDocument> products;
         public RootDialog() : base(new LuisService(new LuisModelAttribute(
@@ -66,8 +68,10 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {
+            await context.Forward(new GenericDetailDialog("Name"), this.ResumeAfterGreating, context.Activity, CancellationToken.None);
             await this.ShowLuisResult(context, result);
         }
+
 
         [LuisIntent("Cancel")]
         public async Task CancelIntent(IDialogContext context, LuisResult result)
@@ -90,26 +94,22 @@ namespace Microsoft.Bot.Sample.LuisBot
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
-            var message = context.MakeMessage();
             
-            message.Attachments.Add(GetHeroCard());
-
-            await context.PostAsync(message);
             await context.PostAsync($"Ok, let me find relevant information...");
            
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
 
 		}
 
-        private static Attachment GetHeroCard()
+        private static Attachment GetOpenCard()
         {
             var heroCard = new HeroCard
             {
-                Title = "BotFramework Hero Card",
-                Subtitle = "Your bots — wherever your users are talking",
-                Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
-                Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
+                Title = "API Source Bot",
+                Subtitle = "Tapi bots — Welcome tapi your api partner",
+                Text = "Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts. It's all here!",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework"), new CardAction(ActionTypes.MessageBack, "WTF", value: "not sure what this is") }
             };
 
             return heroCard.ToAttachment();
@@ -131,11 +131,30 @@ namespace Microsoft.Bot.Sample.LuisBot
             context.Wait(this.MessageReceived);
         }
 
-        
+        private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
+        {
+            await context.PostAsync($"Hi {result}! \n Thank you for using APISourceBot.");
+            Lead.Name = result.ToString();
+            await context.Forward(new GenericDetailDialog("Company"), this.ResumeAfterCompany, context.Activity, CancellationToken.None);
+            context.Wait(this.MessageReceived);
+        }
+        private async Task ResumeAfterCompany(IDialogContext context, IAwaitable<string> result)
+        {
+            Lead.Company = result.ToString();
+            await context.PostAsync($"Glad to see you work for {result}");
 
-        
+            var message = context.MakeMessage();
 
-		[LuisIntent("CRM.LeadCreation")]
+            message.Attachments.Add(GetOpenCard());
+
+            await context.PostAsync(message);
+
+            context.Wait(this.MessageReceived);
+        }
+
+
+
+        [LuisIntent("CRM.LeadCreation")]
 		public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
 		{
 			//await this.ShowLuisExtendedt(context, result);
