@@ -72,6 +72,26 @@ namespace Microsoft.Bot.Sample.LuisBot
             //await this.ShowLuisResult(context, result);
         }
 
+        
+        [LuisIntent("Catalog.Fetch")]
+        public async Task CatalogFetchIntent(IDialogContext context, LuisResult result)
+        {
+
+            switch (result.Query)
+            {
+                case "flush":
+                    await FlushProducts(context);
+                    break;
+                case "bymail":
+                    await context.PostAsync($"so be it, but i will need the mail");
+                    break;
+
+
+            }
+            context.Wait(this.MessageReceived);
+        }
+
+
 
         [LuisIntent("Cancel")]
         public async Task CancelIntent(IDialogContext context, LuisResult result)
@@ -101,7 +121,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 
 		}
 
-        private static Attachment GetOpenCard(string name, string company)
+        private  Attachment GetOpenCard(string name, string company)
         {
             var openCard = new HeroCard
             {
@@ -115,20 +135,57 @@ namespace Microsoft.Bot.Sample.LuisBot
             return openCard.ToAttachment();
         }
 
-        /**
-         * Spits out the products found
-         * 
-         */
+        private static Attachment GetResultCard(IList<ProductDocument> products)
+        {
+            string suffix = "";
+            if (products.Count > 0)
+            {
+                suffix = (products.Count == 1) ? "" : "s";
+                // yes we have
+               // await context.PostAsync($"I found: {products.Count} product{suffix}.");
+            }
+            var resultCard = new HeroCard
+            {
+                Title = $"I found: {products.Count} product{suffix}.",
+                Subtitle = "Matching your search criteria",
+                Text = "How would you like the information be provided?",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/image-for-laszlo-article-june-2018.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Send me an email", value: "ByMail"), new CardAction(ActionTypes.PostBack, "Flush it here please", value: "flush") }
+            };
+
+            return resultCard.ToAttachment();
+        }
+       
         private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
         {
             products =(IList<ProductDocument>) await result;
-            await context.PostAsync($"Result count: {products.Count} ");
+            //if(products.Count >0)
+            //{
+            //    string suffix = (products.Count == 1) ? "" : "s";
+            //    // yes we have
+            //    await context.PostAsync($"I found: {products.Count} product{suffix}.");
+            //}
+            //await context.PostAsync($"Result count: {products.Count} ");
+            var message = context.MakeMessage();
+
+            message.Attachments.Add(GetResultCard(products));
+
+            await context.PostAsync(message);
+
+            context.Wait(this.MessageReceived);
+
+        }
+
+        /**
+        * Spits out the products found
+        * 
+        */
+        private async Task FlushProducts(IDialogContext context)
+        {
             foreach (ProductDocument prd in products)
             {
                 await context.PostAsync($"I got {prd.MoleculeID} -- {prd.MoleculeName} -- {prd.TapiProductName} ");
             }
-            
-            context.Wait(this.MessageReceived);
         }
 
         private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
