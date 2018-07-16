@@ -68,7 +68,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {
-            await context.Forward(new GenericDetailDialog("Name"), this.ResumeAfterGreating, context.Activity, CancellationToken.None);
+            context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
             await this.ShowLuisResult(context, result);
         }
 
@@ -134,13 +134,13 @@ namespace Microsoft.Bot.Sample.LuisBot
         private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
         {
             await context.PostAsync($"Hi {result}! \n Thank you for using APISourceBot.");
-            Lead.Name = result.ToString();
-            await context.Forward(new GenericDetailDialog("Company"), this.ResumeAfterCompany, context.Activity, CancellationToken.None);
-            context.Wait(this.MessageReceived);
+            Lead.Name = await result;
+            context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);
+            //context.Wait(this.MessageReceived);
         }
         private async Task ResumeAfterCompany(IDialogContext context, IAwaitable<string> result)
         {
-            Lead.Company = result.ToString();
+            Lead.Company = await result;
             await context.PostAsync($"Glad to see you work for {result}");
 
             var message = context.MakeMessage();
