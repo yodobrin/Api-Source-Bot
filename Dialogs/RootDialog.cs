@@ -30,7 +30,7 @@ using LuisBot.DataTypes;
 using LuisBot.Dialogs;
 using System.Threading;
 
-using Microsoft.Bot.Builder.Dialogs;
+
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.LuisBot
@@ -43,7 +43,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         public const string emailOption = "email";
         public const string botOption = "bot";
 
-        public string UserName = "";
+       // public string UserName = "";
         Lead MyLead = new Lead(); 
 
 
@@ -103,16 +103,16 @@ namespace Microsoft.Bot.Sample.LuisBot
 
         private static Attachment GetOpenCard(string name, string company)
         {
-            var heroCard = new HeroCard
+            var openCard = new HeroCard
             {
-                Title = $"API Source Bot tailor for {name} @ {company}",
+                Title = $"API Source Bot tailored for {name} @ {company}",
                 Subtitle = "Tapi bots — Welcome tapi your api partner",
-                Text = "Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts. It's all here!",
+                Text = "Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts.\n It's all here. You can search by typing sentences as below:!",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
             };
 
-            return heroCard.ToAttachment();
+            return openCard.ToAttachment();
         }
 
         /**
@@ -134,10 +134,8 @@ namespace Microsoft.Bot.Sample.LuisBot
         private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
         {
             MyLead.Name = await result;
-            await context.PostAsync($"Hi { MyLead.Name}! \n Thank you for using APISourceBot.");
-            
-            context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);
-            //context.Wait(this.MessageReceived);
+            await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");            
+            context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);            
         }
         private async Task ResumeAfterCompany(IDialogContext context, IAwaitable<string> result)
         {
