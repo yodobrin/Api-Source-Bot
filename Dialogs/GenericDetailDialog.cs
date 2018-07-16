@@ -55,7 +55,7 @@ namespace LuisBot.Dialogs
             {
                 /* Completes the dialog, removes it from the dialog stack, and returns the result to the parent/calling
                     dialog. */
-                if (string.Compare("No", message.Text) != 0) message.Text = "N/A";
+                if (string.Compare("No", message.Text) == 0) message.Text = "N/A";
                 context.Done(message.Text);
             }
             /* Else, try again by re-prompting the user. */
