@@ -87,8 +87,9 @@ namespace Microsoft.Bot.Sample.LuisBot
                     break;
                 case "bymail":
                     await context.PostAsync($"so be it, but i will need the mail");
-                    context.Call(new GenericDetailDialog("Email"), this.ResumeAfterEmail);
+                    await context.Forward(new GenericDetailDialog("Email"), this.ResumeAfterEmail,context.Activity, CancellationToken.None);
                     break;
+                default: break;                 
 
 
             }
@@ -129,7 +130,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("CRM.LeadCreation")]
         public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
         {
-            if(!MyLead.IsLead())
+            if(MyLead!=null & !MyLead.IsLead())
             {
                 await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
