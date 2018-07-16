@@ -109,7 +109,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                 Subtitle = "Tapi bots — Welcome tapi your api partner",
                 Text = "Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts. It's all here!",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework"), new CardAction(ActionTypes.MessageBack, "WTF", value: "not sure what this is") }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework"), new CardAction(ActionTypes.PostBack, "WTF", value: "find me Aztreonam") }
             };
 
             return heroCard.ToAttachment();
@@ -133,15 +133,16 @@ namespace Microsoft.Bot.Sample.LuisBot
 
         private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
         {
-            await context.PostAsync($"Hi {result}! \n Thank you for using APISourceBot.");
             Lead.Name = await result;
+            await context.PostAsync($"Hi { Lead.Name}! \n Thank you for using APISourceBot.");
+            
             context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);
             //context.Wait(this.MessageReceived);
         }
         private async Task ResumeAfterCompany(IDialogContext context, IAwaitable<string> result)
         {
             Lead.Company = await result;
-            await context.PostAsync($"Glad to see you work for {result}");
+            await context.PostAsync($"Glad to see you work for {Lead.Company}");
 
             var message = context.MakeMessage();
 
