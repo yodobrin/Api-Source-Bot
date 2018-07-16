@@ -150,7 +150,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                 Subtitle = "Matching your search criteria",
                 Text = "How would you like the information be provided?",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/image-for-laszlo-article-june-2018.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Send me an email", value: "ByMail"), new CardAction(ActionTypes.PostBack, "Flush it here please", value: "flush") }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Send me an email", value: "bymail"), new CardAction(ActionTypes.PostBack, "Flush it here please", value: "flush") }
             };
 
             return resultCard.ToAttachment();
