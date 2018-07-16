@@ -19,19 +19,19 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Connector;
+
 using Microsoft.Bot.Builder.Luis.Models;
 
-using System.Collections;
+
 using System.Collections.Generic;
 using SourceBot.Utils;
-using Microsoft.Azure.Search;
-using Microsoft.Azure.Search.Models;
-using Newtonsoft.Json;
+
 using LuisBot.DataTypes;
 using LuisBot.Dialogs;
 using System.Threading;
-using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.LuisBot
 {
@@ -90,16 +90,35 @@ namespace Microsoft.Bot.Sample.LuisBot
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
+            var message = context.MakeMessage();
+            
+            message.Attachments.Add(GetHeroCard());
+
+            await context.PostAsync(message);
             await context.PostAsync($"Ok, let me find relevant information...");
            
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
 
 		}
 
+        private static Attachment GetHeroCard()
+        {
+            var heroCard = new HeroCard
+            {
+                Title = "BotFramework Hero Card",
+                Subtitle = "Your bots — wherever your users are talking",
+                Text = "Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
+                Images = new List<CardImage> { new CardImage("https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
+            };
+
+            return heroCard.ToAttachment();
+        }
+
         /**
          * Spits out the products found
          * 
-         */ 
+         */
         private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
         {
             products =(IList<ProductDocument>) await result;
