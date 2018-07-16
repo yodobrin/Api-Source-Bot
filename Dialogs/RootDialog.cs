@@ -43,19 +43,22 @@ namespace Microsoft.Bot.Sample.LuisBot
         public const string emailOption = "email";
         public const string botOption = "bot";
 
-       // public string UserName = "";
-        Lead MyLead = new Lead(); 
-
-
+        Lead MyLead; 
         public IList<ProductDocument> products;
+
         public RootDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
             ConfigurationManager.AppSettings["LuisAPIKey"], 
             domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
         {
             products = new List<ProductDocument>();
+            MyLead = new Lead();
         }
         
+        /**
+         * Intents Section
+         *
+         */ 
 
         [LuisIntent("None")]
         public async Task NoneIntent(IDialogContext context, LuisResult result)
@@ -84,6 +87,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                     break;
                 case "bymail":
                     await context.PostAsync($"so be it, but i will need the mail");
+                    context.Call(new GenericDetailDialog("Email"), this.ResumeAfterEmail);
                     break;
 
 
@@ -121,7 +125,29 @@ namespace Microsoft.Bot.Sample.LuisBot
 
 		}
 
-        private  Attachment GetOpenCard(string name, string company)
+
+        [LuisIntent("CRM.LeadCreation")]
+        public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
+        {
+            if(!MyLead.IsLead())
+            {
+                await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
+                context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
+            }
+                
+            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
+            //await this.ShowLuisResult(context, result);
+        }
+
+       
+        private async Task ShowLuisResult(IDialogContext context, LuisResult result)
+        {
+            await context.PostAsync($"You have reached {result.Intents[0].Intent}. You said: {result.Query}");
+            context.Wait(MessageReceived);
+        }
+
+
+        private Attachment GetOpenCard(string name, string company)
         {
             var openCard = new HeroCard
             {
@@ -141,8 +167,6 @@ namespace Microsoft.Bot.Sample.LuisBot
             if (products.Count > 0)
             {
                 suffix = (products.Count == 1) ? "" : "s";
-                // yes we have
-               // await context.PostAsync($"I found: {products.Count} product{suffix}.");
             }
             var resultCard = new HeroCard
             {
@@ -156,29 +180,10 @@ namespace Microsoft.Bot.Sample.LuisBot
             return resultCard.ToAttachment();
         }
        
-        private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
-        {
-            products =(IList<ProductDocument>) await result;
-            //if(products.Count >0)
-            //{
-            //    string suffix = (products.Count == 1) ? "" : "s";
-            //    // yes we have
-            //    await context.PostAsync($"I found: {products.Count} product{suffix}.");
-            //}
-            //await context.PostAsync($"Result count: {products.Count} ");
-            var message = context.MakeMessage();
-
-            message.Attachments.Add(GetResultCard(products));
-
-            await context.PostAsync(message);
-
-            context.Wait(this.MessageReceived);
-
-        }
+        
 
         /**
         * Spits out the products found
-        * 
         */
         private async Task FlushProducts(IDialogContext context)
         {
@@ -186,6 +191,41 @@ namespace Microsoft.Bot.Sample.LuisBot
             {
                 await context.PostAsync($"I got {prd.MoleculeID} -- {prd.MoleculeName} -- {prd.TapiProductName} ");
             }
+        }
+
+        private void SetSubject(IList<ProductDocument> products)
+        {
+            string result = "";
+            foreach (ProductDocument prd in products)
+            {
+                string.Concat(result, ",", prd.MoleculeName);
+            }
+            MyLead.Subject = result;
+        }
+
+        /*
+         * Resume After section, all the methods are called once another dialog is done
+         * 
+         */
+
+        private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            products = (IList<ProductDocument>)await result;
+            SetSubject(products);
+            var message = context.MakeMessage();
+            message.Attachments.Add(GetResultCard(products));
+            await context.PostAsync(message);
+            context.Wait(this.MessageReceived);
+        }
+
+        private async Task ResumeAfterEmail(IDialogContext context, IAwaitable<string> result)
+        {
+            // no validation on email
+            MyLead.Email = await result;
+            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
+            await context.PostAsync($"A request was sent to our communication auto-broker to the {MyLead.Email} provided.");
+            context.Wait(this.MessageReceived);
+
         }
 
         private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
@@ -210,27 +250,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 
 
 
-        [LuisIntent("CRM.LeadCreation")]
-		public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
-		{
-			//await this.ShowLuisExtendedt(context, result);
-			await Utilities.AddMessageToQueueAsync("wow");
-			await this.ShowLuisResult(context, result);
-		}
-
-		[LuisIntent("Product Name")]
-		public async Task ProductNameIntent(IDialogContext context, LuisResult result)
-		{
-			//await this.ShowLuisExtendedt(context, result);
-			
-			await this.ShowLuisResult(context, result);
-		}
-		private async Task ShowLuisResult(IDialogContext context, LuisResult result) 
-        {
-            await context.PostAsync($"You have reached {result.Intents[0].Intent}. You said: {result.Query}");
-            context.Wait(MessageReceived);
-        }
-
+      
                
 
         

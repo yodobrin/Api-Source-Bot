@@ -55,7 +55,16 @@ namespace LuisBot.DataTypes
         [JsonProperty("Creation Time")]
         public string CreationTime { get; set; }
 
+        public string ToMessage()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
 
+        public bool IsLead()
+        {
+            if (this.Name != null & this.Name != "N/A" & this.Email != null & this.Email.Length > 3 & this.Subject != null && this.Subject.Length > 4) return true;
+            else return false;
+        }
 
     }
 }
