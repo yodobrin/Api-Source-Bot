@@ -69,7 +69,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {
             context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
-            await this.ShowLuisResult(context, result);
+            //await this.ShowLuisResult(context, result);
         }
 
 
