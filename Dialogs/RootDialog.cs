@@ -128,7 +128,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             await context.PostAsync($"Searching for:{result.Query}");
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             //context.Call(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog);
-            context.Wait(this.MessageReceived);
+            //context.Wait(this.MessageReceived);
         }
 
 
