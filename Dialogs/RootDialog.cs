@@ -139,7 +139,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             MyLead = new Lead();
             if (!MyLead.IsLead())
             {
-                await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
+               // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new DetailsDialog(), this.ResumeAfterForm);
             }
 
@@ -148,7 +148,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             var message = context.MakeMessage();
             message.Attachments.Add(GetLeadCard());
             await context.PostAsync(message);
-            
+
+            context.Wait(this.MessageReceived);
         }
 
         [LuisIntent("CRM.SubmitLead")]
@@ -287,7 +288,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             MyLead = await result;
             //await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");
             //context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);
-            context.Wait(this.MessageReceived);
+            
         }
 
 

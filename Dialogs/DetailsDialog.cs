@@ -30,7 +30,7 @@ namespace SourceBot.Dialogs
     {
         public async Task StartAsync(IDialogContext context)
     {
-        await context.PostAsync("Lets start ...");
+        await context.PostAsync("I would need some basic details from you ...");
 
         var leadFormDialog = FormDialog.FromForm(this.BuildLeadForm, FormOptions.PromptInStart);
 
@@ -41,7 +41,7 @@ namespace SourceBot.Dialogs
     {
         OnCompletionAsyncDelegate<Lead> processLead = async (context, state) =>
         {
-            await context.PostAsync($"Ok. got the info {state.Name}");
+            await context.PostAsync($"Ok. I got the information I needed ! ");
         };
 
         return new FormBuilder<Lead>()
@@ -50,19 +50,7 @@ namespace SourceBot.Dialogs
             .Build();
     }
 
-        private Attachment GetLeadCard(Lead MyLead)
-        {
-            var leadCard = new HeroCard
-            {
-                Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
-                Subtitle = "This is what I know so far about as a lead...",
-                Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.Subject}",
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "hi") }
-            };
-
-            return leadCard.ToAttachment();
-        }
+       
 
         private async Task ResumeAfterLeadFormDialog(IDialogContext context, IAwaitable<Lead> result)
     {
@@ -70,11 +58,6 @@ namespace SourceBot.Dialogs
         try
         {
             lead = await result;
-
-            var resultMessage = context.MakeMessage();
-            resultMessage.Attachments.Add(GetLeadCard(lead));
-
-            await context.PostAsync(resultMessage);
         }
         catch (FormCanceledException ex)
         {
