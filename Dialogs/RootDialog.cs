@@ -126,7 +126,8 @@ namespace Microsoft.Bot.Sample.LuisBot
 		{
             //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             await context.PostAsync($"Searching for:{result.Query}");
-            context.Call(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog);
+            await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
+            //context.Call(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog);
             context.Wait(this.MessageReceived);
         }
 
@@ -141,7 +142,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                 // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
             }                  
-            context.Wait(this.MessageReceived);
+            //context.Wait(this.MessageReceived);
         }
 
         [LuisIntent("CRM.SubmitLead")]
