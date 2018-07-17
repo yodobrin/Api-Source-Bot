@@ -51,9 +51,10 @@ namespace LuisBot.Dialogs
 
         private async Task ResumeAfterLeadFormDialog(IDialogContext context, IAwaitable<Lead> result)
     {
+            Lead lead = null;
         try
         {
-            Lead lead = await result;
+            lead = await result;
 
             var resultMessage = context.MakeMessage();
             resultMessage.Attachments.Add(GetLeadCard(lead));
@@ -77,7 +78,7 @@ namespace LuisBot.Dialogs
         }
         finally
         {
-            context.Done<object>(null);
+            context.Done<Lead>(lead);
         }
     }
 
