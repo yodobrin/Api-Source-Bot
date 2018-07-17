@@ -133,24 +133,33 @@ namespace Microsoft.Bot.Sample.LuisBot
 		}
 
 
-        [LuisIntent("CRM.LeadCreation")]
-        public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
-        {                      
+        [LuisIntent("CRM.Lead")]
+        public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
+        {
+            MyLead = new Lead();
             if (!MyLead.IsLead())
             {
                 await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new DetailsDialog(), this.ResumeAfterForm);
             }
 
-            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
-            // echo the current lead details
+            
+            // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
             var message = context.MakeMessage();
             message.Attachments.Add(GetLeadCard());
             await context.PostAsync(message);
             
         }
 
-       
+        [LuisIntent("CRM.SubmitLead")]
+        public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
+        {
+            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
+            await context.PostAsync($"A request was sent to our communication auto-broker to the {MyLead.Email} provided.");
+            context.Wait(this.MessageReceived);
+        }
+
+
         private async Task ShowLuisResult(IDialogContext context, LuisResult result)
         {
             await context.PostAsync($"You have reached {result.Intents[0].Intent}. You said: {result.Query}");
@@ -180,7 +189,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                 Subtitle = "This is what I know so far about as a lead...",
                 Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.Subject}",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "hi") }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm-lead-creation"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "i am a dealer") }
             };
 
             return leadCard.ToAttachment();
