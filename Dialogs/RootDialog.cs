@@ -136,7 +136,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("CRM.Lead")]
         public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You are in CRMLeadIntent");            
+            //await context.PostAsync($"You are in CRMLeadIntent");            
             if (MyLead==null || !MyLead.IsLead())
             {
                 MyLead = new Lead();
@@ -205,7 +205,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             tproducts = (IList<ProductDocument>)await result;
             if (tproducts != null && tproducts.Count > 0)
             {
-                await context.PostAsync($"after search {tproducts.Count}");
+               // await context.PostAsync($"after search {tproducts.Count}");
                // SetSubject(tproducts);
                 var message = context.MakeMessage();
                 message.Attachments.Add(GetResultCard(tproducts));
