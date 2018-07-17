@@ -135,11 +135,11 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             await context.PostAsync($"You are in CRMLeadIntent");
             
-            if (!MyLead.IsLead())
+            if (MyLead!=null && !MyLead.IsLead())
             {
                 MyLead = new Lead();
                 // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
-                context.Call(new DetailsDialog(), this.ResumeAfterForm);
+                await context.Forward(new DetailsDialog(), this.ResumeAfterForm, context.Activity, CancellationToken.None);
             }
 
             
@@ -230,11 +230,14 @@ namespace Microsoft.Bot.Sample.LuisBot
         private void SetSubject(IList<ProductDocument> products)
         {
             string result = "";
-            foreach (ProductDocument prd in products)
+            if(products !=null)
             {
-                string.Concat(result, ",", prd.MoleculeName);
+                foreach (ProductDocument prd in products)
+                {
+                    string.Concat(result, ",", prd.MoleculeName);
+                }
+                MyLead.Subject = result;
             }
-            MyLead.Subject = result;
         }
 
         /*
@@ -285,9 +288,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
         {
             MyLead = await result;
-            //await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");
-            //context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);
-            
+            await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");                        
         }
 
 
