@@ -17,13 +17,14 @@ using Microsoft.Bot.Builder.Dialogs;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
+using LuisBot.DataTypes;
 
 /**
  * This Dialog is used to obtain information from the user, such as his name, company etc.
  * The calling dialog should initilize it with the type of information to be obtained. 
  * While it might be better practice to use enumeration and not just strings. If time permits it would be altered.
  * 
- */ 
+ */
 
 namespace LuisBot.Dialogs
 {
@@ -38,6 +39,11 @@ namespace LuisBot.Dialogs
             Type = type;
         }
 
+        public GenericDetailDialog(Lead lead)
+        {
+            // capture only information required
+
+        }
 
         public async Task StartAsync(IDialogContext context)
         {

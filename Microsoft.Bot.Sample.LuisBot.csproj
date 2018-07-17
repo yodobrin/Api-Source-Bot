@@ -240,6 +240,7 @@
     <Compile Include="DataTypes\EmailMessage.cs" />
     <Compile Include="DataTypes\Lead.cs" />
     <Compile Include="DataTypes\ProductDocument.cs" />
+    <Compile Include="Dialogs\DetailsDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\CarouselCardsDialog.cs" />
