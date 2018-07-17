@@ -24,11 +24,10 @@ namespace SourceBot.DataTypes
     public class Lead
     {
         
-        [JsonProperty("MessageType")]
-        [Optional]
-        public string MessageType { get; set; }
+        //[JsonProperty("MessageType")]        
+        //public string MessageType { get; set; }
 
-        [Prompt]
+        
         [Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
         public string Email { get; set; }
@@ -36,7 +35,7 @@ namespace SourceBot.DataTypes
         [JsonProperty("Company")]
         public string Company { get; set; }
 
-        [Optional]
+        
         [JsonProperty("Name")]
         public string Name { get; set; }
 
@@ -46,10 +45,9 @@ namespace SourceBot.DataTypes
         [JsonProperty("Last Name")]
         public string LastName { get; set; }
 
-        // will be taken from an app setting
-        [Optional]
-        [JsonProperty("Lead Source")]
-        public string LeadSource { get; set; }
+        // will be taken from an app setting        
+        //[JsonProperty("Lead Source")]
+        //public string LeadSource { get; set; }
 
         [JsonProperty("Subject")]
         public string Subject { get; set; }
@@ -57,9 +55,9 @@ namespace SourceBot.DataTypes
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 
-        [Optional]
-        [JsonProperty("Creation Time")]
-        public string CreationTime { get; set; }
+        
+        //[JsonProperty("Creation Time")]
+        //public string CreationTime { get; set; }
 
         public string ToMessage()
         {
