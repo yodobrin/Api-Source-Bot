@@ -52,7 +52,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
         {
             products = new List<ProductDocument>();
-            MyLead = new Lead();
+            //MyLead = new Lead();
         }
         
         /**
@@ -78,12 +78,10 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("Catalog.Fetch")]
         public async Task CatalogFetchIntent(IDialogContext context, LuisResult result)
         {
-
             switch (result.Query)
             {
                 case "flush":
-                    await FlushProducts(context);
-                    context.Wait(this.MessageReceived);
+                    await FlushProducts(context);                   
                     break;
                 case "bymail":
                     if(MyLead.IsLead())
@@ -97,10 +95,9 @@ namespace Microsoft.Bot.Sample.LuisBot
                     //await context.Forward(new GenericDetailDialog("Email"), this.ResumeAfterEmail,context.Activity, CancellationToken.None);
                     break;
                 default: break;                 
-
-
             }
-            
+            context.Wait(this.MessageReceived);
+
         }
 
 
@@ -136,10 +133,12 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("CRM.Lead")]
         public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
         {
-            MyLead = new Lead();
+            await context.PostAsync($"You are in CRMLeadIntent");
+            
             if (!MyLead.IsLead())
             {
-               // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
+                MyLead = new Lead();
+                // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new DetailsDialog(), this.ResumeAfterForm);
             }
 
