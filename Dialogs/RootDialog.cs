@@ -130,12 +130,13 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("CRM.LeadCreation")]
         public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
         {
-            if(MyLead!=null & !MyLead.IsLead())
+            await context.PostAsync($"You asked to send by mail {MyLead.IsLead()}");
+            if(!MyLead.IsLead())
             {
                 await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
             }
-                
+
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
             //await this.ShowLuisResult(context, result);
         }

@@ -62,7 +62,7 @@ namespace LuisBot.DataTypes
 
         public bool IsLead()
         {
-            if (this.Name != null & this.Name != "N/A" & this.Email != null & this.Email.Length > 3 & this.Subject != null && this.Subject.Length > 4) return true;
+            if (this.Name != null && this.Name != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
             else return false;
         }
 
