@@ -86,7 +86,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                     context.Wait(this.MessageReceived);
                     break;
                 case "bymail":
-                    if(MyLead.IsLead())
+                    if(MyLead!=null && MyLead.IsLead())
                     {
                         await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
                         await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
