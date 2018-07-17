@@ -14,25 +14,29 @@ You agree:
 // Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Newtonsoft.Json;
+using Microsoft.Bot.Builder.FormFlow;
+using SourceBot.Utils;
 
-namespace LuisBot.DataTypes
+namespace SourceBot.DataTypes
 {
     [Serializable]
     public class Lead
     {
+        
         [JsonProperty("MessageType")]
+        [Optional]
         public string MessageType { get; set; }
 
+        [Prompt]
+        [Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
         public string Email { get; set; }
 
         [JsonProperty("Company")]
         public string Company { get; set; }
 
+        [Optional]
         [JsonProperty("Name")]
         public string Name { get; set; }
 
@@ -43,6 +47,7 @@ namespace LuisBot.DataTypes
         public string LastName { get; set; }
 
         // will be taken from an app setting
+        [Optional]
         [JsonProperty("Lead Source")]
         public string LeadSource { get; set; }
 
@@ -52,6 +57,7 @@ namespace LuisBot.DataTypes
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 
+        [Optional]
         [JsonProperty("Creation Time")]
         public string CreationTime { get; set; }
 

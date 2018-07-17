@@ -17,7 +17,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
-using LuisBot.DataTypes;
+using SourceBot.DataTypes;
 
 /**
  * This Dialog is used to obtain information from the user, such as his name, company etc.
@@ -26,7 +26,7 @@ using LuisBot.DataTypes;
  * 
  */
 
-namespace LuisBot.Dialogs
+namespace SourceBot.Dialogs
 {
     [Serializable]
     public class GenericDetailDialog : IDialog<string>

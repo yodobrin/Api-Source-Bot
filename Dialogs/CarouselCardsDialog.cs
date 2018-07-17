@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace LuisBot.Dialogs
+namespace SourceBot.Dialogs
 {
     [Serializable]
     public class CarouselCardsDialog : IDialog<object>

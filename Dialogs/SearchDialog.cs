@@ -23,11 +23,11 @@ using SourceBot.Utils;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using Newtonsoft.Json;
-using LuisBot.DataTypes;
+using SourceBot.DataTypes;
 
 using Microsoft.Bot.Builder.Luis.Models;
 
-namespace LuisBot.Dialogs
+namespace SourceBot.Dialogs
 {
     [Serializable]
     public class SearchDialog : IDialog<object>

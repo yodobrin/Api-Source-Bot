@@ -19,7 +19,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 
-namespace LuisBot.DataTypes
+namespace SourceBot.DataTypes
 {
     [Serializable]
     public class EmailMessage

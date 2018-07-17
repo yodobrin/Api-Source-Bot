@@ -26,8 +26,8 @@ using Microsoft.Bot.Builder.Luis.Models;
 using System.Collections.Generic;
 using SourceBot.Utils;
 
-using LuisBot.DataTypes;
-using LuisBot.Dialogs;
+using SourceBot.DataTypes;
+using SourceBot.Dialogs;
 using System.Threading;
 
 
@@ -70,10 +70,8 @@ namespace Microsoft.Bot.Sample.LuisBot
         // Finally replace "Greeting" with the name of your newly created intent in the following handler
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
-        {
-            //context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
-            context.Call(new DetailsDialog(), this.ResumeAfterForm);
-            //await this.ShowLuisResult(context, result);
+        {            
+            context.Call(new DetailsDialog(), this.ResumeAfterForm);            
         }
 
         
@@ -137,19 +135,19 @@ namespace Microsoft.Bot.Sample.LuisBot
 
         [LuisIntent("CRM.LeadCreation")]
         public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
-        {
-            //await context.PostAsync($"You asked to send by mail {MyLead.IsLead()}");
-            var message = context.MakeMessage();
-            message.Attachments.Add(GetLeadCard());
-            await context.PostAsync(message);
+        {                      
             if (!MyLead.IsLead())
             {
                 await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
-                context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
+                context.Call(new DetailsDialog(), this.ResumeAfterForm);
             }
 
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
-            //await this.ShowLuisResult(context, result);
+            // echo the current lead details
+            var message = context.MakeMessage();
+            message.Attachments.Add(GetLeadCard());
+            await context.PostAsync(message);
+            
         }
 
        
