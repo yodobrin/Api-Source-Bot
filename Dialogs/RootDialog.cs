@@ -205,7 +205,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             tproducts = (IList<ProductDocument>)await result;
             if (tproducts != null && tproducts.Count > 0)
             {
-                SetSubject(tproducts);
+                await context.PostAsync($"after search {tproducts.Count}");
+               // SetSubject(tproducts);
                 var message = context.MakeMessage();
                 message.Attachments.Add(GetResultCard(tproducts));
                 await context.PostAsync(message);
