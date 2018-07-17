@@ -44,14 +44,14 @@ namespace Microsoft.Bot.Sample.LuisBot
         public const string botOption = "bot";
 
         Lead MyLead; 
-        public IList<ProductDocument> products;
+        public IList<ProductDocument> tproducts;
 
         public RootDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
             ConfigurationManager.AppSettings["LuisAPIKey"], 
             domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
         {
-            products = new List<ProductDocument>();
+            tproducts = new List<ProductDocument>();
             //MyLead = new Lead();
         }
         
@@ -135,7 +135,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             await context.PostAsync($"You are in CRMLeadIntent");
             
-            if (MyLead!=null && !MyLead.IsLead())
+            if (MyLead==null || !MyLead.IsLead())
             {
                 MyLead = new Lead();
                 // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
@@ -195,16 +195,16 @@ namespace Microsoft.Bot.Sample.LuisBot
             return leadCard.ToAttachment();
         }
 
-        private static Attachment GetResultCard(IList<ProductDocument> products)
+        private static Attachment GetResultCard(IList<ProductDocument> tproducts)
         {
             string suffix = "";
-            if (products.Count > 0)
+            if (tproducts.Count > 0)
             {
-                suffix = (products.Count == 1) ? "" : "s";
+                suffix = (tproducts.Count == 1) ? "" : "s";
             }
             var resultCard = new HeroCard
             {
-                Title = $"I found: {products.Count} product{suffix}.",
+                Title = $"I found: {tproducts.Count} product{suffix}.",
                 Subtitle = "Matching your search criteria",
                 Text = "How would you like the information be provided?",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/image-for-laszlo-article-june-2018.jpg") },
@@ -221,18 +221,18 @@ namespace Microsoft.Bot.Sample.LuisBot
         */
         private async Task FlushProducts(IDialogContext context)
         {
-            foreach (ProductDocument prd in products)
+            foreach (ProductDocument prd in tproducts)
             {
                 await context.PostAsync($"I got {prd.MoleculeID} -- {prd.MoleculeName} -- {prd.TapiProductName} ");
             }
         }
 
-        private void SetSubject(IList<ProductDocument> products)
+        private void SetSubject(IList<ProductDocument> tproducts)
         {
             string result = "";
-            if(products !=null)
+            if(tproducts !=null)
             {
-                foreach (ProductDocument prd in products)
+                foreach (ProductDocument prd in tproducts)
                 {
                     string.Concat(result, ",", prd.MoleculeName);
                 }
@@ -247,10 +247,10 @@ namespace Microsoft.Bot.Sample.LuisBot
 
         private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
         {
-            products = (IList<ProductDocument>)await result;
-            SetSubject(products);
+            tproducts = (IList<ProductDocument>)await result;
+            SetSubject(tproducts);
             var message = context.MakeMessage();
-            message.Attachments.Add(GetResultCard(products));
+            message.Attachments.Add(GetResultCard(tproducts));
             await context.PostAsync(message);
             context.Wait(this.MessageReceived);
         }
