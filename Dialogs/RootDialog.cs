@@ -88,8 +88,15 @@ namespace Microsoft.Bot.Sample.LuisBot
                     context.Wait(this.MessageReceived);
                     break;
                 case "bymail":
-                    await context.PostAsync($"so be it, but i will need the mail");
-                    await context.Forward(new GenericDetailDialog("Email"), this.ResumeAfterEmail,context.Activity, CancellationToken.None);
+                    if(MyLead.IsLead())
+                    {
+                        await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
+                        await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
+                        
+                    }
+                    else context.Call(new DetailsDialog(), this.ResumeAfterForm);
+                    // await context.PostAsync($"so be it, but i will need the mail");
+                    //await context.Forward(new GenericDetailDialog("Email"), this.ResumeAfterEmail,context.Activity, CancellationToken.None);
                     break;
                 default: break;                 
 
@@ -122,8 +129,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             
-            await context.PostAsync($"Ok, let me find relevant information...");
-           
+            //await context.PostAsync($"Ok, let me find relevant information...");           
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
 
 		}
