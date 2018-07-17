@@ -84,6 +84,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             {
                 case "flush":
                     await FlushProducts(context);
+                    context.Wait(this.MessageReceived);
                     break;
                 case "bymail":
                     await context.PostAsync($"so be it, but i will need the mail");
@@ -93,7 +94,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 
 
             }
-            context.Wait(this.MessageReceived);
+            
         }
 
 
@@ -130,8 +131,11 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("CRM.LeadCreation")]
         public async Task CRMLeadCreationIntent(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You asked to send by mail {MyLead.IsLead()}");
-            if(!MyLead.IsLead())
+            //await context.PostAsync($"You asked to send by mail {MyLead.IsLead()}");
+            var message = context.MakeMessage();
+            message.Attachments.Add(GetLeadCard());
+            await context.PostAsync(message);
+            if (!MyLead.IsLead())
             {
                 await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new GenericDetailDialog("Name"), this.ResumeAfterGreating);
@@ -161,6 +165,20 @@ namespace Microsoft.Bot.Sample.LuisBot
             };
 
             return openCard.ToAttachment();
+        }
+
+        private Attachment GetLeadCard()
+        {
+            var leadCard = new HeroCard
+            {
+                Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
+                Subtitle = "This is what I know so far about as a lead...",
+                Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.Subject}",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "hi") }
+            };
+
+            return leadCard.ToAttachment();
         }
 
         private static Attachment GetResultCard(IList<ProductDocument> products)
