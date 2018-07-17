@@ -71,7 +71,8 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {            
-            context.Call(new DetailsDialog(), this.ResumeAfterForm);            
+            context.Call(new DetailsDialog(), this.ResumeAfterForm);
+            context.Wait(this.MessageReceived);
         }
 
         
@@ -123,31 +124,23 @@ namespace Microsoft.Bot.Sample.LuisBot
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
-            
-            //await context.PostAsync($"Ok, let me find relevant information...");           
-            await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
-
-		}
+            //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
+            await context.PostAsync($"Searching for:{result.Query}");
+            context.Call(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog);
+            context.Wait(this.MessageReceived);
+        }
 
 
         [LuisIntent("CRM.Lead")]
         public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync($"You are in CRMLeadIntent");
-            
+            await context.PostAsync($"You are in CRMLeadIntent");            
             if (MyLead==null || !MyLead.IsLead())
             {
                 MyLead = new Lead();
                 // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
-                await context.Forward(new DetailsDialog(), this.ResumeAfterForm, context.Activity, CancellationToken.None);
-            }
-
-            
-            // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
-            var message = context.MakeMessage();
-            message.Attachments.Add(GetLeadCard());
-            await context.PostAsync(message);
-
+                context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
+            }                  
             context.Wait(this.MessageReceived);
         }
 
@@ -181,18 +174,42 @@ namespace Microsoft.Bot.Sample.LuisBot
             return openCard.ToAttachment();
         }
 
-        private Attachment GetLeadCard()
-        {
-            var leadCard = new HeroCard
-            {
-                Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
-                Subtitle = "This is what I know so far about as a lead...",
-                Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.Subject}",
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm-lead-creation"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "i am a dealer") }
-            };
+       
 
-            return leadCard.ToAttachment();
+        
+       
+        
+
+        /**
+        * Spits out the products found
+        */
+        private async Task FlushProducts(IDialogContext context)
+        {
+            foreach (ProductDocument prd in tproducts)
+            {
+                await context.PostAsync($"I got {prd.MoleculeID} -- {prd.MoleculeName} -- {prd.TapiProductName} ");
+            }
+        }
+
+        
+
+        /*
+         * Resume After section, all the methods are called once another dialog is done
+         * 
+         */
+
+        private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            tproducts = (IList<ProductDocument>)await result;
+            if (tproducts != null)
+            {
+                SetSubject(tproducts);
+                var message = context.MakeMessage();
+                message.Attachments.Add(GetResultCard(tproducts));
+                await context.PostAsync(message);
+            }
+            else await context.PostAsync("No results");
+           // context.Wait(this.MessageReceived);
         }
 
         private static Attachment GetResultCard(IList<ProductDocument> tproducts)
@@ -213,24 +230,11 @@ namespace Microsoft.Bot.Sample.LuisBot
 
             return resultCard.ToAttachment();
         }
-       
-        
-
-        /**
-        * Spits out the products found
-        */
-        private async Task FlushProducts(IDialogContext context)
-        {
-            foreach (ProductDocument prd in tproducts)
-            {
-                await context.PostAsync($"I got {prd.MoleculeID} -- {prd.MoleculeName} -- {prd.TapiProductName} ");
-            }
-        }
 
         private void SetSubject(IList<ProductDocument> tproducts)
         {
             string result = "";
-            if(tproducts !=null)
+            if (tproducts != null)
             {
                 foreach (ProductDocument prd in tproducts)
                 {
@@ -240,58 +244,30 @@ namespace Microsoft.Bot.Sample.LuisBot
             }
         }
 
-        /*
-         * Resume After section, all the methods are called once another dialog is done
-         * 
-         */
-
-        private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
-        {
-            tproducts = (IList<ProductDocument>)await result;
-            SetSubject(tproducts);
-            var message = context.MakeMessage();
-            message.Attachments.Add(GetResultCard(tproducts));
-            await context.PostAsync(message);
-            context.Wait(this.MessageReceived);
-        }
-
-        private async Task ResumeAfterEmail(IDialogContext context, IAwaitable<string> result)
-        {
-            // no validation on email
-            MyLead.Email = await result;
-            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
-            await context.PostAsync($"A request was sent to our communication auto-broker to the {MyLead.Email} provided.");
-            context.Wait(this.MessageReceived);
-
-        }
-
-        private async Task ResumeAfterGreating(IDialogContext context, IAwaitable<string> result)
-        {
-            MyLead.Name = await result;
-            await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");            
-            context.Call(new GenericDetailDialog("Company"), this.ResumeAfterCompany);            
-        }
-        private async Task ResumeAfterCompany(IDialogContext context, IAwaitable<string> result)
-        {
-            MyLead.Company = await result;
-            await context.PostAsync($"Glad to see you work for {MyLead.Company}");
-
-            var message = context.MakeMessage();
-
-            message.Attachments.Add(GetOpenCard(MyLead.Name,MyLead.Company));
-
-            await context.PostAsync(message);
-
-            context.Wait(this.MessageReceived);
-        }
 
         private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
         {
             MyLead = await result;
-            await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");                        
+            //await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");
+            // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
+            var message = context.MakeMessage();
+            message.Attachments.Add(GetLeadCard());
+            await context.PostAsync(message);
         }
 
+        private Attachment GetLeadCard()
+        {
+            var leadCard = new HeroCard
+            {
+                Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
+                Subtitle = "This is what I know so far about as a lead...",
+                Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.Subject}",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm-lead-creation"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "i am a dealer") }
+            };
 
+            return leadCard.ToAttachment();
+        }
 
 
 
