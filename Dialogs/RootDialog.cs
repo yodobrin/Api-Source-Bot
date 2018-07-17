@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {            
             context.Call(new DetailsDialog(), this.ResumeAfterForm);
-            context.Wait(this.MessageReceived);
+            //context.Wait(this.MessageReceived);
         }
 
         
@@ -82,7 +82,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             switch (result.Query)
             {
                 case "flush":
-                    await FlushProducts(context);                   
+                    await FlushProducts(context);
+                    context.Wait(this.MessageReceived);
                     break;
                 case "bymail":
                     if(MyLead.IsLead())
@@ -97,7 +98,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                     break;
                 default: break;                 
             }
-            context.Wait(this.MessageReceived);
+            
 
         }
 
@@ -202,7 +203,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
         {
             tproducts = (IList<ProductDocument>)await result;
-            if (tproducts != null)
+            if (tproducts != null && tproducts.Count > 0)
             {
                 SetSubject(tproducts);
                 var message = context.MakeMessage();
