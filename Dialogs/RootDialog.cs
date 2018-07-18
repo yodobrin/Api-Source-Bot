@@ -81,7 +81,7 @@ namespace SourceBot.Dialogs
         {
             Action = Lead.PDF;
             if(MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
-            MyLead.SetAction(Action);
+            else MyLead.SetAction(Action);
 
             //context.Call(new SendCatalogDialog(MyLead), this.ResumeAfterSend);
             //context.Wait(this.MessageReceived);
