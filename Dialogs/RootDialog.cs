@@ -264,7 +264,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             if (tproducts != null && tproducts.Count > 0 && MyLead!=null) SetSubject(tproducts);
 
             MyLead = (MyLead != null) ? MyLead : new Lead("dum");
-            var leadCard = new HeroCard
+            var leadCard = new ThumbnailCard
             {
                 Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
                 Subtitle = "This is what I know so far about as a lead...",
