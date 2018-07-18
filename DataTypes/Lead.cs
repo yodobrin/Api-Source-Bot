@@ -70,5 +70,17 @@ namespace SourceBot.DataTypes
             else return false;
         }
 
+        public Lead(string dummy)
+        {
+            Email = "dummy@mail.com";
+            FirstName = "Dummi";
+            LastName = "DoDo";
+            Company = "essence";
+            Subject = "search dummy subject";
+            Comments = "just dummy comments";
+        }
+
+        public Lead() { }
+
     }
 }
