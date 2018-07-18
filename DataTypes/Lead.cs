@@ -28,7 +28,7 @@ namespace SourceBot.DataTypes
     [Serializable]
     public class Lead
     {
-        public const string PDF = "pdf";
+        public const string PDF = "send-catalog";
         public const string SEARCH = "search";
         public const string LEADCREATE = "leadcreate";
 
