@@ -149,7 +149,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         [LuisIntent("CRM.SubmitLead")]
         public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
         {
-            if(tproducts!=null && tproducts.Count>0) SetSubject(tproducts);
+            
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
             await context.PostAsync($"A request was sent to our communication auto-broker to the {MyLead.Email} provided.");
             context.Wait(this.MessageReceived);
@@ -261,6 +261,8 @@ namespace Microsoft.Bot.Sample.LuisBot
 
         private Attachment GetLeadCard()
         {
+            if (tproducts != null && tproducts.Count > 0 && MyLead!=null) SetSubject(tproducts);
+
             MyLead = (MyLead != null) ? MyLead : new Lead("dum");
             var leadCard = new HeroCard
             {
