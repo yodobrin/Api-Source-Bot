@@ -41,8 +41,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             // check if activity is of type message
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
-                //await Conversation.SendAsync(activity, () => new RootDialog());
-                await Conversation.SendAsync(activity, () => new CarouselCardsDialog());
+                await Conversation.SendAsync(activity, () => new RootDialog());
+                //await Conversation.SendAsync(activity, () => new CarouselCardsDialog());
                 
             }
             else

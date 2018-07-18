@@ -18,15 +18,28 @@ using Newtonsoft.Json;
 using Microsoft.Bot.Builder.FormFlow;
 using SourceBot.Utils;
 
+using System.Collections.Generic;
+
+
+using Microsoft.Bot.Connector;
+
 namespace SourceBot.DataTypes
 {
     [Serializable]
     public class Lead
     {
-        
+        public const string PDF = "pdf";
+        public const string SEARCH = "search";
+        public const string LEADCREATE = "leadcreate";
+
         //[JsonProperty("MessageType")]        
         //public string MessageType { get; set; }
-
+        // defaulting to search action
+        private string Action = SEARCH;
+        public void SetAction(string action)
+        {
+            Action = action;
+        }
         
         [Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
@@ -82,5 +95,47 @@ namespace SourceBot.DataTypes
 
         public Lead() { }
 
+
+        public Attachment GetLeadCard(IList<ProductDocument> tproducts)
+        {
+            if (tproducts != null && tproducts.Count > 0 ) SetSubject(tproducts);
+            string message = "";
+            if(Action!=null && Action.Length>0)
+            {
+                switch (Action)
+                {
+                    case PDF: message = $"I will send a copy of our product catalog to your email address:{Email}";
+                        break;
+                    case SEARCH: message = $"I will send the search results for {Subject} to your email address:{Email}";
+                        break;
+                    case LEADCREATE: message = $"I will submit a Lead creation request with the details provided, thank you!";
+                        break;
+                    default: break;
+                }
+            }
+            
+            var leadCard = new ThumbnailCard
+            {
+                Title = $"Hello {FirstName} {LastName} @ {Company}",
+                Subtitle = "This is what I know so far about as a lead...",
+                Text = message,
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"{Action}"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "i am a dealer") }
+            };
+
+            return leadCard.ToAttachment();
+        }
+        private void SetSubject(IList<ProductDocument> tproducts)
+        {
+            string result = "";
+            if (tproducts != null)
+            {
+                foreach (ProductDocument prd in tproducts)
+                {
+                    string.Concat(result, ",", prd.MoleculeName);
+                }
+                Subject = result;
+            }
+        }
     }
 }

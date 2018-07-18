@@ -33,18 +33,19 @@ using System.Threading;
 
 using Microsoft.Bot.Connector;
 
-namespace Microsoft.Bot.Sample.LuisBot
+namespace SourceBot.Dialogs
 {
     // For more information about this template visit http://aka.ms/azurebots-csharp-luis
     [Serializable]
     public class RootDialog : LuisDialog<object>
     {
 		
-        public const string emailOption = "email";
-        public const string botOption = "bot";
+        //public const string emailOption = "email";
+        //public const string botOption = "bot";
 
         Lead MyLead; 
         public IList<ProductDocument> tproducts;
+        string Action = Lead.SEARCH;
 
         public RootDialog() : base(new LuisService(new LuisModelAttribute(
             ConfigurationManager.AppSettings["LuisAppId"], 
@@ -75,7 +76,18 @@ namespace Microsoft.Bot.Sample.LuisBot
             //context.Wait(this.MessageReceived);
         }
 
-        
+        [LuisIntent("CRM.SendCatalog")]
+        public async Task SendCatalogIntent(IDialogContext context, LuisResult result)
+        {
+            Action = Lead.PDF;
+            if(MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
+            MyLead.SetAction(Action);
+
+            //context.Call(new SendCatalogDialog(MyLead), this.ResumeAfterSend);
+            //context.Wait(this.MessageReceived);
+        }
+
+
         [LuisIntent("Catalog.Fetch")]
         public async Task CatalogFetchIntent(IDialogContext context, LuisResult result)
         {
@@ -87,12 +99,17 @@ namespace Microsoft.Bot.Sample.LuisBot
                     break;
                 case "bymail":
                     if(MyLead!=null && MyLead.IsLead())
-                    {
+                    {                        
                         await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
                         await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
                         
                     }
-                    else context.Call(new DetailsDialog(), this.ResumeAfterForm);
+                    else
+                    {
+                        Action = Lead.SEARCH;
+                        context.Call(new DetailsDialog(), this.ResumeAfterForm);
+                    }
+                        
                     // await context.PostAsync($"so be it, but i will need the mail");
                     //await context.Forward(new GenericDetailDialog("Email"), this.ResumeAfterEmail,context.Activity, CancellationToken.None);
                     break;
@@ -127,6 +144,8 @@ namespace Microsoft.Bot.Sample.LuisBot
 		{
             //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             await context.PostAsync($"Searching for:{result.Query}");
+            // setting the action to search
+            Action = Lead.SEARCH;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             //context.Call(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog);
             //context.Wait(this.MessageReceived);
@@ -140,6 +159,8 @@ namespace Microsoft.Bot.Sample.LuisBot
             if (MyLead==null || !MyLead.IsLead())
             {
                 MyLead = new Lead();
+                //setting the action to lead creation
+                Action = Lead.LEADCREATE;
                 // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
                 context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
             }                  
@@ -151,7 +172,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         {
             
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
-            await context.PostAsync($"A request was sent to our communication auto-broker to the {MyLead.Email} provided.");
+            await context.PostAsync($"A request was sent to our communication auto-broker with the {MyLead.Email} provided.");
             context.Wait(this.MessageReceived);
         }
 
@@ -252,14 +273,30 @@ namespace Microsoft.Bot.Sample.LuisBot
         private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
         {
             MyLead = await result;
+            MyLead.SetAction(Action);
+
+
             //await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");
             // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
             var message = context.MakeMessage();
-            message.Attachments.Add(GetLeadCard());
+            message.Attachments.Add(MyLead.GetLeadCard(tproducts));
             await context.PostAsync(message);
         }
 
-        private Attachment GetLeadCard()
+        private async Task ResumeAfterSend(IDialogContext context, IAwaitable<object> result)
+        {
+            object obj = await result;
+            MyLead.SetAction(Action);
+
+
+            //await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");
+            // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
+            var message = context.MakeMessage();
+            message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+            await context.PostAsync(message);
+        }
+
+        private Attachment GetLeadCard9()
         {
             if (tproducts != null && tproducts.Count > 0 && MyLead!=null) SetSubject(tproducts);
 
