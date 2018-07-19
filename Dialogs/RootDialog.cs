@@ -71,7 +71,8 @@ namespace SourceBot.Dialogs
         // Finally replace "Greeting" with the name of your newly created intent in the following handler
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
-        {            
+        {
+            await context.PostAsync(Utilities.GetSentence("1"));
             context.Call(new DetailsDialog(), this.ResumeAfterForm);
             //context.Wait(this.MessageReceived);
         }

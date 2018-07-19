@@ -71,9 +71,9 @@ namespace Microsoft.Bot.Sample.LuisBot
                     ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
 
                     var reply = message.CreateReply();
-                    
 
-                    reply.Text = Utilities.GetSentence("1"); ;
+
+                    reply.Text = "Welcome to Source API Bot";// Utilities.GetSentence("1"); 
 
                     await client.Conversations.ReplyToActivityAsync(reply);
                 }
