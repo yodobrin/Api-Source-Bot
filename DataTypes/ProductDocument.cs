@@ -17,6 +17,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SourceBot.Utils;
+
+
+
+
+using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
 namespace SourceBot.DataTypes
@@ -24,6 +30,15 @@ namespace SourceBot.DataTypes
     [Serializable]
     public class ProductDocument
     {
+        public const string FULL = "full-product";
+        public const string HIGHLIGHT = "product-highlight";
+
+        public const string FETCH_BY_MAIL = "bymail";
+        public const string SHOW_ME_MORE = "flush";
+
+        public const int MAX_PROD_IN_RESULT = 5;
+
+
         [JsonProperty("Molecule (Level 1) ID")]
         public string MoleculeID { get; set; }
         [JsonProperty("Molecule Name (Level 1)")]
@@ -46,6 +61,57 @@ namespace SourceBot.DataTypes
             Status = status;
             SubStatus = subStatus;
             ATC = aTC;
+        }
+
+        public Attachment GetProductCard(string option)
+        {
+            
+            switch (option)
+            {
+                case FULL:
+                    return GetFull();
+                case HIGHLIGHT:
+                    return GetHighligh();
+                    
+                default: return GetHighligh();
+            }
+            
+        }
+
+        private Attachment GetHighligh()
+        {
+            var productCard = new ThumbnailCard
+            {
+                Title = $"{MoleculeName} " + Utilities.GetSentence("12"),
+                Subtitle = Utilities.GetSentence("12.1"),
+                Text = Utilities.GetSentence("12.2"),
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
+            };
+
+            return productCard.ToAttachment();
+        }
+
+        private Attachment GetFull()
+        {
+            var productCard = new HeroCard
+            {
+                Title = Utilities.GetSentence("12.10") +$" : {MoleculeName} " ,
+                Subtitle = Utilities.GetSentence("12.11"),
+                Text = Utilities.GetSentence("12.12"),
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.20"), value: Utilities.GetSentence("12.20")),
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.22"), value: Utilities.GetSentence("12.22")) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.24"), value: Utilities.GetSentence("12.24")) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.25"), value: Utilities.GetSentence("12.25")) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.28"), value: Utilities.GetSentence("12.28")) }            
+            };
+
+            return productCard.ToAttachment();
         }
     }
 }

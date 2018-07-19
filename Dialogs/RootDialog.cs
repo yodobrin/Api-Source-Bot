@@ -94,11 +94,11 @@ namespace SourceBot.Dialogs
         {
             switch (result.Query)
             {
-                case "flush":
+                case ProductDocument.SHOW_ME_MORE:
                     await FlushProducts(context);
                     context.Wait(this.MessageReceived);
                     break;
-                case "bymail":
+                case ProductDocument.FETCH_BY_MAIL:
                     if(MyLead!=null && MyLead.IsLead())
                     {                        
                         await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
@@ -241,17 +241,26 @@ namespace SourceBot.Dialogs
         private static Attachment GetResultCard(IList<ProductDocument> tproducts)
         {
             string suffix = "";
+            int count = 0;
+            if (tproducts.Count == 1) return tproducts[0].GetProductCard(ProductDocument.HIGHLIGHT);
+            List<CardAction> buttons = new List<CardAction>();
             if (tproducts.Count > 0)
             {
                 suffix = (tproducts.Count == 1) ? "" : "s";
+                
+                foreach (ProductDocument prd in tproducts)
+                {
+                    if (count == ProductDocument.MAX_PROD_IN_RESULT) break;
+                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.MoleculeName}", value: "xxx-xxx"));
+                }
             }
             var resultCard = new HeroCard
             {
                 Title = $"I found: {tproducts.Count} product{suffix}.",
-                Subtitle = "Matching your search criteria",
-                Text = "How would you like the information be provided?",
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/image-for-laszlo-article-june-2018.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Send me an email", value: "bymail"), new CardAction(ActionTypes.PostBack, "Flush it here please", value: "flush") }
+                Subtitle = Utilities.GetSentence("16"),
+                Text = Utilities.GetSentence("16.1"),
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0000_inspections.jpg") },
+                Buttons = buttons
             };
 
             return resultCard.ToAttachment();

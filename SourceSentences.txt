@@ -6,3 +6,22 @@
 
 1 = My test sentence
 2 = A test sentence with {0} parameters, {1} 
+12 = Is this the product you are searching for?
+12.1 = We have more information for it.
+12.2 = What do you want to do next?
+12.3 = Send me more info by mail
+12.4 = Show me what else you have
+12.10 = Here is the information I have for
+12.11 = The information is broken to specific categories
+12.12 = You can click on the categories below to see more information
+12.20 = Innovator/Marketer
+12.21 = CAS Number
+12.22 = DMF Availability
+12.23 = Dosage Form
+12.24 = Number of available samples 
+12.25 = Packaging PIC
+12.26 = LOA indication 
+12.27 = COA
+12.28 = Full Pack
+16 = Matching your search criteria
+16.1 = Showing up to 5 first results
