@@ -25,13 +25,8 @@ using System.Net.Http;
 using SourceBot.Dialogs;
 using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Connector;
 
+using SourceBot.Utils;
 namespace Microsoft.Bot.Sample.LuisBot
 {
     [BotAuthentication]
@@ -76,8 +71,9 @@ namespace Microsoft.Bot.Sample.LuisBot
                     ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
 
                     var reply = message.CreateReply();
+                    
 
-                    reply.Text = "Welcome to the Source API Bot";
+                    reply.Text = Utilities.GetSentence("1"); ;
 
                     await client.Conversations.ReplyToActivityAsync(reply);
                 }

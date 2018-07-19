@@ -23,7 +23,7 @@ using System.Configuration;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
-
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 
@@ -33,8 +33,13 @@ namespace SourceBot.Utils
 
 	public class Utilities
 	{
-		// Service Bus area
-		static string ServiceBusConnString = null;
+        // messages file
+        private static Dictionary<string, string> Sentences;
+        private const string NO_SUCH_SENTENCE = "Sorry no such sentence number";
+
+
+        // Service Bus area
+        static string ServiceBusConnString = null;
 		static string ServiceBusKey = null;
 		static string QueueName = null;
 		static IQueueClient queueClient = null;
@@ -50,6 +55,51 @@ namespace SourceBot.Utils
         // constants
         public static string PRODUCT = "product";
 
+
+        static async void InitSentences()
+        {
+            // verify we have yet to initilize
+            if(Sentences==null || Sentences.Count == 0)
+            {
+                LoadSentencesFile( ConfigurationManager.AppSettings["SentencesFile"]);
+            }
+        }
+        public static string GetSentence(string field)
+        {
+            InitSentences();
+            return (Sentences.ContainsKey(field)) ? (Sentences[field]) : (NO_SUCH_SENTENCE);
+        }
+
+        private static void LoadSentencesFile(string filePath)
+        {
+            foreach (string line in System.IO.File.ReadAllLines(filePath))
+            {
+                if ((!string.IsNullOrEmpty(line)) &&
+                    (!line.StartsWith(";")) &&
+                    (!line.StartsWith("#")) &&
+                    (!line.StartsWith("'")) &&
+                    (!line.StartsWith("/")) &&
+                    (line.Contains("=")))
+                {
+                    int index = line.IndexOf('=');
+                    string key = line.Substring(0, index).Trim();
+                    string value = line.Substring(index + 1).Trim();
+
+                    if ((value.StartsWith("\"") && value.EndsWith("\"")) ||
+                        (value.StartsWith("'") && value.EndsWith("'")))
+                    {
+                        value = value.Substring(1, value.Length - 2);
+                    }
+
+                    try
+                    {
+                        //ignore dublicates
+                        Sentences.Add(key, value);
+                    }
+                    catch { }
+                }
+            }
+        }
         /*
 		 * Used to initilize the queue client - will be used to send messages to service bus
 		 * 
