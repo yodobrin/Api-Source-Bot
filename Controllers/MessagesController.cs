@@ -23,7 +23,14 @@ using Microsoft.Bot.Builder.Dialogs;
 using System.Web.Http.Description;
 using System.Net.Http;
 using SourceBot.Dialogs;
-
+using System;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.LuisBot
 {
@@ -47,12 +54,12 @@ namespace Microsoft.Bot.Sample.LuisBot
             }
             else
             {
-                HandleSystemMessage(activity);
+                await HandleSystemMessage(activity);
             }
             return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
         }
 
-        private Microsoft.Bot.Connector.Activity HandleSystemMessage(Microsoft.Bot.Connector.Activity message)
+        private async Task  HandleSystemMessage(Microsoft.Bot.Connector.Activity message)
         {
             if (message.Type == ActivityTypes.DeleteUserData)
             {
@@ -64,6 +71,16 @@ namespace Microsoft.Bot.Sample.LuisBot
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
                 // Not available in all channels
+                if (message.MembersAdded.Any(o => o.Id == message.Recipient.Id))
+                {
+                    ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
+
+                    var reply = message.CreateReply();
+
+                    reply.Text = "Welcome to the Source API Bot";
+
+                    await client.Conversations.ReplyToActivityAsync(reply);
+                }
             }
             else if (message.Type == ActivityTypes.ContactRelationUpdate)
             {
@@ -78,7 +95,7 @@ namespace Microsoft.Bot.Sample.LuisBot
             {
             }
 
-            return null;
+            //return ;
         }
     }
 }
