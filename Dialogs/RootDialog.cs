@@ -88,6 +88,13 @@ namespace SourceBot.Dialogs
             //context.Wait(this.MessageReceived);
         }
 
+        [LuisIntent("Catalog.GetCategory")]
+        public async Task CatalogGetCategoryIntent(IDialogContext context, LuisResult result)
+        {
+            var message = context.MakeMessage();
+            message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
+            await context.PostAsync(message);
+        }
 
         [LuisIntent("Catalog.Fetch")]
         public async Task CatalogFetchIntent(IDialogContext context, LuisResult result)

@@ -23,5 +23,7 @@
 12.26 = LOA indication 
 12.27 = COA
 12.28 = Full Pack
+12.40 = Category {0}
+12.41 = Has the following information
 16 = Matching your search criteria
 16.1 = Showing up to 5 first results

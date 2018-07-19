@@ -32,12 +32,15 @@ namespace SourceBot.DataTypes
     {
         public const string FULL = "full-product";
         public const string HIGHLIGHT = "product-highlight";
+        public const string NO_SUCH_CAT = "Missing information for ";
 
         public const string FETCH_BY_MAIL = "bymail";
         public const string SHOW_ME_MORE = "detail-product";
         public const string FLUSH = "flush";
 
         public const int MAX_PROD_IN_RESULT = 5;
+
+        private Dictionary<string, string> Data;
 
 
         [JsonProperty("Molecule (Level 1) ID")]
@@ -52,6 +55,20 @@ namespace SourceBot.DataTypes
         public string SubStatus { get; set; }
         [JsonProperty("ATC 1")]
         public string ATC { get; set; }
+
+
+
+        public string GetCategory(string cat)
+        {
+            string res;
+            if (Data==null)
+            {
+                string json = JsonConvert.SerializeObject(this);
+                Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            }
+            if (Data.TryGetValue(cat, out res)) return res;
+            else return NO_SUCH_CAT;
+        }
 
         [JsonConstructor]
         public ProductDocument(string moleculeID, string moleculeName, string tapiProductName, string status, string subStatus, string aTC)
@@ -77,6 +94,21 @@ namespace SourceBot.DataTypes
                 default: return GetHighligh();
             }
             
+        }
+
+        public Attachment GetProductCat(string category)
+        {
+            var productCard = new ThumbnailCard
+            {
+                Title = string.Format(Utilities.GetSentence("16.40"), category),
+                Subtitle = Utilities.GetSentence("12.41"),
+                Text = GetCategory(category),
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
+            };
+
+            return productCard.ToAttachment();
+
         }
 
         private Attachment GetHighligh()
