@@ -32,7 +32,7 @@ namespace SourceBot.DataTypes
     {
         public const string FULL = "full-product";
         public const string HIGHLIGHT = "product-highlight";
-        public const string NO_SUCH_CAT = "Missing information for ";
+        public const string NO_SUCH_CAT = "Missing information for: {0}";
 
         public const string FETCH_BY_MAIL = "bymail";
         public const string SHOW_ME_MORE = "detail-product";
@@ -67,7 +67,7 @@ namespace SourceBot.DataTypes
                 Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
             }
             if (Data.TryGetValue(cat, out res)) return res;
-            else return NO_SUCH_CAT;
+            else return string.Format(NO_SUCH_CAT,cat);
         }
 
         [JsonConstructor]
@@ -100,7 +100,7 @@ namespace SourceBot.DataTypes
         {
             var productCard = new ThumbnailCard
             {
-                Title = string.Format(Utilities.GetSentence("16.40"), category),
+                Title = string.Format(Utilities.GetSentence("12.40"), category),
                 Subtitle = Utilities.GetSentence("12.41"),
                 Text = GetCategory(category),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
