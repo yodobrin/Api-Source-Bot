@@ -68,7 +68,7 @@ namespace SourceBot.Utils
         public static string GetSentence(string field)
         {
             InitSentences();
-            if(Sentences==null || Sentences.Count==0)
+            if(Sentences!=null && Sentences.Count>0)
                 return (Sentences.ContainsKey(field)) ? (Sentences[field]) : (NO_SUCH_SENTENCE);
             else return ISSUE_WITH_SENTENCE;
         }
