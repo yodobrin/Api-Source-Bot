@@ -62,6 +62,7 @@ namespace SourceBot.Utils
             // verify we have yet to initilize
             if(Sentences==null || Sentences.Count == 0)
             {
+                Sentences = new Dictionary<string, string>();
                 LoadSentencesFile( ConfigurationManager.AppSettings["SentencesFile"]);
             }
         }
