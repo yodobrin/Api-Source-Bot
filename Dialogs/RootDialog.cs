@@ -274,14 +274,14 @@ namespace SourceBot.Dialogs
         private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
         {
             MyLead = await result;
-            MyLead.SetAction(Action);
+            if(MyLead!=null)
+            {
+                MyLead.SetAction(Action);
+                var message = context.MakeMessage();
+                message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+                await context.PostAsync(message);
+            } else await context.PostAsync(" Lead process ended without a lead");
 
-
-            //await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");
-            // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
-            var message = context.MakeMessage();
-            message.Attachments.Add(MyLead.GetLeadCard(tproducts));
-            await context.PostAsync(message);
         }
 
         private async Task ResumeAfterSend(IDialogContext context, IAwaitable<object> result)
