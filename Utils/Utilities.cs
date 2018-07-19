@@ -36,6 +36,7 @@ namespace SourceBot.Utils
         // messages file
         private static Dictionary<string, string> Sentences;
         private const string NO_SUCH_SENTENCE = "Sorry no such sentence number";
+        private const string ISSUE_WITH_SENTENCE = "Sorry I'm having an issue loading the sentences file";
 
 
         // Service Bus area
@@ -56,7 +57,7 @@ namespace SourceBot.Utils
         public static string PRODUCT = "product";
 
 
-        static async void InitSentences()
+        static void InitSentences()
         {
             // verify we have yet to initilize
             if(Sentences==null || Sentences.Count == 0)
@@ -67,7 +68,9 @@ namespace SourceBot.Utils
         public static string GetSentence(string field)
         {
             InitSentences();
-            return (Sentences.ContainsKey(field)) ? (Sentences[field]) : (NO_SUCH_SENTENCE);
+            if(Sentences==null || Sentences.Count==0)
+                return (Sentences.ContainsKey(field)) ? (Sentences[field]) : (NO_SUCH_SENTENCE);
+            else return ISSUE_WITH_SENTENCE;
         }
 
         private static void LoadSentencesFile(string filePath)
