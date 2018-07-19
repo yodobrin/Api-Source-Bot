@@ -34,7 +34,8 @@ namespace SourceBot.DataTypes
         public const string HIGHLIGHT = "product-highlight";
 
         public const string FETCH_BY_MAIL = "bymail";
-        public const string SHOW_ME_MORE = "flush";
+        public const string SHOW_ME_MORE = "detail-product";
+        public const string FLUSH = "flush";
 
         public const int MAX_PROD_IN_RESULT = 5;
 
@@ -82,7 +83,7 @@ namespace SourceBot.DataTypes
         {
             var productCard = new ThumbnailCard
             {
-                Title = $"{MoleculeName} " + Utilities.GetSentence("12"),
+                Title = string.Format(Utilities.GetSentence("12"),MoleculeName ) ,
                 Subtitle = Utilities.GetSentence("12.1"),
                 Text = Utilities.GetSentence("12.2"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },

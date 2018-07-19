@@ -95,8 +95,14 @@ namespace SourceBot.Dialogs
             switch (result.Query)
             {
                 case ProductDocument.SHOW_ME_MORE:
+                    // means customer click on show me more
+                    var message = context.MakeMessage();
+                    message.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.FULL));
+                    await context.PostAsync(message);
+                    //context.Wait(this.MessageReceived);
+                    break;
+                case ProductDocument.FLUSH:
                     await FlushProducts(context);
-                    context.Wait(this.MessageReceived);
                     break;
                 case ProductDocument.FETCH_BY_MAIL:
                     if(MyLead!=null && MyLead.IsLead())
@@ -252,6 +258,7 @@ namespace SourceBot.Dialogs
                 {
                     if (count == ProductDocument.MAX_PROD_IN_RESULT) break;
                     buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.MoleculeName}", value: "xxx-xxx"));
+                    count++;
                 }
             }
             var resultCard = new HeroCard

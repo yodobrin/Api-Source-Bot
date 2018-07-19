@@ -6,9 +6,9 @@
 
 1 = My test sentence
 2 = A test sentence with {0} parameters, {1} 
-12 = Is this the product you are searching for?
+12 = I Found {0} in my catalog
 12.1 = We have more information for it.
-12.2 = What do you want to do next?
+12.2 = Was this what you were looking for? What do you want to do next?
 12.3 = Send me more info by mail
 12.4 = Show me what else you have
 12.10 = Here is the information I have for
