@@ -1,0 +1,8 @@
+##################################################
+# This is the overall Source API BOT Sentences file
+# Each line needs to contain a sequence number preceeded by an equal ('=') sign/ The value preceeding the '=' is considered to be the sentence dispalyed
+# comments can be added using a prefix to the start of the line only, prefix supported are # / ; ' - nothing else
+##################################################
+
+1 = My test sentence
+2 = A test sentence with {0} parameters, {1} 
