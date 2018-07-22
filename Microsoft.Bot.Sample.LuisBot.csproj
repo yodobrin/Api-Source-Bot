@@ -272,7 +272,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
+      <Version>10.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup>
