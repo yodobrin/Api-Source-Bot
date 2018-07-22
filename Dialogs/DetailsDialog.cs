@@ -28,20 +28,22 @@ namespace SourceBot.Dialogs
     [Serializable]
     public class DetailsDialog : IDialog<Lead>
     {
+        private Lead ALead;
         public async Task StartAsync(IDialogContext context)
-    {
-        await context.PostAsync("I would need some basic details from you ...");
+        {
+             await context.PostAsync("I would need some basic details from you ...");
 
-        var leadFormDialog = FormDialog.FromForm(this.BuildLeadForm, FormOptions.PromptInStart);
+             var leadFormDialog = FormDialog.FromForm(this.BuildLeadForm, FormOptions.PromptInStart);
 
-        context.Call(leadFormDialog, this.ResumeAfterLeadFormDialog);
-    }
+             context.Call(leadFormDialog, this.ResumeAfterLeadFormDialog);
+        }
 
     private IForm<Lead> BuildLeadForm()
     {
         OnCompletionAsyncDelegate<Lead> processLead = async (context, state) =>
         {
             await context.PostAsync($"Ok. I got the information I needed ! ");
+            
         };
 
         return new FormBuilder<Lead>()
@@ -52,13 +54,19 @@ namespace SourceBot.Dialogs
 
        
 
+        public void SetLead(Lead lead)
+        {
+            ALead = lead;
+        }
+
         private async Task ResumeAfterLeadFormDialog(IDialogContext context, IAwaitable<Lead> result)
     {
             Lead lead = null;
         try
         {
             lead = await result;
-        }
+                context.PrivateConversationData.SetValue("bot-lead", lead);
+            }
         catch (FormCanceledException ex)
         {
             string reply;

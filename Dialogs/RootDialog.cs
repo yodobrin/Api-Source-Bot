@@ -67,13 +67,21 @@ namespace SourceBot.Dialogs
             await this.ShowLuisResult(context, result);
         }
 
-        // Go to https://luis.ai and create a new intent, then train/publish your luis app.
-        // Finally replace "Greeting" with the name of your newly created intent in the following handler
+        
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Utilities.GetSentence("1"));
-            context.Call(new DetailsDialog(), this.ResumeAfterForm);
+
+            Lead alead;
+            DetailsDialog dialog = new DetailsDialog();
+            if ( context.PrivateConversationData.TryGetValue("bot-lead", out alead) )
+            {
+                dialog.SetLead(alead);
+                await context.PostAsync($"A lead is on the private data{alead.FirstName}");
+            }
+            context.Call(dialog, this.ResumeAfterForm);
+
             //context.Wait(this.MessageReceived);
         }
 
@@ -259,8 +267,10 @@ namespace SourceBot.Dialogs
             else
             {
                 // no results
-               // context.ConversationData.
-                message.Attachments.Add(GetNoResults("dumbass"));
+                // context.ConversationData.
+                string output;
+                context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out output);
+                message.Attachments.Add(GetNoResults(output));
                 await context.PostAsync(message);
                 //await context.PostAsync("No results");
             }

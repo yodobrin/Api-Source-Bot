@@ -41,6 +41,10 @@ namespace SourceBot.DataTypes
         public const string HELP = "help";
         public const string CONFIRM = "confirm";
 
+
+        public const string USER_QUERY = "user-query";
+
+
         public const int MAX_PROD_IN_RESULT = 5;
 
         private Dictionary<string, string> Data;

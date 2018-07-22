@@ -54,6 +54,7 @@ namespace SourceBot.Dialogs
         {
             var message = await result;
             int count = 0;
+            context.ConversationData.SetValue(ProductDocument.USER_QUERY, Query);
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
             // loop over the entities find the "Product" entity
             if (Entities != null && Entities.Count > 0)
