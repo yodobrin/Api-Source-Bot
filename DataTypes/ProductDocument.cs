@@ -134,10 +134,10 @@ namespace SourceBot.DataTypes
         {
             var productCard = new ThumbnailCard
             {
-                Title = string.Format(Utilities.GetSentence("12"),MoleculeName ) ,
-                Subtitle = Utilities.GetSentence("12.1"),
-                Text = Utilities.GetSentence("12.2"),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
+                Title = string.Format(Utilities.GetSentence("12.0"),MoleculeName ) ,
+                Subtitle = Utilities.GetSentence("12.01"),
+                Text = Utilities.GetSentence("12.02"),
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/laszlo-article-for-hp-june-2018.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
             };
 
