@@ -231,7 +231,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="netstandard" />
+    <!-- <Reference Include="netstandard" /> -->
   </ItemGroup>
   <ItemGroup>
     <Content Include="default.htm" />
