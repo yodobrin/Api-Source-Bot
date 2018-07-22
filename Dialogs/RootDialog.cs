@@ -158,7 +158,7 @@ namespace SourceBot.Dialogs
                 case ProductDocument.FETCH_BY_MAIL:
                     if(MyLead!=null && MyLead.IsLead())
                     {                        
-                        await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
+                        //await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
                         await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
                         
                     }
@@ -237,7 +237,7 @@ namespace SourceBot.Dialogs
         public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
         {
             
-            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
+            //await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
             await context.PostAsync($"A request was sent to our communication auto-broker with the {MyLead.Email} provided.");
             context.Wait(this.MessageReceived);
         }
