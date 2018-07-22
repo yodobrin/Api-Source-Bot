@@ -21,6 +21,7 @@ using SourceBot.Utils;
 
 namespace SourceBot.DataTypes
 {
+    [Serializable]
     public class LineItem
     {
         public string Type { get; set; }
