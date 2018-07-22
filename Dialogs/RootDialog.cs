@@ -151,7 +151,8 @@ namespace SourceBot.Dialogs
         [LuisIntent("Help")]
         public async Task HelpIntent(IDialogContext context, LuisResult result)
         {
-            await this.ShowLuisResult(context, result);
+            await context.PostAsync(Utilities.GetSentence("911.0"));
+            //await this.ShowLuisResult(context, result);
         }
 
         /**
@@ -164,7 +165,7 @@ namespace SourceBot.Dialogs
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
-            await context.PostAsync($"Searching for:{result.Query}");
+            await context.PostAsync($"You entered: {result.Query}");
             // setting the action to search
             Action = Lead.SEARCH;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
@@ -246,16 +247,42 @@ namespace SourceBot.Dialogs
         private async Task ResumeAfterSearchDialog(IDialogContext context, IAwaitable<object> result)
         {
             tproducts = (IList<ProductDocument>)await result;
+            var message = context.MakeMessage();
             if (tproducts != null && tproducts.Count > 0)
             {
-               // await context.PostAsync($"after search {tproducts.Count}");
-               // SetSubject(tproducts);
-                var message = context.MakeMessage();
+                // await context.PostAsync($"after search {tproducts.Count}");
+                // SetSubject(tproducts);
+
                 message.Attachments.Add(GetResultCard(tproducts));
                 await context.PostAsync(message);
             }
-            else await context.PostAsync("No results");
+            else
+            {
+                // no results
+               // context.ConversationData.
+                message.Attachments.Add(GetNoResults("dumbass"));
+                await context.PostAsync(message);
+                //await context.PostAsync("No results");
+            }
            // context.Wait(this.MessageReceived);
+        }
+
+        private static Attachment GetNoResults(string query)
+        {
+            var productCard = new ThumbnailCard
+            {
+                Title = Utilities.GetSentence("5"),
+                Subtitle = string.Format(Utilities.GetSentence("5.1"), query),
+                Text = Utilities.GetSentence("5.2"),
+                Images = new List<CardImage> { new CardImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHEl-j7JobwiGjkbpCBVemqrUKp9EQFtPQOyOLXIBsAvycS8Kx") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("6"), value: Lead.CONTACT_TAPI),
+                new CardAction(ActionTypes.PostBack, Utilities.GetSentence("7"), value: Lead.PDF),
+                new CardAction(ActionTypes.PostBack, Utilities.GetSentence("8"), value: Lead.UPDATE_ONCE_EXIST)
+                }
+            };
+
+            return productCard.ToAttachment();
+
         }
 
         private static Attachment GetResultCard(IList<ProductDocument> tproducts)

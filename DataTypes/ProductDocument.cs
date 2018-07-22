@@ -33,6 +33,7 @@ namespace SourceBot.DataTypes
         public const string FULL = "full-product";
         public const string HIGHLIGHT = "product-highlight";
         public const string NO_SUCH_CAT = "Missing information for: {0}";
+        public const string NO_RESULT = "no-results";
 
         public const string FETCH_BY_MAIL = "bymail";
         public const string SHOW_ME_MORE = "detail-product";
@@ -94,6 +95,8 @@ namespace SourceBot.DataTypes
                     return GetHighligh();
                 case CONFIRM:
                     return GetProductConfirm();
+                //case NO_RESULT:
+                //    return GetNoResults();
                     
                 default: return GetHighligh();
             }
@@ -115,6 +118,8 @@ namespace SourceBot.DataTypes
 
         }
 
+
+        
 
         private Attachment GetProductConfirm()
         {
