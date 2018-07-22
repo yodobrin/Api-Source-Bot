@@ -71,11 +71,47 @@ namespace SourceBot.Dialogs
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync(Utilities.GetSentence("1"));
+            //Lead alead;
+            LeadDialog dialog = new LeadDialog();
+            //await context.Forward(dialog, this.ResumeAfterForm1, context.Activity, CancellationToken.None);
+            context.Call(dialog, this.ResumeAfterForm1);
 
+            //context.Wait(this.MessageReceived);
+        }
+
+        private async Task ResumeAfterForm1(IDialogContext context, IAwaitable<Lead> result)
+        {
+            MyLead = await result;
+            if (MyLead != null)
+            {
+                MyLead.SetAction(Action);
+                var message = context.MakeMessage();
+                message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+                await context.PostAsync(message);
+            }
+            else await context.PostAsync("Lead process ended without a lead");
+
+        }
+
+        //private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
+        //{
+        //    MyLead = await result;
+        //    if (MyLead != null)
+        //    {
+        //        MyLead.SetAction(Action);
+        //        var message = context.MakeMessage();
+        //        message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+        //        await context.PostAsync(message);
+        //    }
+        //    else await context.PostAsync(" Lead process ended without a lead");
+
+        //}
+
+        public async Task GreetingIntent1(IDialogContext context, LuisResult result)
+        {
             Lead alead;
             DetailsDialog dialog = new DetailsDialog();
-            if ( context.PrivateConversationData.TryGetValue("bot-lead", out alead) )
+            if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
                 dialog.SetLead(alead);
                 await context.PostAsync($"A lead is on the private data{alead.FirstName}");

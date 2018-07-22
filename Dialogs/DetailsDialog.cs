@@ -60,32 +60,32 @@ namespace SourceBot.Dialogs
         }
 
         private async Task ResumeAfterLeadFormDialog(IDialogContext context, IAwaitable<Lead> result)
-    {
+         {
             Lead lead = null;
-        try
-        {
-            lead = await result;
+            try
+            {
+                lead = await result;
                 context.PrivateConversationData.SetValue("bot-lead", lead);
             }
-        catch (FormCanceledException ex)
-        {
-            string reply;
-
-            if (ex.InnerException == null)
+            catch (FormCanceledException ex)
             {
-                reply = "You have canceled the operation. Quitting from the LeadDialog";
-            }
-            else
-            {
-                reply = $"Oops! Something went wrong :( Technical Details: {ex.InnerException.Message}";
-            }
+                string reply;
 
-            await context.PostAsync(reply);
-        }
-        finally
-        {
-            context.Done<Lead>(lead);
-        }
+                if (ex.InnerException == null)
+                {
+                    reply = "You have canceled the operation. Quitting from the LeadDialog";
+                }
+                else
+                {
+                    reply = $"Oops! Something went wrong :( Technical Details: {ex.InnerException.Message}";
+                }
+
+                await context.PostAsync(reply);
+            }
+            finally
+            {
+                context.Done<Lead>(lead);
+            }
     }
 
    

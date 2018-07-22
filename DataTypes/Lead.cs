@@ -34,6 +34,19 @@ namespace SourceBot.DataTypes
         public const string UPDATE_ONCE_EXIST = "update-me-once-api";
         public const string CONTACT_TAPI = "contact-tapi";
 
+        public const string NO_SUCH_FIELD = "No Such Field";
+        public const string FIELD_NOT_SET = "Field not set";
+
+        public const int ALL = 0;
+        public const int UNFILLED = 1;
+
+
+        readonly string[] Fields = { "Email", "Fisrt Name", "Last Name" };
+       
+        
+
+        private Dictionary<string, LineItem> properties;
+
         //[JsonProperty("MessageType")]        
         //public string MessageType { get; set; }
         // defaulting to search action
@@ -43,6 +56,55 @@ namespace SourceBot.DataTypes
             Action = action;
         }
         
+
+        public Lead(int dum)
+        {
+            properties = new Dictionary<string, LineItem>();
+            foreach(string line in Fields)
+            {
+                LineItem itm = new LineItem();
+                itm.Type = line;
+                properties.Add(line, itm);
+
+            }
+            
+        }
+
+        public string GetValueBYType(string type)
+        {
+            LineItem itm;
+            if (properties.ContainsKey(type))
+            {
+                properties.TryGetValue(type,  out itm );
+                return (itm.IsFill()) ? itm.Value : FIELD_NOT_SET;
+            }
+            else return NO_SUCH_FIELD;
+        }
+
+        public Dictionary<string, LineItem> GetValues(int option)
+        {
+           switch (option)
+            {
+                case ALL:
+                    return properties;
+                    
+                case UNFILLED:
+                    return FilterUnFilled();
+                    
+                default: return properties;
+            }
+        }
+
+        private Dictionary<string, LineItem> FilterUnFilled()
+        {
+            Dictionary<string, LineItem> tmp = new Dictionary<string, LineItem>();
+            foreach(LineItem itm in properties.Values)
+            {
+                if (itm.IsFill()) tmp.Add(itm.Type, itm);
+            }
+            return tmp;
+        }
+
         [Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
         public string Email { get; set; }
