@@ -136,10 +136,10 @@ namespace SourceBot.DataTypes
         //[JsonProperty("Creation Time")]
         //public string CreationTime { get; set; }
 
-        //public string ToMessage()
-        //{
-        //    return JsonConvert.SerializeObject(this);
-        //}
+        public string ToMessage()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
 
         public bool IsLead()
         {
