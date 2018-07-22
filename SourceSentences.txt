@@ -11,6 +11,8 @@
 12.2 = Was this what you were looking for? What do you want to do next?
 12.3 = Send me more info by mail
 12.4 = Show me what else you have
+12.5 = Confirmed, this is what I was looking for
+12.6 = No this is not the product I was looking for
 12.10 = Here is the information I have for
 12.11 = The information is broken to specific categories
 12.12 = You can click on the categories below to see more information

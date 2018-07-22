@@ -37,6 +37,8 @@ namespace SourceBot.DataTypes
         public const string FETCH_BY_MAIL = "bymail";
         public const string SHOW_ME_MORE = "detail-product";
         public const string FLUSH = "flush";
+        public const string HELP = "help";
+        public const string CONFIRM = "confirm";
 
         public const int MAX_PROD_IN_RESULT = 5;
 
@@ -90,6 +92,8 @@ namespace SourceBot.DataTypes
                     return GetFull();
                 case HIGHLIGHT:
                     return GetHighligh();
+                case CONFIRM:
+                    return GetProductConfirm();
                     
                 default: return GetHighligh();
             }
@@ -109,6 +113,21 @@ namespace SourceBot.DataTypes
 
             return productCard.ToAttachment();
 
+        }
+
+
+        private Attachment GetProductConfirm()
+        {
+            var productCard = new ThumbnailCard
+            {
+                Title = string.Format(Utilities.GetSentence("12"), MoleculeName),
+                Subtitle = Utilities.GetSentence("12.1"),
+                Text = Utilities.GetSentence("12.2"),
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.5"), value: HIGHLIGHT), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.6"), value: HELP) }
+            };
+
+            return productCard.ToAttachment();
         }
 
         private Attachment GetHighligh()

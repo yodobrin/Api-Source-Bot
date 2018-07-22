@@ -127,6 +127,13 @@ namespace SourceBot.Dialogs
                     // await context.PostAsync($"so be it, but i will need the mail");
                     //await context.Forward(new GenericDetailDialog("Email"), this.ResumeAfterEmail,context.Activity, CancellationToken.None);
                     break;
+                case ProductDocument.HIGHLIGHT:
+                    var message1 = context.MakeMessage();
+                    message1.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.HIGHLIGHT));
+                    await context.PostAsync(message1);
+                    //context.Wait(this.MessageReceived);
+                    break;
+
                 default: break;                 
             }
             
@@ -255,7 +262,7 @@ namespace SourceBot.Dialogs
         {
             string suffix = "";
             int count = 0;
-            if (tproducts.Count == 1) return tproducts[0].GetProductCard(ProductDocument.HIGHLIGHT);
+            if (tproducts.Count == 1) return tproducts[0].GetProductCard(ProductDocument.CONFIRM);
             List<CardAction> buttons = new List<CardAction>();
             if (tproducts.Count > 0)
             {
