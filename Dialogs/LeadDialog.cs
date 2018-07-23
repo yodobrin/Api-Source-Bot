@@ -44,7 +44,8 @@ namespace SourceBot.Dialogs
             //string val;
             foreach (LineItem itm in fields.Values)
             {
-                await context.Forward(new LineDialog(itm.Type),this.ResumeAfterLine, context.Activity, CancellationToken.None);
+                //await context.Forward(new LineDialog(itm.Type),this.ResumeAfterLine, context.Activity, CancellationToken.None);
+                context.Call(new LineDialog(itm.Type), this.ResumeAfterLine);
                 await context.PostAsync($"I got: {tempLine} for the filed {itm.Type}");
                 //PromptDialog.Text(context, this.ResumeAfterPrompt, Utilities.GetSentence(itm.Type));
             }

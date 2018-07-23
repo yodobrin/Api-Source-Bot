@@ -102,11 +102,13 @@ namespace SourceBot.Dialogs
 
             Lead alead;
             DetailsDialog dialog = new DetailsDialog();
+            
             if ( context.PrivateConversationData.TryGetValue("bot-lead", out alead) )
             {
-                dialog.SetLead(alead);
+              dialog.SetLead(alead);
                 await context.PostAsync($"A lead is on the private data{alead.FirstName}");
             }
+            
             context.Call(dialog, this.ResumeAfterForm);
 
             //context.Wait(this.MessageReceived);
@@ -116,7 +118,8 @@ namespace SourceBot.Dialogs
         public async Task SendCatalogIntent(IDialogContext context, LuisResult result)
         {
             Action = Lead.PDF;
-            if(MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
+            //if(MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
+            if (MyLead == null) context.Call(new LeadDialog(), this.ResumeAfterForm1);
             else MyLead.SetAction(Action);
 
             //context.Call(new SendCatalogDialog(MyLead), this.ResumeAfterSend);
@@ -156,7 +159,8 @@ namespace SourceBot.Dialogs
                     else
                     {
                         Action = Lead.SEARCH;
-                        context.Call(new DetailsDialog(), this.ResumeAfterForm);
+                        //context.Call(new DetailsDialog(), this.ResumeAfterForm);
+                        context.Call(new LeadDialog(), this.ResumeAfterForm1);
                     }
                         
                     // await context.PostAsync($"so be it, but i will need the mail");
@@ -219,7 +223,8 @@ namespace SourceBot.Dialogs
                 //setting the action to lead creation
                 Action = Lead.LEADCREATE;
                 // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
-                context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
+                //context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
+                context.Call(new LeadDialog(), this.ResumeAfterForm1);
             }                  
             //context.Wait(this.MessageReceived);
         }

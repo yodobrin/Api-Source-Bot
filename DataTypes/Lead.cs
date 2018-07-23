@@ -55,6 +55,11 @@ namespace SourceBot.DataTypes
 
         public Lead(int dum)
         {
+            InitProperties();
+        }
+
+        private void InitProperties()
+        {
             properties = new Dictionary<string, LineItem>();
             foreach (string line in Fields)
             {
@@ -65,6 +70,7 @@ namespace SourceBot.DataTypes
             }
 
         }
+
         public string GetValueBYType(string type)
         {
             LineItem itm;
@@ -78,6 +84,10 @@ namespace SourceBot.DataTypes
 
         public Dictionary<string, LineItem> GetValues(int option)
         {
+            if(properties == null)
+            {
+                InitProperties();
+            }
             switch (option)
             {
                 case ALL:
