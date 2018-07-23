@@ -53,8 +53,9 @@ namespace SourceBot.Dialogs
                 //await context.PostAsync($"I got: {tempLine} for the filed {itm.Type}");
                 context.PrivateConversationData.SetValue("curent-field", itm.Type);
                 PromptDialog.Text(context, this.ResumeAfterPrompt, Utilities.GetSentence(itm.Type));
-                context.PrivateConversationData.TryGetValue(itm.Type, out string tmp);
-                itm.Value = tmp;
+                string temp;
+                context.PrivateConversationData.TryGetValue(itm.Type, out temp);
+                itm.Value = temp;
                 await context.PostAsync($"got {itm.Value} for {itm.Type}");
                 //thisLead.properties[]
             }
@@ -72,7 +73,8 @@ namespace SourceBot.Dialogs
         {
             try
             {
-                context.PrivateConversationData.TryGetValue("current-field", out string line);
+                string line;
+                context.PrivateConversationData.TryGetValue("current-field", out line);
 
                 string value = (string)await result;
                 context.PrivateConversationData.SetValue(line, value);
@@ -84,17 +86,6 @@ namespace SourceBot.Dialogs
             context.Wait(this.MessageReceivedAsync);
         }
 
-        private async Task ResumeAfterLine(IDialogContext context, IAwaitable<object> result)
-        {
-            try
-            {
-                tempLine = (string) await result;
-            }
-            catch (TooManyAttemptsException)
-            {
-            }
-
-            context.Wait(this.MessageReceivedAsync);
-        }
+       
     }
 }
