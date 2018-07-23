@@ -243,6 +243,8 @@
     <Compile Include="DataTypes\LineItem.cs" />
     <Compile Include="DataTypes\ProductDocument.cs" />
     <Compile Include="Dialogs\DetailsDialog.cs" />
+    <Compile Include="Dialogs\LeadDialog.cs" />
+    <Compile Include="Dialogs\LineDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\CarouselCardsDialog.cs" />
