@@ -1,0 +1,74 @@
+{
+  "version": 3,
+  "targets": {
+   
+    ".NETFramework,Version=v4.6.1/win-x86": {
+      "Newtonsoft.Json/10.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      }
+    }
+  },
+    "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.6.1": [
+      "Newtonsoft.Json >= 10.0.2"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\yodobrin\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\yodobrin\\workspace\\apisourcebot\\apisourcebot\\Microsoft.Bot.Sample.LuisBot.csproj",
+      "projectName": "Microsoft.Bot.Sample.LuisBot",
+      "projectPath": "C:\\Users\\yodobrin\\workspace\\apisourcebot\\apisourcebot\\Microsoft.Bot.Sample.LuisBot.csproj",
+      "packagesPath": "C:\\Users\\yodobrin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\yodobrin\\workspace\\apisourcebot\\apisourcebot\\obj\\",
+      "projectStyle": "PackageReference",
+      "skipContentFileWrite": true,
+      "configFilePaths": [
+        "C:\\Users\\yodobrin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net461"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net461": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net461": {
+        "dependencies": {
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[10.0.2, )"
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  }
+}
