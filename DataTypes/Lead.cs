@@ -41,7 +41,7 @@ namespace SourceBot.DataTypes
         public const int UNFILLED = 1;
 
         readonly string[] Fields = { "Email", "Fisrt Name", "Last Name" };
-        private Dictionary<string, LineItem> properties;
+        public Dictionary<string, LineItem> properties;
 
         //[JsonProperty("MessageType")]        
         //public string MessageType { get; set; }

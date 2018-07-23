@@ -21,7 +21,7 @@ using Microsoft.Bot.Connector;
 using System.Collections.Generic;
 
 using SourceBot.DataTypes;
-
+using SourceBot.Utils;
 
 using System.Threading;
 
@@ -47,11 +47,16 @@ namespace SourceBot.Dialogs
             foreach (LineItem itm in fields.Values)
             {
                 //await context.Forward(new LineDialog(itm.Type),this.ResumeAfterLine, context.Activity, CancellationToken.None);
-               // await context.PostAsync($"trying to initiate line dialog for {itm.Type}");
-                await context.Forward(new LineDialog(itm.Type), this.ResumeAfterLine, context.Activity, CancellationToken.None);
+                // await context.PostAsync($"trying to initiate line dialog for {itm.Type}");
+                //await context.Forward(new LineDialog(itm.Type), this.ResumeAfterLine, context.Activity, CancellationToken.None);
                 //context.Call(new LineDialog(itm.Type), this.ResumeAfterLine);
-                await context.PostAsync($"I got: {tempLine} for the filed {itm.Type}");
-                //PromptDialog.Text(context, this.ResumeAfterPrompt, Utilities.GetSentence(itm.Type));
+                //await context.PostAsync($"I got: {tempLine} for the filed {itm.Type}");
+                context.PrivateConversationData.SetValue("curent-field", itm.Type);
+                PromptDialog.Text(context, this.ResumeAfterPrompt, Utilities.GetSentence(itm.Type));
+                context.PrivateConversationData.TryGetValue(itm.Type, out string tmp);
+                itm.Value = tmp;
+                await context.PostAsync($"got {itm.Value} for {itm.Type}");
+                //thisLead.properties[]
             }
 
             context.Wait(this.MessageReceivedAsync);
@@ -59,9 +64,24 @@ namespace SourceBot.Dialogs
 
 
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
-        {
-            
+        {            
             context.Done(thisLead);
+        }
+
+        private async Task ResumeAfterPrompt(IDialogContext context, IAwaitable<object> result)
+        {
+            try
+            {
+                context.PrivateConversationData.TryGetValue("current-field", out string line);
+
+                string value = (string)await result;
+                context.PrivateConversationData.SetValue(line, value);
+            }
+            catch (TooManyAttemptsException)
+            {
+            }
+
+            context.Wait(this.MessageReceivedAsync);
         }
 
         private async Task ResumeAfterLine(IDialogContext context, IAwaitable<object> result)
