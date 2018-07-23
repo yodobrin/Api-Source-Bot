@@ -105,7 +105,7 @@ namespace SourceBot.DataTypes
             Dictionary<string, LineItem> tmp = new Dictionary<string, LineItem>();
             foreach (LineItem itm in properties.Values)
             {
-                if (itm.IsFill()) tmp.Add(itm.Type, itm);
+                if (!itm.IsFill()) tmp.Add(itm.Type, itm);
             }
             return tmp;
         }
