@@ -67,7 +67,34 @@ namespace SourceBot.Dialogs
             await this.ShowLuisResult(context, result);
         }
 
-        
+        /*******************************/
+        [LuisIntent("Greeting2")]
+        public async Task GreetingIntent2(IDialogContext context, LuisResult result)
+        {
+            //Lead alead;
+            LeadDialog dialog = new LeadDialog();
+            //await context.Forward(dialog, this.ResumeAfterForm1, context.Activity, CancellationToken.None);
+            context.Call(dialog, this.ResumeAfterForm1);
+
+            //context.Wait(this.MessageReceived);
+        }
+
+        private async Task ResumeAfterForm1(IDialogContext context, IAwaitable<Lead> result)
+        {
+            MyLead = await result;
+            if (MyLead != null)
+            {
+                MyLead.SetAction(Action);
+                var message = context.MakeMessage();
+                message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+                await context.PostAsync(message);
+            }
+            else await context.PostAsync("Lead process ended without a lead");
+
+        }
+
+        /*******************************/
+
         [LuisIntent("Greeting")]
         public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {

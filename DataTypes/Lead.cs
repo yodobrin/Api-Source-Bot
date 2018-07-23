@@ -65,6 +65,16 @@ namespace SourceBot.DataTypes
             }
 
         }
+        public string GetValueBYType(string type)
+        {
+            LineItem itm;
+            if (properties.ContainsKey(type))
+            {
+                properties.TryGetValue(type, out itm);
+                return (itm.IsFill()) ? itm.Value : FIELD_NOT_SET;
+            }
+            else return NO_SUCH_FIELD;
+        }
 
         public Dictionary<string, LineItem> GetValues(int option)
         {
