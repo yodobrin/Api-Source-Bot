@@ -130,8 +130,8 @@ namespace SourceBot.DataTypes
         public string Company { get; set; }
 
         
-        [JsonProperty("Name")]
-        public string Name { get; set; }
+        //[JsonProperty("Name")]
+        //public string Name { get; set; }
 
         [JsonProperty("First Name")]
         public string FirstName { get; set; }
@@ -144,7 +144,7 @@ namespace SourceBot.DataTypes
         //public string LeadSource { get; set; }
 
         [JsonProperty("Subject")]
-        public string Subject { get; set; }
+        private string Subject { get; set; }
 
         [JsonProperty("Comments")]
         public string Comments { get; set; }
@@ -155,13 +155,22 @@ namespace SourceBot.DataTypes
 
         public string ToMessage()
         {
-            return "wtf";
-           // return JsonConvert.SerializeObject(this);
+        //    return "wtf";
+           return JsonConvert.SerializeObject(this);
         }
 
+        public void SetSubject(string subject)
+        {
+            Subject = subject;
+        }
+
+        public string GetSubject()
+        {
+            return Subject;
+        }
         public bool IsLead()
         {
-            if (this.Name != null && this.Name != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
+            if (this.FirstName != null && this.FirstName != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
             else return false;
         }
 

@@ -68,8 +68,8 @@ namespace SourceBot.Dialogs
         }
 
         /*******************************/
-        [LuisIntent("Greeting")]
-        public async Task GreetingIntent(IDialogContext context, LuisResult result)
+        [LuisIntent("Greeting32")]
+        public async Task GreetingIntent32(IDialogContext context, LuisResult result)
         {
             //Lead alead;
             LeadDialog dialog = new LeadDialog();
@@ -95,8 +95,8 @@ namespace SourceBot.Dialogs
 
         /*******************************/
 
-        [LuisIntent("Greeting2")]
-        public async Task GreetingInten32(IDialogContext context, LuisResult result)
+        [LuisIntent("Greeting")]
+        public async Task GreetingInten(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Utilities.GetSentence("1"));
 
@@ -365,7 +365,7 @@ namespace SourceBot.Dialogs
                 {
                     string.Concat(result, ",", prd.MoleculeName);
                 }
-                MyLead.Subject = result;
+                MyLead.SetSubject( result);
             }
         }
 
@@ -403,9 +403,9 @@ namespace SourceBot.Dialogs
             MyLead = (MyLead != null) ? MyLead : new Lead("dum");
             var leadCard = new ThumbnailCard
             {
-                Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
+                Title = $"Hello {MyLead.FirstName} @ {MyLead.Company}",
                 Subtitle = "This is what I know so far about as a lead...",
-                Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.Subject}",
+                Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.GetSubject()}",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm-lead-creation"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "i am a dealer") }
             };
