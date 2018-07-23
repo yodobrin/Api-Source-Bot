@@ -68,8 +68,8 @@ namespace SourceBot.Dialogs
         }
 
         /*******************************/
-        [LuisIntent("Greeting2")]
-        public async Task GreetingIntent2(IDialogContext context, LuisResult result)
+        [LuisIntent("Greeting")]
+        public async Task GreetingIntent(IDialogContext context, LuisResult result)
         {
             //Lead alead;
             LeadDialog dialog = new LeadDialog();
@@ -95,8 +95,8 @@ namespace SourceBot.Dialogs
 
         /*******************************/
 
-        [LuisIntent("Greeting")]
-        public async Task GreetingIntent(IDialogContext context, LuisResult result)
+        [LuisIntent("Greeting2")]
+        public async Task GreetingInten32(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Utilities.GetSentence("1"));
 
