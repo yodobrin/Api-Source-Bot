@@ -110,6 +110,17 @@ namespace SourceBot.DataTypes
             return tmp;
         }
 
+        public string flush()
+        {
+            string result = "{ ";
+            string pat = "\"{0}\":\"{1}\"";
+            foreach (LineItem itm in properties.Values)
+            {
+                result += string.Format(pat, itm.Type, itm.Value);
+            }
+            return result+" }";
+        }
+
 
         [Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]

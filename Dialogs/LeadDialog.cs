@@ -38,6 +38,7 @@ namespace SourceBot.Dialogs
             if (!context.PrivateConversationData.TryGetValue("bot-lead", out thisLead))
             {
                 thisLead = new Lead(1);
+                await context.PostAsync($"i know nothing:{thisLead.flush()}");
                 context.PrivateConversationData.SetValue("bot-lead", thisLead);
             }
             Dictionary<string, LineItem> fields = thisLead.GetValues(Lead.UNFILLED);

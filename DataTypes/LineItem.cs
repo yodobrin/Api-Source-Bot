@@ -34,7 +34,7 @@ namespace SourceBot.DataTypes
 
         public bool IsFill()
         {
-            return (Value != null);
+            return (Value != null  && (string.Compare(Value,"")!=0));
         }
 
     }
