@@ -42,9 +42,11 @@ namespace SourceBot.Dialogs
             }
             Dictionary<string, LineItem> fields = thisLead.GetValues(Lead.UNFILLED);
             //string val;
+            await context.PostAsync($"I would need some basic details from you ...{fields.Count}");
             foreach (LineItem itm in fields.Values)
             {
                 //await context.Forward(new LineDialog(itm.Type),this.ResumeAfterLine, context.Activity, CancellationToken.None);
+                await context.PostAsync($"trying to initiate line dialog for {itm.Type}");
                 context.Call(new LineDialog(itm.Type), this.ResumeAfterLine);
                 await context.PostAsync($"I got: {tempLine} for the filed {itm.Type}");
                 //PromptDialog.Text(context, this.ResumeAfterPrompt, Utilities.GetSentence(itm.Type));
