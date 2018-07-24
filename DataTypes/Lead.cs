@@ -30,7 +30,7 @@ namespace SourceBot.DataTypes
     {
         public const string PDF = "send-catalog";
         public const string SEARCH = "search";
-        public const string LEADCREATE = "leadcreate";
+        public const string LEADCREATE = "lead-create";
         public const string UPDATE_ONCE_EXIST = "update-me-once-api";
         public const string CONTACT_TAPI = "contact-tapi";
 
