@@ -67,33 +67,7 @@ namespace SourceBot.Dialogs
             await this.ShowLuisResult(context, result);
         }
 
-        /*******************************/
-        [LuisIntent("Greeting32")]
-        public async Task GreetingIntent32(IDialogContext context, LuisResult result)
-        {
-            //Lead alead;
-            LeadDialog dialog = new LeadDialog();
-            //await context.Forward(dialog, this.ResumeAfterForm1, context.Activity, CancellationToken.None);
-            context.Call(dialog, this.ResumeAfterForm1);
-
-            //context.Wait(this.MessageReceived);
-        }
-
-        private async Task ResumeAfterForm1(IDialogContext context, IAwaitable<Lead> result)
-        {
-            MyLead = await result;
-            if (MyLead != null)
-            {
-                MyLead.SetAction(Action);
-                var message = context.MakeMessage();
-                message.Attachments.Add(MyLead.GetLeadCard(tproducts));
-                await context.PostAsync(message);
-            }
-            else await context.PostAsync("Lead process ended without a lead");
-
-        }
-
-        /*******************************/
+       
 
         [LuisIntent("Greeting")]
         public async Task GreetingInten(IDialogContext context, LuisResult result)
@@ -109,7 +83,7 @@ namespace SourceBot.Dialogs
                 await context.PostAsync($"A lead is on the private data{alead.FirstName}");
             }
             
-            context.Call(dialog, this.ResumeAfterForm);
+            else context.Call(dialog, this.ResumeAfterForm);
 
             //context.Wait(this.MessageReceived);
         }
@@ -357,7 +331,7 @@ namespace SourceBot.Dialogs
                 foreach (ProductDocument prd in tproducts)
                 {
                     if (count == ProductDocument.MAX_PROD_IN_RESULT) break;
-                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.MoleculeName}", value: "xxx-xxx"));
+                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.MoleculeName}", value: $"find me {prd.MoleculeID}"));
                     count++;
                 }
             }

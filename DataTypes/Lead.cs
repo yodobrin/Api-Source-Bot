@@ -121,21 +121,24 @@ namespace SourceBot.DataTypes
             return result+" }";
         }
 
-
+        [Prompt("Please enter your email address")]
         [Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
         public string Email { get; set; }
 
+        [Prompt("Please enter your Company name")]
         [JsonProperty("Company")]
         public string Company { get; set; }
 
-        
+
         //[JsonProperty("Name")]
         //public string Name { get; set; }
 
+        [Prompt("What is your first name?")]
         [JsonProperty("First Name")]
         public string FirstName { get; set; }
 
+        [Prompt("What is your last name?")]
         [JsonProperty("Last Name")]
         public string LastName { get; set; }
 
@@ -146,6 +149,7 @@ namespace SourceBot.DataTypes
         [JsonProperty("Subject")]
         private string Subject { get; set; }
 
+        [Prompt("Any Comments?")]
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 
