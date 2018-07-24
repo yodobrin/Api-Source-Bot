@@ -52,6 +52,9 @@
 16 = Matching your search criteria
 16.1 = Showing up to 5 first results
 911.0 = Please type the API you are looking for ... 
+950 = An Error has occured
+951 = Please try your operation again {0}
+952 = Try re-entering your search keywords
 ### propmpts ####
 Email = Please Enter Valid Email address
 First = Please enter your first name

@@ -99,7 +99,7 @@ namespace SourceBot.Dialogs
         public async Task GreetingInten(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Utilities.GetSentence("1"));
-
+            Action = Lead.LEADCREATE;
             Lead alead;
             DetailsDialog dialog = new DetailsDialog();
             
@@ -118,8 +118,8 @@ namespace SourceBot.Dialogs
         public async Task SendCatalogIntent(IDialogContext context, LuisResult result)
         {
             Action = Lead.PDF;
-            //if(MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
-            if (MyLead == null) context.Call(new LeadDialog(), this.ResumeAfterForm1);
+            if(MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
+            //if (MyLead == null) context.Call(new LeadDialog(), this.ResumeAfterForm1);
             else MyLead.SetAction(Action);
 
             //context.Call(new SendCatalogDialog(MyLead), this.ResumeAfterSend);
@@ -130,7 +130,12 @@ namespace SourceBot.Dialogs
         public async Task CatalogGetCategoryIntent(IDialogContext context, LuisResult result)
         {
             var message = context.MakeMessage();
-            message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
+            if (tproducts!=null && tproducts[0]!=null)
+            {
+                message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
+            }else message.Attachments.Add(GetErrorCard("No products in search results"));
+
+
             await context.PostAsync(message);
         }
 
@@ -159,8 +164,8 @@ namespace SourceBot.Dialogs
                     else
                     {
                         Action = Lead.SEARCH;
-                        //context.Call(new DetailsDialog(), this.ResumeAfterForm);
-                        context.Call(new LeadDialog(), this.ResumeAfterForm1);
+                        context.Call(new DetailsDialog(), this.ResumeAfterForm);
+                        //context.Call(new LeadDialog(), this.ResumeAfterForm1);
                     }
                         
                     // await context.PostAsync($"so be it, but i will need the mail");
@@ -223,8 +228,8 @@ namespace SourceBot.Dialogs
                 //setting the action to lead creation
                 Action = Lead.LEADCREATE;
                 // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
-                //context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
-                context.Call(new LeadDialog(), this.ResumeAfterForm1);
+                context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
+                //context.Call(new LeadDialog(), this.ResumeAfterForm1);
             }                  
             //context.Wait(this.MessageReceived);
         }
@@ -260,11 +265,23 @@ namespace SourceBot.Dialogs
             return openCard.ToAttachment();
         }
 
-       
+        private Attachment GetErrorCard(string code)
+        {
+            var openCard = new HeroCard
+            {
+                Title = Utilities.GetSentence("950"),
+                Subtitle = string.Format(Utilities.GetSentence("951"),code),
+                Text = Utilities.GetSentence("952"),
+                Images = new List<CardImage> { new CardImage("https://cdn.dribbble.com/users/7770/screenshots/3935947/oh_snap_404_1x.jpg") }
+                //Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
+            };
 
-        
-       
-        
+            return openCard.ToAttachment();
+        }
+
+
+
+
 
         /**
         * Spits out the products found

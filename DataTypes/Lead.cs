@@ -211,7 +211,7 @@ namespace SourceBot.DataTypes
                 Subtitle = "This is what I know so far about as a lead...",
                 Text = message,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"{Action}"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "i am a dealer") }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"{Action}"), new CardAction(ActionTypes.PostBack, "Revisit my details", value: "i am a dealer") }
             };
 
             return leadCard.ToAttachment();
