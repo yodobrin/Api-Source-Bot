@@ -143,16 +143,9 @@ namespace SourceBot.Dialogs
                     Lead alead;
                     DetailsDialog dialog = new DetailsDialog();
                     if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
-                    {
-                        await context.PostAsync($"in lead from conv {alead.Email}.");
-                        MyLead = alead;
-                        if (MyLead != null && MyLead.IsLead())
-                        {
-                            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
-                            await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
-
-                        }
-                      //  dialog.SetLead(alead);
+                    {                    
+                        await Utilities.AddMessageToQueueAsync(alead.ToMessage());
+                        await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
                     }
                     else
                     {
