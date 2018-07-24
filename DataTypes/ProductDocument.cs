@@ -35,7 +35,7 @@ namespace SourceBot.DataTypes
         public const string NO_SUCH_CAT = "Missing information for: {0}";
         public const string NO_RESULT = "no-results";
 
-        public const string FETCH_BY_MAIL = "bymail";
+        public const string FETCH_BY_MAIL = "by-mail";
         public const string SHOW_ME_MORE = "detail-product";
         public const string FLUSH = "flush";
         public const string HELP = "help";

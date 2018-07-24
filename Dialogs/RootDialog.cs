@@ -93,9 +93,21 @@ namespace SourceBot.Dialogs
         public async Task SendCatalogIntent(IDialogContext context, LuisResult result)
         {
             Action = Lead.PDF;
-            if(MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
-            //if (MyLead == null) context.Call(new LeadDialog(), this.ResumeAfterForm1);
-            else MyLead.SetAction(Action);
+            Lead alead;
+            DetailsDialog dialog = new DetailsDialog();
+
+            if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
+            {
+                MyLead = alead;
+                MyLead.SetAction(Action);
+                await context.PostAsync($"A lead is on the private data{alead.FirstName}");
+            }
+
+            else context.Call(dialog, this.ResumeAfterForm);
+
+            //if (MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
+            ////if (MyLead == null) context.Call(new LeadDialog(), this.ResumeAfterForm1);
+            //else MyLead.SetAction(Action);
 
             //context.Call(new SendCatalogDialog(MyLead), this.ResumeAfterSend);
             //context.Wait(this.MessageReceived);
@@ -132,6 +144,7 @@ namespace SourceBot.Dialogs
                     DetailsDialog dialog = new DetailsDialog();
                     if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
                     {
+                        await context.PostAsync($"in lead from conv {alead.Email}.");
                         MyLead = alead;
                         if (MyLead != null && MyLead.IsLead())
                         {
@@ -139,7 +152,7 @@ namespace SourceBot.Dialogs
                             await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
 
                         }
-                        dialog.SetLead(alead);
+                      //  dialog.SetLead(alead);
                     }
                     else
                     {
@@ -183,30 +196,28 @@ namespace SourceBot.Dialogs
 		[LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
-            //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
-            //await context.PostAsync($"You entered: {result.Query}");
             // setting the action to search
             Action = Lead.SEARCH;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
-            //context.Call(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog);
-            //context.Wait(this.MessageReceived);
+
         }
 
 
         [LuisIntent("CRM.Lead")]
         public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
         {
-            //await context.PostAsync($"You are in CRMLeadIntent");            
-            if (MyLead==null || !MyLead.IsLead())
+            Lead alead;
+            DetailsDialog dialog = new DetailsDialog();
+            Action = Lead.LEADCREATE;
+            if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
-                MyLead = new Lead();
-                //setting the action to lead creation
-                Action = Lead.LEADCREATE;
-                // await context.PostAsync($"You asked to be contacted via email, however I have yet to capture valid contact details");
-                context.Call(new DetailsDialog(), this.ResumeAfterForm);//, context.Activity, CancellationToken.None);
-                //context.Call(new LeadDialog(), this.ResumeAfterForm1);
-            }                  
-            //context.Wait(this.MessageReceived);
+                MyLead = alead;
+            }
+            if (MyLead==null || !MyLead.IsLead()) MyLead = new Lead();
+            //setting the action to lead creation
+            dialog.SetLead(MyLead);
+            context.Call(dialog, this.ResumeAfterForm);
+
         }
 
         [LuisIntent("CRM.SubmitLead")]
