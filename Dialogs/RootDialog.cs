@@ -88,6 +88,7 @@ namespace SourceBot.Dialogs
             //context.Wait(this.MessageReceived);
         }
 
+
         [LuisIntent("CRM.SendCatalog")]
         public async Task SendCatalogIntent(IDialogContext context, LuisResult result)
         {
@@ -119,37 +120,37 @@ namespace SourceBot.Dialogs
             switch (result.Query)
             {
                 case ProductDocument.SHOW_ME_MORE:
-                    // means customer click on show me more
                     var message = context.MakeMessage();
                     message.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.FULL));
                     await context.PostAsync(message);
-                    //context.Wait(this.MessageReceived);
                     break;
                 case ProductDocument.FLUSH:
                     await FlushProducts(context);
                     break;
                 case ProductDocument.FETCH_BY_MAIL:
-                    if(MyLead!=null && MyLead.IsLead())
-                    {                        
-                        await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
-                        await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
-                        
+                    Lead alead;
+                    DetailsDialog dialog = new DetailsDialog();
+                    if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
+                    {
+                        MyLead = alead;
+                        if (MyLead != null && MyLead.IsLead())
+                        {
+                            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());
+                            await context.PostAsync($"A request was sent to our communication auto-broker to the address:{MyLead.Email} provided.");
+
+                        }
+                        dialog.SetLead(alead);
                     }
                     else
                     {
                         Action = Lead.SEARCH;
-                        context.Call(new DetailsDialog(), this.ResumeAfterForm);
-                        //context.Call(new LeadDialog(), this.ResumeAfterForm1);
+                        context.Call(dialog, this.ResumeAfterForm);
                     }
-                        
-                    // await context.PostAsync($"so be it, but i will need the mail");
-                    //await context.Forward(new GenericDetailDialog("Email"), this.ResumeAfterEmail,context.Activity, CancellationToken.None);
                     break;
                 case ProductDocument.HIGHLIGHT:
                     var message1 = context.MakeMessage();
                     message1.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.HIGHLIGHT));
                     await context.PostAsync(message1);
-                    //context.Wait(this.MessageReceived);
                     break;
 
                 default: break;                 
@@ -183,7 +184,7 @@ namespace SourceBot.Dialogs
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
-            await context.PostAsync($"You entered: {result.Query}");
+            //await context.PostAsync($"You entered: {result.Query}");
             // setting the action to search
             Action = Lead.SEARCH;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
