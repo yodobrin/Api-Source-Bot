@@ -54,6 +54,15 @@
 12.41 = Has the following information
 16 = Matching your search criteria
 16.1 = Showing up to 5 first results
+# share and feedback can be done after email is sent
+19 = Dear {0}, Thank you for using TAPIs sourcing tool, please rate your experience 
+19.1 = Extremely Satisfied
+19.2 = Very Satisfied
+19.3 = Satisfied
+19.4 = Not Satisfied
+19.5 = Not Satisfied at all
+19.10 = Can you please elaboate?
+19.20 = survey-answer {0}
 911.0 = Please type the API you are looking for ... 
 950 = An Error has occured
 951 = Please try your operation again {0}

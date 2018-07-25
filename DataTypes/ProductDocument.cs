@@ -154,6 +154,8 @@ namespace SourceBot.DataTypes
             return productCard.ToAttachment();
         }
 
+
+        // TODO show only categories with values 
         private Attachment GetFull()
         {
             var productCard = new HeroCard

@@ -67,7 +67,11 @@ namespace SourceBot.Dialogs
             await this.ShowLuisResult(context, result);
         }
 
-       
+       // TODO
+       // Survey - test (+ feedback in case it was good)
+       // Share - potential
+       // message about other searches
+
 
         [LuisIntent("Greeting")]
         public async Task GreetingInten(IDialogContext context, LuisResult result)
@@ -193,6 +197,15 @@ namespace SourceBot.Dialogs
             Action = Lead.SEARCH;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
 
+        }
+
+        [LuisIntent("CRM.Survey")]
+        public async Task CRMSurveyIntent(IDialogContext context, LuisResult result)
+        {
+            // need to check the entities, if exist act according to them (send a message to a q)
+            var message = context.MakeMessage();
+            message.Attachments.Add(GetSurveyCard());
+            await context.PostAsync(message);
         }
 
 
@@ -409,8 +422,30 @@ namespace SourceBot.Dialogs
             return leadCard.ToAttachment();
         }
 
+        private Attachment GetSurveyCard()
+        {                       
+            var leadCard = new HeroCard
+            {
+                Title = string.Format(Utilities.GetSentence("19"),MyLead.Name),
+                //Subtitle = "This is what I know so far about as a lead...",
+                //Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.GetSubject()}",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: GetSurveyFeedback(Utilities.GetSentence("19.1"))) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: GetSurveyFeedback(Utilities.GetSentence("19.2"))) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: GetSurveyFeedback(Utilities.GetSentence("19.3"))) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: GetSurveyFeedback(Utilities.GetSentence("19.4"))) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: GetSurveyFeedback(Utilities.GetSentence("19.5"))) ,
+                }
+                                                 
+            };
 
+            return leadCard.ToAttachment();
+        }
 
+        private string GetSurveyFeedback(string answer)
+        {
+            return string.Format(Utilities.GetSentence("19.20"), answer);
+        }
 
     }
 }
