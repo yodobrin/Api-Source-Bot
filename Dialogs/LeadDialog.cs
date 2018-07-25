@@ -31,7 +31,7 @@ namespace SourceBot.Dialogs
     public class LeadDialog : IDialog<Lead>
     {
         Lead thisLead;
-        string tempLine;
+        //string tempLine;
         public async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync("I would need some basic details from you ...");

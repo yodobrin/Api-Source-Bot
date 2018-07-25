@@ -121,26 +121,37 @@ namespace SourceBot.DataTypes
             return result+" }";
         }
 
+        [Prompt("Please enter your full name")]
+        [JsonProperty("Name")]
+        public string Name { get; set; }
+
+        //[Prompt("What is your last name?")]
+        //[JsonProperty("Last Name")]
+        //public string LastName { get; set; }
+
         [Prompt("Please enter your email address")]
         [Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
         public string Email { get; set; }
 
-        [Prompt("Please enter your Company name")]
+        // TODO must select from a list of countries
+        [Prompt("Great, in order to provide the most relavant information please provide your target market")]
+        //[Pattern(RegexConstants.Email)]
+        [JsonProperty("Country")]
+        public string Country { get; set; }
+
+        [Prompt("Excelent, please provide your company name, so we can forward your request to the relavant person, in case you already a TAPI customer")]
         [JsonProperty("Company")]
         public string Company { get; set; }
 
+        // add a validation on the format and contact
+        [Prompt("Excelent, please provide your company name, so we can forward your request to the relavant person, in case you already a TAPI customer")]
+        [JsonProperty("Phone")]
+        public string Phone { get; set; }
 
         //[JsonProperty("Name")]
         //public string Name { get; set; }
 
-        [Prompt("What is your first name?")]
-        [JsonProperty("First Name")]
-        public string FirstName { get; set; }
-
-        [Prompt("What is your last name?")]
-        [JsonProperty("Last Name")]
-        public string LastName { get; set; }
 
         // will be taken from an app setting        
         //[JsonProperty("Lead Source")]
@@ -149,7 +160,7 @@ namespace SourceBot.DataTypes
         [JsonProperty("Subject")]
         private string Subject { get; set; }
 
-        [Prompt("Any Comments?")]
+        [Prompt("Any Comments? Information you provide will help us to provide information in the most accurate way, for example which documents are required? What is the quanitity of the API you need? Do you need price quatation? etc.")]
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 
@@ -174,15 +185,15 @@ namespace SourceBot.DataTypes
         }
         public bool IsLead()
         {
-            if (this.FirstName != null && this.FirstName != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
+            if (this.Name != null && this.Name != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
             else return false;
         }
 
         public Lead(string dummy)
         {
             Email = "dummy@mail.com";
-            FirstName = "Dummi";
-            LastName = "DoDo";
+            Name = "Dummi";
+            //LastName = "DoDo";
             Company = "essence";
             Subject = "search dummy subject";
             Comments = "just dummy comments";
@@ -211,7 +222,7 @@ namespace SourceBot.DataTypes
             
             var leadCard = new ThumbnailCard
             {
-                Title = $"Hello {FirstName} {LastName} @ {Company}",
+                Title = $"Hello {Name} @ {Company}",
                 Subtitle = "This is what I know so far about as a lead...",
                 Text = message,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },

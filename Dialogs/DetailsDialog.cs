@@ -22,6 +22,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
 using SourceBot.DataTypes;
+using SourceBot.Utils;
 
 namespace SourceBot.Dialogs
 {
@@ -31,7 +32,7 @@ namespace SourceBot.Dialogs
         private Lead ALead;
         public async Task StartAsync(IDialogContext context)
         {
-             await context.PostAsync("I would need some basic details from you ...");
+             await context.PostAsync(Utilities.GetSentence("9"));
 
              var leadFormDialog = FormDialog.FromForm(this.BuildLeadForm, FormOptions.PromptInStart);
 

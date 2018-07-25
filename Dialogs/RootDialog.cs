@@ -80,7 +80,7 @@ namespace SourceBot.Dialogs
             if ( context.PrivateConversationData.TryGetValue("bot-lead", out alead) )
             {
               dialog.SetLead(alead);
-                await context.PostAsync($"A lead is on the private data{alead.FirstName}");
+                await context.PostAsync($"A lead is on the private data{alead.Name}");
             }
             
             else context.Call(dialog, this.ResumeAfterForm);
@@ -100,7 +100,7 @@ namespace SourceBot.Dialogs
             {
                 MyLead = alead;
                 MyLead.SetAction(Action);
-                await context.PostAsync($"A lead is on the private data{alead.FirstName}");
+                await context.PostAsync($"A lead is on the private data{alead.Name}");
             }
 
             else context.Call(dialog, this.ResumeAfterForm);
@@ -399,7 +399,7 @@ namespace SourceBot.Dialogs
             MyLead = (MyLead != null) ? MyLead : new Lead("dum");
             var leadCard = new ThumbnailCard
             {
-                Title = $"Hello {MyLead.FirstName} @ {MyLead.Company}",
+                Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
                 Subtitle = "This is what I know so far about as a lead...",
                 Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.GetSubject()}",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
