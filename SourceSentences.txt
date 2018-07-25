@@ -16,7 +16,7 @@
 # Each line needs to contain a sequence number preceeded by an equal ('=') sign/ The value preceeding the '=' is considered to be the sentence dispalyed
 # comments can be added using a prefix to the start of the line only, prefix supported are # / ; ' - nothing else
 ##################################################
-
+0 = Welcome to the TAPIs API sourcing tool. To start type the API name you are looking for.
 1 = My test sentence
 2 = A test sentence with {0} parameters, {1} 
 5 = No products were found matching your search
@@ -26,13 +26,15 @@
 7 = Send catalog by email
 8 = Update me when you have the API
 12 = I Found {0} in my catalog
-12.0 = {0} TBD TBD TBD
+12.0 = {0}
 12.01 = Addtional information exist
 12.02 = What do you want to do next?
 12.1 = We have more information for it.
 12.2 = Was this what you were looking for? What do you want to do next?
 12.3 = Send me more info by mail
-12.4 = Show me what else you have
+12.4 = Show avilable information
+12.41 = Show me other categories again
+12.42 = I'm OK. Send me the information by email.
 12.5 = Confirmed, this is what I was looking for
 12.6 = No this is not the product I was looking for
 12.10 = Here is the information I have for

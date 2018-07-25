@@ -73,7 +73,7 @@ namespace Microsoft.Bot.Sample.LuisBot
                     var reply = message.CreateReply();
 
 
-                    reply.Text = "Welcome to Source API Bot";// Utilities.GetSentence("1"); 
+                    reply.Text = Utilities.GetSentence("0"); 
 
                     await client.Conversations.ReplyToActivityAsync(reply);
                 }
