@@ -54,10 +54,11 @@ namespace SourceBot.DataTypes
         public static Attachment GetHoreyCard(string locName)
         {
 
-            var leadCard = new AnimationCard
+            var leadCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("19.50"), locName),
-                Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
+                Images = new List<CardImage> { new CardImage("https://tenor.com/search/irish-gifs") },
+                //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
             };
 
             return leadCard.ToAttachment();
