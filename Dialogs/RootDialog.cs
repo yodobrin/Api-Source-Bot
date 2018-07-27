@@ -204,7 +204,8 @@ namespace SourceBot.Dialogs
             {
                 // ONLY take the first entity
                 EntityRecommendation inst = entities[0];
-                switch (inst.Type)
+                await context.PostAsync($"the entity is {inst.Entity}");
+                switch (inst.Entity)
                 {
                     case SurveyAnswer.NOT_AT_SAT:
                         break;
