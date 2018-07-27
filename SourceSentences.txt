@@ -63,6 +63,7 @@
 19.5 = Not Satisfied at all
 19.10 = Can you please elaboate?
 19.20 = survey-answer {0}
+19.50 = Thank you for using TAPI's sourcing tool {0}, Go méadaí Dia thú!
 911.0 = Please type the API you are looking for ... 
 950 = An Error has occured
 951 = Please try your operation again {0}

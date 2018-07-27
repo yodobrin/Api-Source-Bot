@@ -242,6 +242,7 @@
     <Compile Include="DataTypes\Lead.cs" />
     <Compile Include="DataTypes\LineItem.cs" />
     <Compile Include="DataTypes\ProductDocument.cs" />
+    <Compile Include="DataTypes\SurveyAnswer.cs" />
     <Compile Include="Dialogs\DetailsDialog.cs" />
     <Compile Include="Dialogs\LeadDialog.cs" />
     <Compile Include="Dialogs\LineDialog.cs" />

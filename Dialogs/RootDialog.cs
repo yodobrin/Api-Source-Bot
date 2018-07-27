@@ -35,13 +35,12 @@ using Microsoft.Bot.Connector;
 
 namespace SourceBot.Dialogs
 {
-    // For more information about this template visit http://aka.ms/azurebots-csharp-luis
+    
     [Serializable]
     public class RootDialog : LuisDialog<object>
     {
 		
-        //public const string emailOption = "email";
-        //public const string botOption = "bot";
+       
 
         Lead MyLead; 
         public IList<ProductDocument> tproducts;
@@ -53,7 +52,7 @@ namespace SourceBot.Dialogs
             domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
         {
             tproducts = new List<ProductDocument>();
-            //MyLead = new Lead();
+           
         }
         
         /**
@@ -109,12 +108,7 @@ namespace SourceBot.Dialogs
 
             else context.Call(dialog, this.ResumeAfterForm);
 
-            //if (MyLead==null) context.Call(new DetailsDialog(), this.ResumeAfterForm);
-            ////if (MyLead == null) context.Call(new LeadDialog(), this.ResumeAfterForm1);
-            //else MyLead.SetAction(Action);
-
-            //context.Call(new SendCatalogDialog(MyLead), this.ResumeAfterSend);
-            //context.Wait(this.MessageReceived);
+           
         }
 
         [LuisIntent("Catalog.GetCategory")]
@@ -204,8 +198,41 @@ namespace SourceBot.Dialogs
         {
             // need to check the entities, if exist act according to them (send a message to a q)
             var message = context.MakeMessage();
-            message.Attachments.Add(GetSurveyCard());
-            await context.PostAsync(message);
+            string locName = (MyLead != null && MyLead.Name != null) ? MyLead.Name : "Guest";
+            IList<EntityRecommendation> entities = result.Entities;
+            if (entities != null && entities.Count > 0)
+            {
+                // ONLY take the first entity
+                EntityRecommendation inst = entities[0];
+                switch (inst.Type)
+                {
+                    case SurveyAnswer.NOT_AT_SAT:
+                        break;
+                    case SurveyAnswer.NOT_SAT:
+                        break;
+                    case SurveyAnswer.SAT:
+                        break;
+                    case SurveyAnswer.VER_SAT:
+                        //show somehting nice
+                        message.Attachments.Add(SurveyAnswer.GetHoreyCard(locName));
+                        await context.PostAsync(message);
+                        break;
+                    case SurveyAnswer.EXT_SAT:
+                        //show somehting nice
+                        message.Attachments.Add(SurveyAnswer.GetHoreyCard(locName));
+                        await context.PostAsync(message);
+                        break;
+                    default: break;
+                }
+            }else
+            {
+                
+                message.Attachments.Add(SurveyAnswer.GetSurveyCard(locName));
+                await context.PostAsync(message);
+
+            }
+
+
         }
 
 
@@ -422,30 +449,7 @@ namespace SourceBot.Dialogs
             return leadCard.ToAttachment();
         }
 
-        private Attachment GetSurveyCard()
-        {                       
-            var leadCard = new HeroCard
-            {
-                Title = string.Format(Utilities.GetSentence("19"),MyLead.Name),
-                //Subtitle = "This is what I know so far about as a lead...",
-                //Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.GetSubject()}",
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: GetSurveyFeedback(Utilities.GetSentence("19.1"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: GetSurveyFeedback(Utilities.GetSentence("19.2"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: GetSurveyFeedback(Utilities.GetSentence("19.3"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: GetSurveyFeedback(Utilities.GetSentence("19.4"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: GetSurveyFeedback(Utilities.GetSentence("19.5"))) ,
-                }
-                                                 
-            };
-
-            return leadCard.ToAttachment();
-        }
-
-        private string GetSurveyFeedback(string answer)
-        {
-            return string.Format(Utilities.GetSentence("19.20"), answer);
-        }
+        
 
     }
 }

@@ -32,7 +32,7 @@ namespace SourceBot.Dialogs
         private Lead ALead;
         public async Task StartAsync(IDialogContext context)
         {
-             await context.PostAsync(Utilities.GetSentence("9"));
+            // await context.PostAsync(Utilities.GetSentence("9"));
 
              var leadFormDialog = FormDialog.FromForm(this.BuildLeadForm, FormOptions.PromptInStart);
 

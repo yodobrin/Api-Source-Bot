@@ -145,7 +145,8 @@ namespace SourceBot.DataTypes
         public string Company { get; set; }
 
         // add a validation on the format and contact
-        [Prompt("Excelent, please provide your company name, so we can forward your request to the relavant person, in case you already a TAPI customer")]
+        [Prompt("Excelent, please provide your phone number ")]
+        [Pattern(RegexConstants.Phone)]
         [JsonProperty("Phone")]
         public string Phone { get; set; }
 
