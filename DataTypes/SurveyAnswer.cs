@@ -57,7 +57,7 @@ namespace SourceBot.DataTypes
             var leadCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("19.50"), locName),
-                Images = new List<CardImage> { new CardImage("https://tenor.com/search/irish-gifs") },
+                Images = new List<CardImage> { new CardImage("http://static.flickr.com/41/124082976_4c0da6dc61_o.jpg") },
                 //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
             };
 

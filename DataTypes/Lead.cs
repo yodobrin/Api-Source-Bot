@@ -28,8 +28,8 @@ namespace SourceBot.DataTypes
     [Serializable]
     public class Lead
     {
-        public const string PDF = "send-catalog";
-        public const string SEARCH = "search";
+        public const string PDF = "lead-send-catalog";
+        public const string SEARCH = "lead-search";
         public const string LEADCREATE = "lead-create";
         public const string UPDATE_ONCE_EXIST = "update-me-once-api";
         public const string CONTACT_TAPI = "contact-tapi";
@@ -227,7 +227,7 @@ namespace SourceBot.DataTypes
                 Subtitle = "This is what I know so far about as a lead...",
                 Text = message,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"{Action}"), new CardAction(ActionTypes.PostBack, "Revisit my details", value: "i am a dealer") }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"confirm-{Action}"), new CardAction(ActionTypes.PostBack, "Revisit my details", value: "i am a dealer") }
             };
 
             return leadCard.ToAttachment();

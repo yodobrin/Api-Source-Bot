@@ -208,10 +208,13 @@ namespace SourceBot.Dialogs
                 switch (inst.Entity)
                 {
                     case SurveyAnswer.NOT_AT_SAT:
+                        await context.PostAsync(Utilities.GetSentence("19.30"));
                         break;
                     case SurveyAnswer.NOT_SAT:
+                        await context.PostAsync(Utilities.GetSentence("19.30"));
                         break;
                     case SurveyAnswer.SAT:
+                        await context.PostAsync(Utilities.GetSentence("19.31"));
                         break;
                     case SurveyAnswer.VER_SAT:
                         //show somehting nice
