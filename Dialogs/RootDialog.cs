@@ -167,7 +167,7 @@ namespace SourceBot.Dialogs
         [LuisIntent("Conversation.End")]
         public async Task ConversationEndIntent(IDialogContext context, LuisResult result)
         {
-            context.Reset();
+            //context.Reset();
             context.EndConversation(ActivityTypes.EndOfConversation);
             //await this.ShowLuisResult(context, result);
         }
