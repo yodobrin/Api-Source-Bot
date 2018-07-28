@@ -29,7 +29,7 @@ namespace SourceBot.DataTypes
         public const string VER_SAT = "very satisfied";
         public const string SAT = "satisfied";
         public const string NOT_SAT = "not Sstisfied";
-        public const string NOT_AT_SAT = "not Sstisfied at all";
+        public const string NOT_AT_SAT = "not stisfied at all";
 
         public static Attachment GetSurveyCard(string locName)
         {

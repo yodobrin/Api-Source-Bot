@@ -163,6 +163,14 @@ namespace SourceBot.Dialogs
 
         }
 
+        
+        [LuisIntent("Conversation.End")]
+        public async Task ConversationEndIntent(IDialogContext context, LuisResult result)
+        {
+            context.Reset();
+            context.EndConversation(ActivityTypes.EndOfConversation);
+            //await this.ShowLuisResult(context, result);
+        }
 
 
         [LuisIntent("Cancel")]
@@ -262,8 +270,14 @@ namespace SourceBot.Dialogs
         {
             
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
-            await context.PostAsync($"A request was sent to our communication auto-broker with the {MyLead.Email} provided.");
-            context.Wait(this.MessageReceived);
+            // Infor the lead process ended
+            await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
+            // post a nice end message with an option to provide feedback (and share - not functional)
+            var message = context.MakeMessage();
+            message.Attachments.Add(GetEndCard());
+            await context.PostAsync(message);
+            //await context.Post("survey");
+            //context.Wait(this.MessageReceived);
         }
 
 
@@ -273,6 +287,22 @@ namespace SourceBot.Dialogs
             context.Wait(MessageReceived);
         }
 
+
+        private Attachment GetEndCard()
+        {
+            var endCard = new HeroCard
+            {
+                Title = $"{MyLead.Name} Thank you!",
+                //Subtitle = "TAPI's Source bots — Welcome tapi your api partner",
+                Text = "Care to provide us with feedback?",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey"),
+                    new CardAction(ActionTypes.PostBack, "No", value: "bye"),
+                    new CardAction(ActionTypes.PostBack, "Share in IN", value: "bye") }
+            };
+
+            return endCard.ToAttachment();
+        }
 
         private Attachment GetOpenCard(string name, string company)
         {
