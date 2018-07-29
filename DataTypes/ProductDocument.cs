@@ -180,7 +180,7 @@ namespace SourceBot.DataTypes
 
         private Attachment GetProductPic()
         {
-            string picURI = $"https://tapistore.blob.core.windows.net/{PackagingPIC}";
+            string picURI = $"https://tapistore.blob.core.windows.net/packingpics/{PackagingPIC}";
             var productCard = new HeroCard
             {
                 Title = $"Packing pic for {TapiProductName}",
