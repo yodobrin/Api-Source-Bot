@@ -55,7 +55,7 @@
 16 = Matching your search criteria
 16.1 = Showing up to 5 first results
 # share and feedback can be done after email is sent
-19 = Dear {0}, Thank you for using TAPIs sourcing tool, please rate your experience 
+19 = Dear {0} -  thank you for using TAPIs sourcing tool, please rate your experience 
 19.1 = Extremely Satisfied
 19.2 = Very Satisfied
 19.3 = Satisfied
@@ -66,6 +66,10 @@
 19.30 = Thanks for the feedback! And I am sorry to hear, what can I do to improve? 
 19.31 = Thanks for the feedback!
 19.50 = Thank you for using TAPI's sourcing tool {0}, Go méadaí Dia thú!
+19.60 = Care to provide us with feedback?
+19.70 = API Source Bot tailored for {0} @ {1}
+19.71 = Tapi bots — Welcome tapi your api partner
+19.72 = Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts.\n It's all here. You can search by typing sentences as below:
 22 = A request was sent to our communication auto-broker with the {0} provided.
 911.0 = Please type the API you are looking for ... 
 950 = An Error has occured
