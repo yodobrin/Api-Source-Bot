@@ -340,7 +340,7 @@ namespace SourceBot.Dialogs
         {
             foreach (ProductDocument prd in tproducts)
             {
-                await context.PostAsync($"I got {prd.MoleculeID} -- {prd.MoleculeName} -- {prd.TapiProductName} ");
+                await context.PostAsync($"I got {prd.MoleculeID} -- {prd.InnovatorMarketer} -- {prd.TapiProductName} ");
             }
         }
 
@@ -430,7 +430,7 @@ namespace SourceBot.Dialogs
             {
                 foreach (ProductDocument prd in tproducts)
                 {
-                    string.Concat(result, ",", prd.MoleculeName);
+                    string.Concat(result, ",", prd.TapiProductName);
                 }
                 MyLead.SetSubject( result);
             }

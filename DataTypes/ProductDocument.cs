@@ -49,19 +49,42 @@ namespace SourceBot.DataTypes
 
         private Dictionary<string, string> Data;
 
-
+        //1
         [JsonProperty("Molecule (Level 1) ID")]
         public string MoleculeID { get; set; }
-        [JsonProperty("Molecule Name (Level 1)")]
-        public string MoleculeName { get; set; }
+        //2
+        [JsonProperty("Molecule + Salt IMS Name")]
+        public string MoleculeSaltName { get; set; }
+        //3
         [JsonProperty("Tapi Product Name (Level 2)")]
         public string TapiProductName { get; set; }
-        [JsonProperty("Status (Calculated)")]
-        public string Status { get; set; }
+        //4
+        [JsonProperty("Innovator/Marketer")]
+        public string InnovatorMarketer { get; set; }
+        //5
+        [JsonProperty("CAS Number")]
+        public string CASNumber { get; set; }
+        //6
         [JsonProperty("Sub Status (Calculated)")]
         public string SubStatus { get; set; }
-        [JsonProperty("ATC 1")]
-        public string ATC { get; set; }
+        //7
+        [JsonProperty("DMF Availability")]
+        public string DMFAvailability { get; set; }
+        //8
+        [JsonProperty("Dosage Form")]
+        public string DosageForm { get; set; }
+        //9
+        [JsonProperty("Number of available samples")]
+        public string NumOfAvailSamples { get; set; }
+        //10
+        [JsonProperty("Packaging PIC")]
+        public string PackagingPIC { get; set; }
+        //11
+        [JsonProperty("LOA indication (Y/N)")]
+        public string LOAInd { get; set; }
+        //12
+        [JsonProperty("COA (Y/N)")]
+        public string COAInd { get; set; }
 
 
 
@@ -78,14 +101,23 @@ namespace SourceBot.DataTypes
         }
 
         [JsonConstructor]
-        public ProductDocument(string moleculeID, string moleculeName, string tapiProductName, string status, string subStatus, string aTC)
+        public ProductDocument(string moleculeID, string moleculeSaltName, string tapiProductName, 
+            string innovatorMarketer, string cASNumber, string subStatus, string dMFAvailability,
+            string dosageForm, string numOfAvailSamples , string packagingPIC, string lOAInd, string cOAInd)
         {
             MoleculeID = moleculeID;
-            MoleculeName = moleculeName;
+            MoleculeSaltName = moleculeSaltName;
             TapiProductName = tapiProductName;
-            Status = status;
+            InnovatorMarketer = innovatorMarketer;
+            CASNumber = cASNumber;
             SubStatus = subStatus;
-            ATC = aTC;
+            DMFAvailability = dMFAvailability;
+            DosageForm = dosageForm;
+            NumOfAvailSamples = numOfAvailSamples;
+            PackagingPIC = packagingPIC;
+            LOAInd = lOAInd;
+            COAInd = cOAInd;
+            
         }
 
         public Attachment GetProductCard(string option)
@@ -130,7 +162,7 @@ namespace SourceBot.DataTypes
         {
             var productCard = new ThumbnailCard
             {
-                Title = string.Format(Utilities.GetSentence("12"), MoleculeName),
+                Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
                 Subtitle = Utilities.GetSentence("12.1"),
                 Text = Utilities.GetSentence("12.2"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
@@ -144,7 +176,7 @@ namespace SourceBot.DataTypes
         {
             var productCard = new ThumbnailCard
             {
-                Title = string.Format(Utilities.GetSentence("12.0"),MoleculeName ) ,
+                Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
                 Subtitle = Utilities.GetSentence("12.01"),
                 Text = Utilities.GetSentence("12.02"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/laszlo-article-for-hp-june-2018.jpg") },
@@ -160,7 +192,7 @@ namespace SourceBot.DataTypes
         {
             var productCard = new HeroCard
             {
-                Title = Utilities.GetSentence("12.10") +$" : {MoleculeName} " ,
+                Title = Utilities.GetSentence("12.10") +$" : {TapiProductName} " ,
                 Subtitle = Utilities.GetSentence("12.11"),
                 Text = Utilities.GetSentence("12.12"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },

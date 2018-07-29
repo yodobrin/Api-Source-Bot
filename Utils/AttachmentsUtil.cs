@@ -112,7 +112,7 @@ namespace SourceBot.Utils
                 foreach (ProductDocument prd in tproducts)
                 {
                     if (count == ProductDocument.MAX_PROD_IN_RESULT) break;
-                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.MoleculeName}", value: $"find me {prd.MoleculeID}"));
+                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.TapiProductName}", value: $"find me {prd.MoleculeID}"));
                     count++;
                 }
             }

@@ -239,7 +239,7 @@ namespace SourceBot.DataTypes
             {
                 foreach (ProductDocument prd in tproducts)
                 {
-                    string.Concat(result, ",", prd.MoleculeName);
+                    string.Concat(result, ",", prd.TapiProductName);
                 }
                 Subject = result;
             }
