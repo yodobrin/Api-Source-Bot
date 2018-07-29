@@ -97,8 +97,8 @@ namespace SourceBot.DataTypes
                 case "LOA indication": return LOAInd;
                 case "Packaging PIC": return PackagingPIC;
                 case "Number of available samples": return NumOfAvailSamples;
-                case "Dosage Form": return DosageForm.Replace(';','\r');
-                case "DMF Availability": return DMFAvailability.Replace(';', '\r');
+                case "Dosage Form": return DosageForm.Replace(';','\n');
+                case "DMF Availability": return DMFAvailability.Replace(';', '\n');
                 case "Sub Status (Calculated)": return SubStatus;
                 case "CAS Number": return CASNumber;
                 case "Innovator/Marketer": return InnovatorMarketer;
@@ -153,7 +153,7 @@ namespace SourceBot.DataTypes
 
         public Attachment GetProductCat(string category)
         {
-            var productCard = new ThumbnailCard
+            var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.40"), category),
                 Subtitle = Utilities.GetSentence("12.41"),
