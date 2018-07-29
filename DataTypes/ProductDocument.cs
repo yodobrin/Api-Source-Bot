@@ -47,7 +47,7 @@ namespace SourceBot.DataTypes
 
         public const int MAX_PROD_IN_RESULT = 5;
 
-        private Dictionary<string, string> Data;
+        //private Dictionary<string, string> Data;
 
         //1
         [JsonProperty("Molecule (Level 1) ID")]
@@ -97,8 +97,8 @@ namespace SourceBot.DataTypes
                 case "LOA indication": return LOAInd;
                 case "Packaging PIC": return PackagingPIC;
                 case "Number of available samples": return NumOfAvailSamples;
-                case "Dosage Form": return DosageForm;
-                case "DMF Availability": return DMFAvailability;
+                case "Dosage Form": return DosageForm.Replace(';','\n');
+                case "DMF Availability": return DMFAvailability.Replace(';', '\n');
                 case "Sub Status (Calculated)": return SubStatus;
                 case "CAS Number": return CASNumber;
                 case "Innovator/Marketer": return InnovatorMarketer;
@@ -108,14 +108,9 @@ namespace SourceBot.DataTypes
                 default: return string.Format(NO_SUCH_CAT, cat);
             }
 
-            //if (Data==null)
-            //{
-            //    string json = JsonConvert.SerializeObject(this);
-            //    Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
-            //}
-            //if (Data.TryGetValue(cat, out res)) return res;
-            //else return string.Format(NO_SUCH_CAT,cat);
+         
         }
+
 
         [JsonConstructor]
         public ProductDocument(string moleculeID, string moleculeSaltName, string tapiProductName, 
