@@ -285,54 +285,6 @@ namespace SourceBot.Dialogs
         }
 
 
-        //private Attachment GetEndCard()
-        //{
-        //    var endCard = new HeroCard
-        //    {
-        //        Title = $"{MyLead.Name} Thank you!",
-        //        //Subtitle = "TAPI's Source bots — Welcome tapi your api partner",
-        //        Text = "Care to provide us with feedback?",
-        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey"),
-        //            new CardAction(ActionTypes.PostBack, "No", value: "bye"),
-        //            new CardAction(ActionTypes.PostBack, "Share in IN", value: "bye") }
-        //    };
-
-        //    return endCard.ToAttachment();
-        //}
-
-        //private Attachment GetOpenCard(string name, string company)
-        //{
-        //    var openCard = new HeroCard
-        //    {
-        //        Title = $"API Source Bot tailored for {name} @ {company}",
-        //        Subtitle = "Tapi bots — Welcome tapi your api partner",
-        //        Text = "Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts.\n It's all here. You can search by typing sentences as below:!",
-        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
-        //    };
-
-        //    return openCard.ToAttachment();
-        //}
-
-        //private Attachment GetErrorCard(string code)
-        //{
-        //    var openCard = new HeroCard
-        //    {
-        //        Title = Utilities.GetSentence("950"),
-        //        Subtitle = string.Format(Utilities.GetSentence("951"),code),
-        //        Text = Utilities.GetSentence("952"),
-        //        Images = new List<CardImage> { new CardImage("https://cdn.dribbble.com/users/7770/screenshots/3935947/oh_snap_404_1x.jpg") }
-        //        //Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
-        //    };
-
-        //    return openCard.ToAttachment();
-        //}
-
-
-
-
-
         /**
         * Spits out the products found
         */
@@ -376,52 +328,7 @@ namespace SourceBot.Dialogs
            
         }
 
-        //private static Attachment GetNoResults(string query)
-        //{
-        //    var productCard = new ThumbnailCard
-        //    {
-        //        Title = Utilities.GetSentence("5"),
-        //        Subtitle = string.Format(Utilities.GetSentence("5.1"), query),
-        //        Text = Utilities.GetSentence("5.2"),
-        //        Images = new List<CardImage> { new CardImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHEl-j7JobwiGjkbpCBVemqrUKp9EQFtPQOyOLXIBsAvycS8Kx") },
-        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("6"), value: Lead.CONTACT_TAPI),
-        //        new CardAction(ActionTypes.PostBack, Utilities.GetSentence("7"), value: Lead.PDF),
-        //        new CardAction(ActionTypes.PostBack, Utilities.GetSentence("8"), value: Lead.UPDATE_ONCE_EXIST)
-        //        }
-        //    };
-
-        //    return productCard.ToAttachment();
-
-        //}
-
-        //private static Attachment GetResultCard(IList<ProductDocument> tproducts)
-        //{
-        //    string suffix = "";
-        //    int count = 0;
-        //    if (tproducts.Count == 1) return tproducts[0].GetProductCard(ProductDocument.CONFIRM);
-        //    List<CardAction> buttons = new List<CardAction>();
-        //    if (tproducts.Count > 0)
-        //    {
-        //        suffix = (tproducts.Count == 1) ? "" : "s";
-                
-        //        foreach (ProductDocument prd in tproducts)
-        //        {
-        //            if (count == ProductDocument.MAX_PROD_IN_RESULT) break;
-        //            buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.MoleculeName}", value: $"find me {prd.MoleculeID}"));
-        //            count++;
-        //        }
-        //    }
-        //    var resultCard = new HeroCard
-        //    {
-        //        Title = $"I found: {tproducts.Count} product{suffix}.",
-        //        Subtitle = Utilities.GetSentence("16"),
-        //        Text = Utilities.GetSentence("16.1"),
-        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0000_inspections.jpg") },
-        //        Buttons = buttons
-        //    };
-
-        //    return resultCard.ToAttachment();
-        //}
+        
 
         private void SetSubject(IList<ProductDocument> tproducts)
         {
@@ -454,32 +361,13 @@ namespace SourceBot.Dialogs
         {
             object obj = await result;
             MyLead.SetAction(Action);
-
-
-            //await context.PostAsync($"Hi { MyLead.Name}! And thank you for using APISourceBot !");
             // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
             var message = context.MakeMessage();
             message.Attachments.Add(MyLead.GetLeadCard(tproducts));
             await context.PostAsync(message);
         }
 
-        //private Attachment GetLeadCard9()
-        //{
-        //    if (tproducts != null && tproducts.Count > 0 && MyLead!=null) SetSubject(tproducts);
-
-        //    MyLead = (MyLead != null) ? MyLead : new Lead("dum");
-        //    var leadCard = new ThumbnailCard
-        //    {
-        //        Title = $"Hello {MyLead.Name} @ {MyLead.Company}",
-        //        Subtitle = "This is what I know so far about as a lead...",
-        //        Text = $"Your Email: {MyLead.Email}\n You were searching for {MyLead.GetSubject()}",
-        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: "confirm-lead-creation"), new CardAction(ActionTypes.PostBack, "Revisit Details", value: "i am a dealer") }
-        //    };
-
-        //    return leadCard.ToAttachment();
-        //}
-
+        
         
 
     }
