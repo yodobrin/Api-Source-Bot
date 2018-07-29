@@ -98,7 +98,7 @@ namespace SourceBot.DataTypes
                 case "Packaging PIC": return PackagingPIC;
                 case "Number of available samples": return NumOfAvailSamples;
                 case "Dosage Form": return DosageForm.Replace(';','\n');
-                case "DMF Availability": return DMFAvailability.Replace(';', '\n');
+                case "DMF Availability": return GetFormated(DMFAvailability, ';');// , '\n');
                 case "Sub Status (Calculated)": return SubStatus;
                 case "CAS Number": return CASNumber;
                 case "Innovator/Marketer": return InnovatorMarketer;
@@ -111,6 +111,16 @@ namespace SourceBot.DataTypes
          
         }
 
+        private string GetFormated(string value, char delim)
+        {
+            string message = "";
+            string[] splits = value.Split(delim);
+            foreach(string split in splits)
+            {
+                message += split + "\n";
+            }
+            return message;
+        }
 
         [JsonConstructor]
         public ProductDocument(string moleculeID, string moleculeSaltName, string tapiProductName, 
