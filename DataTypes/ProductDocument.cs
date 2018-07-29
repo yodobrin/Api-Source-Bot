@@ -117,7 +117,7 @@ namespace SourceBot.DataTypes
             string[] splits = value.Split(delim);
             foreach(string split in splits)
             {
-                message += split + "\n";
+                message += split + "\n\n";
             }
             return message;
         }
