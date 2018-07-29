@@ -90,14 +90,31 @@ namespace SourceBot.DataTypes
 
         public string GetCategory(string cat)
         {
-            string res;
-            if (Data==null)
+            //string res;
+            switch(cat)
             {
-                string json = JsonConvert.SerializeObject(this);
-                Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+                case "COA": return COAInd;
+                case "LOA indication": return LOAInd;
+                case "Packaging PIC": return PackagingPIC;
+                case "Number of available samples": return NumOfAvailSamples;
+                case "Dosage Form": return DosageForm;
+                case "DMF Availability": return DMFAvailability;
+                case "Sub Status (Calculated)": return SubStatus;
+                case "CAS Number": return CASNumber;
+                case "Innovator/Marketer": return InnovatorMarketer;
+                case "Tapi Product Name(Level 2)": return TapiProductName;
+                case "Molecule + Salt IMS Name": return MoleculeSaltName;
+                case "Molecule (Level 1) ID": return MoleculeID;
+                default: return string.Format(NO_SUCH_CAT, cat);
             }
-            if (Data.TryGetValue(cat, out res)) return res;
-            else return string.Format(NO_SUCH_CAT,cat);
+
+            //if (Data==null)
+            //{
+            //    string json = JsonConvert.SerializeObject(this);
+            //    Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(json);
+            //}
+            //if (Data.TryGetValue(cat, out res)) return res;
+            //else return string.Format(NO_SUCH_CAT,cat);
         }
 
         [JsonConstructor]
