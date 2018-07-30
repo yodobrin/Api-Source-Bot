@@ -151,7 +151,7 @@ namespace SourceBot.Dialogs
                         alead.SetMessageType(ProductDocument.FETCH_BY_MAIL);
                         alead.SetSubject(tproducts[0].MoleculeID);
                         alead.SetProduct(tproducts[0]);
-                        await context.PostAsync(tproducts[0].ToMessage());
+                        
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage());
                         await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
                     }
@@ -282,6 +282,7 @@ namespace SourceBot.Dialogs
 
             MyLead.SetMessageType(Lead.LEADCREATE);
             MyLead.SetSubject("A contact with these details expressed interest");
+            MyLead.SetProduct(tproducts[0]);
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
             // Infor the lead process ended
             await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
