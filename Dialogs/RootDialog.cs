@@ -63,7 +63,9 @@ namespace SourceBot.Dialogs
         [LuisIntent("None")]
         public async Task NoneIntent(IDialogContext context, LuisResult result)
         {
-            await this.ShowLuisResult(context, result);
+            Action = Lead.SEARCH;
+            await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
+            // await this.ShowLuisResult(context, result);
         }
 
        // TODO
@@ -149,6 +151,7 @@ namespace SourceBot.Dialogs
                         alead.SetMessageType(ProductDocument.FETCH_BY_MAIL);
                         alead.SetSubject(tproducts[0].MoleculeID);
                         alead.SetProduct(tproducts[0]);
+                        await context.PostAsync(tproducts[0].ToMessage());
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage());
                         await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
                     }
