@@ -52,6 +52,21 @@ namespace SourceBot.Utils
             return endCard.ToAttachment();
         }
 
+        public static Attachment GetSpellSuggestCard(string original, string altered)
+        {
+            var spellCard = new HeroCard
+            {
+                Title = $"You reach spell suggestion",
+                Text = $"Do you want to continue and search for {original} or {altered}",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Original", value: original),
+                    new CardAction(ActionTypes.PostBack, "Suggested", value: altered) }
+            };
+
+            return spellCard.ToAttachment();
+        }
+
+
 
         public static Attachment GetOpenCard(string name, string company)
         {

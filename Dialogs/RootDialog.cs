@@ -49,7 +49,6 @@ namespace SourceBot.Dialogs
         public RootDialog() : base(new LuisService(GetLuisModelAttribute()))
         {
             tproducts = new List<ProductDocument>();
-           
         }
 
         //public RootDialog() : base(new LuisService(new LuisModelAttribute(
@@ -81,8 +80,12 @@ namespace SourceBot.Dialogs
         {
             Action = Lead.SEARCH;
             string altered = await this.spellService.GetCorrectedTextAsync(result.Query);
-            await context.PostAsync($"query:{result.Query} --- alterquery {altered}");
-            await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.GetSpellSuggestCard(result.Query,altered));
+            await context.PostAsync(message);
+
+            //await context.PostAsync($"query:{result.Query} --- alterquery {altered}");
+            //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             // await this.ShowLuisResult(context, result);
         }
 
