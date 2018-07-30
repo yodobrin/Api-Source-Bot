@@ -175,7 +175,7 @@ namespace SourceBot.DataTypes
         {
             //    return "wtf";
            SetTimeStamp();
-           return JsonConvert.SerializeObject(this);
+           return JsonConvert.SerializeObject(this, Formatting.None);
         }
 
         public void SetSubject(string subject)

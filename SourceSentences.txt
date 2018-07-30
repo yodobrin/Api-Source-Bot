@@ -23,7 +23,7 @@
 5.1 = You searched for {0}
 5.2 = What do you want to do next?
 6 = Contact TAPI For more Questions
-7 = Send catalog by email
+7 = Send TAPIs catalog by email
 8 = Update me when you have the API
 9 = OK, I will need a few contact details first...
 12 = I Found {0} in my catalog

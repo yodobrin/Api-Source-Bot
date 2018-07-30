@@ -87,8 +87,8 @@ namespace SourceBot.DataTypes
         public string COAInd { get; set; }
 
         public string ToMessage()
-        {           
-           return JsonConvert.SerializeObject(this);
+        {                       
+           return JsonConvert.SerializeObject(this,Formatting.None);
         }
 
         public string GetCategory(string cat)

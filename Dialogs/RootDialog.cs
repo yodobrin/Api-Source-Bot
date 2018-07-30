@@ -46,19 +46,35 @@ namespace SourceBot.Dialogs
         public IList<ProductDocument> tproducts;
         string Action = Lead.SEARCH;
 
-        public RootDialog() : base(new LuisService(new LuisModelAttribute(
-            ConfigurationManager.AppSettings["LuisAppId"], 
-            ConfigurationManager.AppSettings["LuisAPIKey"], 
-            domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
+        public RootDialog() : base(new LuisService(GetLuisModelAttribute()))
         {
             tproducts = new List<ProductDocument>();
            
         }
-        
+
+        //public RootDialog() : base(new LuisService(new LuisModelAttribute(
+        //   ConfigurationManager.AppSettings["LuisAppId"],
+        //   ConfigurationManager.AppSettings["LuisAPIKey"],
+        //   domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
+        //{
+        //    tproducts = new List<ProductDocument>();
+
+        //}
+
+        private static LuisModelAttribute GetLuisModelAttribute()
+        {
+            var attribute = new LuisModelAttribute(
+            ConfigurationManager.AppSettings["LuisAppId"],
+            ConfigurationManager.AppSettings["LuisAPIKey"],
+            domain: ConfigurationManager.AppSettings["LuisAPIHostName"]);
+            attribute.BingSpellCheckSubscriptionKey = ConfigurationManager.AppSettings["BingSpellcheckKey"];
+            return attribute;
+        }
+
         /**
          * Intents Section
          *
-         */ 
+         */
 
         [LuisIntent("None")]
         public async Task NoneIntent(IDialogContext context, LuisResult result)
