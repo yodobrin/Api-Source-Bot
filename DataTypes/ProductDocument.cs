@@ -86,9 +86,23 @@ namespace SourceBot.DataTypes
         [JsonProperty("COA (Y/N)")]
         public string COAInd { get; set; }
 
-        public string ToMessage()
+        public string ToMessage3()
         {                       
            return JsonConvert.SerializeObject(this,Formatting.None);
+        }
+
+      //  {"molecule (Level 1)\nID":"a1F24000000MbKf","molecule + Salt IMS Name":"MUPIROCIN BASE","tapi\nProduct Name (Level\n2)":"Mupirocin","innovator/Marketer":"GlaxoSmithKline","caS\nNumber":"12650-69-0","sub Status (Calculated)":"Commercial","dmF\nAvailability":"CEP; EU DMF; US DMF; Other","dosage Form":"M - TOPICAL/\nDERMATOLOGICAL (Ointements/ Creams/ Lotions/ Gelsג€¦); Q - NASAL\nTOPICAL","number of available samples":"Less then 3","packaging\nPIC":"Mupirocin_60.png","loA indication (Y/N)":"Y","coA\n(Y/N)":"Y"}
+
+    public string ToMessage()
+        {
+            string message = $"\"molecule (Level 1) ID\":\"{MoleculeID}\",\"molecule + Salt IMS Name\":\"{MoleculeSaltName}\"," +
+                $"\"tapi Product Name (Level 2)\":\"{TapiProductName}\",\"innovator/Marketer\":\"{InnovatorMarketer}\"," +
+                $"\"caS Number\":\"{CASNumber}\",\"sub Status (Calculated)\":\"{SubStatus}\",\"dmF nAvailability\":\"{DMFAvailability}\"," +
+                $"\"dosage Form\":\"{DosageForm}\",\"number of available samples\":\"{NumOfAvailSamples}\",\"packaging PIC\":\"{PackagingPIC}\"," +
+                $"\"loA indication (Y/N)\":\"{LOAInd}\"," + $"\"coA (Y/N)\":\"{COAInd}\",";
+
+
+            return message;
         }
 
         public string GetCategory(string cat)
