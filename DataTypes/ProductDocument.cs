@@ -95,13 +95,11 @@ namespace SourceBot.DataTypes
 
     public string ToMessage()
         {
-            string message = $"\"molecule (Level 1) ID\":\"{MoleculeID}\",\"molecule + Salt IMS Name\":\"{MoleculeSaltName}\"," +
-                $"\"tapi Product Name (Level 2)\":\"{TapiProductName}\",\"innovator/Marketer\":\"{InnovatorMarketer}\"," +
-                $"\"caS Number\":\"{CASNumber}\",\"sub Status (Calculated)\":\"{SubStatus}\",\"dmF nAvailability\":\"{DMFAvailability}\"," +
-                $"\"dosage Form\":\"{DosageForm}\",\"number of available samples\":\"{NumOfAvailSamples}\",\"packaging PIC\":\"{PackagingPIC}\"," +
-                $"\"loA indication (Y/N)\":\"{LOAInd}\"," + $"\"coA (Y/N)\":\"{COAInd}\",";
-
-
+            string message = "{\"molecule (Level 1) ID\":\""+MoleculeID+"\",\"molecule + Salt IMS Name\":\""+MoleculeSaltName+"\"," +
+                "\"tapi Product Name (Level 2)\":\""+TapiProductName+"\",\"innovator/Marketer\":\""+InnovatorMarketer+"\"," +
+                "\"caS Number\":\""+CASNumber+"\",\"sub Status (Calculated)\":\""+SubStatus+"\",\"dmF Availability\":\""+DMFAvailability+"\"," +
+                "\"dosage Form\":\""+DosageForm+"\",\"number of available samples\":\""+NumOfAvailSamples+"\",\"packaging PIC\":\""+PackagingPIC+"\"," +
+                "\"loA indication (Y/N)\":\""+LOAInd+"\"," + "\"coA (Y/N)\":\""+COAInd+"\"}";
             return message;
         }
 
