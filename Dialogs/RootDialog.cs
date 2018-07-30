@@ -39,9 +39,9 @@ namespace SourceBot.Dialogs
     [Serializable]
     public class RootDialog : LuisDialog<object>
     {
-		
-       
 
+
+        private readonly BingSpellService spellService = new BingSpellService();
         Lead MyLead; 
         public IList<ProductDocument> tproducts;
         string Action = Lead.SEARCH;
@@ -80,7 +80,8 @@ namespace SourceBot.Dialogs
         public async Task NoneIntent(IDialogContext context, LuisResult result)
         {
             Action = Lead.SEARCH;
-            await context.PostAsync($"query:{result.Query} --- alterquery{result.AlteredQuery}");
+            string altered = await this.spellService.GetCorrectedTextAsync(result.Query);
+            await context.PostAsync($"query:{result.Query} --- alterquery {altered}");
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             // await this.ShowLuisResult(context, result);
         }

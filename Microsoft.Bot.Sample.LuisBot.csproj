@@ -256,6 +256,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AttachmentsUtil.cs" />
+    <Compile Include="Utils\BingSpellService.cs" />
     <Compile Include="Utils\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
