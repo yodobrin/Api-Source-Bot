@@ -95,17 +95,10 @@ namespace SourceBot.DataTypes
 
     public string ToMessage()
         {
-            string message = "<li> Molecule (Level 1) ID: "+MoleculeID+ "<br><li> Mmolecule + Salt IMS Name: " + MoleculeSaltName+"<br>" +
-                "<li>Tapi Product Name (Level 2): " + TapiProductName+ "<br><li> Innovator/Marketer: " + InnovatorMarketer+"<br>" +
-                "<li>CAS Number: " + CASNumber + "<br><li>sub Status (Calculated):" + SubStatus+ "<br><li>DMF Availability:" + DMFAvailability+"<br>" +
-                "<li>dosage Form: " + DosageForm + "<br><li> Number of available samples:" + NumOfAvailSamples+ 
-                "<li>LOA indication (Y/N):" + LOAInd+"<br><li>coA (Y/N): " + COAInd+"<br>";
-            return message;
-        }
-        public string toMess()
-        {
-            string message = "";
-
+            string message = "<br> Innovator/Marketer: " + InnovatorMarketer+" \n\n" +
+                "CAS Number: " + CASNumber + "\n\n Sub Status (Calculated): " + SubStatus+ "\n\n DMF Availability: " + DMFAvailability+ "\n\n " +
+                "Dosage Form: " + DosageForm + "\n\n Number of available samples: " + NumOfAvailSamples+ 
+                "LOA indication (Y/N):" + LOAInd+ "\n\n COA (Y/N): " + COAInd+"\n\n";
             return message;
         }
 
