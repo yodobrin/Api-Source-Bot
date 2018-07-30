@@ -214,7 +214,7 @@ namespace SourceBot.DataTypes
 
         private Attachment GetProductConfirm()
         {
-            var productCard = new ThumbnailCard
+            var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
                 Subtitle = Utilities.GetSentence("12.1"),
@@ -228,7 +228,7 @@ namespace SourceBot.DataTypes
 
         private Attachment GetHighligh()
         {
-            var productCard = new ThumbnailCard
+            var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
                 Subtitle = Utilities.GetSentence("12.01"),
