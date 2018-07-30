@@ -86,7 +86,10 @@ namespace SourceBot.DataTypes
         [JsonProperty("COA (Y/N)")]
         public string COAInd { get; set; }
 
-
+        public string ToMessage()
+        {           
+           return JsonConvert.SerializeObject(this);
+        }
 
         public string GetCategory(string cat)
         {

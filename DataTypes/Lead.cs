@@ -162,7 +162,7 @@ namespace SourceBot.DataTypes
         private string TimeStamp { get; set; }
 
         [JsonProperty("Product")]
-        private ProductDocument Product { get; set; }
+        private string Product { get; set; }
 
 
         [Prompt("Any Comments? Information you provide will help us to provide information in the most accurate way, for example which documents are required? What is the quanitity of the API you need? Do you need price quatation? etc.")]
@@ -190,7 +190,7 @@ namespace SourceBot.DataTypes
 
         public void SetProduct(ProductDocument product)
         {
-            Product = product;
+            Product = product.ToMessage();
         }
 
 
