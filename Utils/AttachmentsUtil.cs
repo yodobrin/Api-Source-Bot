@@ -24,7 +24,7 @@ using Microsoft.Bot.Builder.Luis.Models;
 
 
 using System.Collections.Generic;
-using SourceBot.Utils;
+using System;
 
 using SourceBot.DataTypes;
 using SourceBot.Dialogs;
@@ -35,6 +35,7 @@ using Microsoft.Bot.Connector;
 
 namespace SourceBot.Utils
 {
+    [Serializable]
     public class AttachmentsUtil
     {
         public static Attachment GetEndCard(string name)

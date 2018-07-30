@@ -21,8 +21,10 @@ using System.Threading.Tasks;
 using System.Web.Configuration;
 using Newtonsoft.Json;
 using System.Configuration;
+using System;
 namespace SourceBot.Utils
 {
+    [Serializable]
     public class BingSpellService
     {
         /// <summary>
@@ -89,7 +91,7 @@ namespace SourceBot.Utils
         }
     }
 
-
+    [Serializable]
     public class BingSpellCheckResponse
     {
         [JsonProperty("_type")]
@@ -100,6 +102,7 @@ namespace SourceBot.Utils
         public BingSpellCheckError Error { get; set; }
     }
 
+    [Serializable]
     public class BingSpellCheckFlaggedToken
     {
         public int Offset { get; set; }
@@ -111,12 +114,14 @@ namespace SourceBot.Utils
         public BingSpellCheckSuggestion[] Suggestions { get; set; }
     }
 
+    [Serializable]
     public class BingSpellCheckSuggestion
     {
         public string Suggestion { get; set; }
 
         public double Score { get; set; }
     }
+    [Serializable]
     public class BingSpellCheckError
     {
         public int StatusCode { get; set; }

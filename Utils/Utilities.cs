@@ -24,14 +24,14 @@ using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System;
 
 
 namespace SourceBot.Utils
 {
-	
 
-	public class Utilities
+    [Serializable]
+    public class Utilities
 	{
         // messages file
         private static Dictionary<string, string> Sentences;
