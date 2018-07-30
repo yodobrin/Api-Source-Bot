@@ -19,7 +19,7 @@
 0 = Welcome to the TAPIs API sourcing tool. To start type the API name you are looking for.
 1 = My test sentence
 2 = A test sentence with {0} parameters, {1} 
-5 = No products were found matching your search
+5 = No products were found.
 5.1 = You searched for {0}
 5.2 = What do you want to do next?
 6 = Contact TAPI For more Questions

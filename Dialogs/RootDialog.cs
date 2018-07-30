@@ -206,7 +206,7 @@ namespace SourceBot.Dialogs
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             // setting the action to search
-            Action = Lead.SEARCH;
+            Action = ProductDocument.FETCH_BY_MAIL;// Lead.SEARCH;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
 
         }
@@ -280,8 +280,8 @@ namespace SourceBot.Dialogs
         public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
         {
 
-            MyLead.SetMessageType(Lead.LEADCREATE);
-            MyLead.SetSubject("A contact with these details expressed interest");
+            MyLead.SetMessageType(Action);
+            //MyLead.SetSubject("A contact with these details expressed interest");
             MyLead.SetProduct(tproducts[0]);
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
             // Infor the lead process ended
