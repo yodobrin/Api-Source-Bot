@@ -56,11 +56,11 @@ namespace SourceBot.Utils
         {
             var spellCard = new HeroCard
             {
-                Title = $"You reach spell suggestion",
-                Text = $"Do you want to continue and search for {original} or {altered}",
+                Title = $"Spell Suggestion",
+                //Text = $"Do you want to continue and search for {original} or  {altered}",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Original", value: original),
-                    new CardAction(ActionTypes.PostBack, "Suggested", value: altered) }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Original-"+original, value: original),
+                    new CardAction(ActionTypes.PostBack, "Suggested-"+altered, value: altered) }
             };
 
             return spellCard.ToAttachment();
