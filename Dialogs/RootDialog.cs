@@ -80,6 +80,7 @@ namespace SourceBot.Dialogs
         public async Task NoneIntent(IDialogContext context, LuisResult result)
         {
             Action = Lead.SEARCH;
+            await context.PostAsync($"query:{result.Query} --- alterquery{result.AlteredQuery}");
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
             // await this.ShowLuisResult(context, result);
         }
