@@ -49,7 +49,7 @@
 12.25 = Packaging PIC
 12.26 = LOA indication 
 12.27 = COA
-12.28 = Full Pack
+#12.28 = Full Pack
 12.40 = Category {0}
 12.41 = Has the following information
 16 = Matching your search criteria
@@ -65,7 +65,8 @@
 19.20 = survey-answer {0}
 19.30 = Thanks for the feedback! And I am sorry to hear, what can I do to improve? 
 19.31 = Thanks for the feedback!
-19.50 = {0} - Thank you for using TAPI's sourcing tool. \n Go méadaí Dia thú!
+19.50 = {0} - Thank you for using TAPI's sourcing tool.
+#\n Go méadaí Dia thú!
 19.60 = Care to provide us with feedback?
 19.70 = API Source Bot tailored for {0} @ {1}
 19.71 = Tapi bots — Welcome tapi your api partner

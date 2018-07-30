@@ -43,7 +43,12 @@ namespace SourceBot.Utils
         static string ServiceBusConnString = null;
 		static string ServiceBusKey = null;
 		static string QueueName = null;
-		static IQueueClient queueClient = null;
+
+        //static string LeadQueueName = null;
+        //static string SurveyQueueName = null;
+        //static string QueueName = null;
+
+        static IQueueClient queueClient = null;
 
 		// Azure Searxh Area
 

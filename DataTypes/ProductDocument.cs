@@ -243,8 +243,8 @@ namespace SourceBot.DataTypes
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.24"), value: Utilities.GetSentence("12.24")) ,
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.25"), value: Utilities.GetSentence("12.25")) ,
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.28"), value: Utilities.GetSentence("12.28")) }            
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")) }
+                                                 //new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.28"), value: Utilities.GetSentence("12.28")) }            
             };
 
             return productCard.ToAttachment();

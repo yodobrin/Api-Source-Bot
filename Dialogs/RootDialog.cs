@@ -82,8 +82,9 @@ namespace SourceBot.Dialogs
             
             if ( context.PrivateConversationData.TryGetValue("bot-lead", out alead) )
             {
-              dialog.SetLead(alead);
-                await context.PostAsync($"A lead is on the private data{alead.Name}");
+              //dialog.SetLead(alead);
+                MyLead = alead;
+                //await context.PostAsync($"A lead is on the private data{alead.Name}");
             }
             
             else context.Call(dialog, this.ResumeAfterForm);           
@@ -99,9 +100,14 @@ namespace SourceBot.Dialogs
 
             if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
-                MyLead = alead;
-                MyLead.SetAction(Action);
-                await context.PostAsync($"A lead is on the private data{alead.Name}");
+                alead.SetMessageType(Lead.PDF);
+                alead.SetSubject("A lead is interested in the catalog pdf.");
+                await Utilities.AddMessageToQueueAsync(alead.ToMessage());
+                await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
+                //MyLead = alead;
+                //MyLead.SetAction(Action);
+                //// need to add a message to a queue
+                //await context.PostAsync($"A lead is on the private data{alead.Name}");
             }
 
             else context.Call(dialog, this.ResumeAfterForm);
@@ -139,7 +145,10 @@ namespace SourceBot.Dialogs
                     Lead alead;
                     DetailsDialog dialog = new DetailsDialog();
                     if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
-                    {                    
+                    {
+                        alead.SetMessageType(ProductDocument.FETCH_BY_MAIL);
+                        alead.SetSubject(tproducts[0].MoleculeID);
+                        alead.SetProduct(tproducts[0]);
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage());
                         await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
                     }
@@ -209,6 +218,7 @@ namespace SourceBot.Dialogs
             if (entities != null && entities.Count > 0)
             {
                 // ONLY take the first entity
+                // TODO - why is the not at all, and not sat are not showing any message
                 EntityRecommendation inst = entities[0];
                 //await context.PostAsync($"the entity is {inst.Entity}");
                 switch (inst.Entity)
@@ -266,7 +276,9 @@ namespace SourceBot.Dialogs
         [LuisIntent("CRM.SubmitLead")]
         public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
         {
-            
+
+            MyLead.SetMessageType(Lead.LEADCREATE);
+            MyLead.SetSubject("A contact with these details expressed interest");
             await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
             // Infor the lead process ended
             await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));

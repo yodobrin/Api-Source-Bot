@@ -145,39 +145,58 @@ namespace SourceBot.DataTypes
         public string Company { get; set; }
 
         // add a validation on the format and contact
-        [Prompt("Excelent, please provide your phone number ")]
+        [Prompt("Thanks, please provide your phone number ")]
         [Pattern(RegexConstants.Phone)]
         [JsonProperty("Phone")]
         public string Phone { get; set; }
 
-        //[JsonProperty("Name")]
-        //public string Name { get; set; }
-
-
-        // will be taken from an app setting        
-        //[JsonProperty("Lead Source")]
-        //public string LeadSource { get; set; }
+       
 
         [JsonProperty("Subject")]
         private string Subject { get; set; }
+
+        [JsonProperty("Message-Type")]
+        private string MessageType { get; set; }
+
+        [JsonProperty("Time-Stamp")]
+        private string TimeStamp { get; set; }
+
+        [JsonProperty("Product")]
+        private ProductDocument Product { get; set; }
+
 
         [Prompt("Any Comments? Information you provide will help us to provide information in the most accurate way, for example which documents are required? What is the quanitity of the API you need? Do you need price quatation? etc.")]
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 
         
-        //[JsonProperty("Creation Time")]
-        //public string CreationTime { get; set; }
 
         public string ToMessage()
         {
-        //    return "wtf";
+            //    return "wtf";
+           SetTimeStamp();
            return JsonConvert.SerializeObject(this);
         }
 
         public void SetSubject(string subject)
         {
             Subject = subject;
+        }
+
+        public void SetMessageType(string type)
+        {
+            MessageType = type;
+        }
+
+        public void SetProduct(ProductDocument product)
+        {
+            Product = product;
+        }
+
+
+        private void SetTimeStamp()
+        {
+            TimeStamp = DateTime.Now.ToLongDateString();
         }
 
         public string GetSubject()
