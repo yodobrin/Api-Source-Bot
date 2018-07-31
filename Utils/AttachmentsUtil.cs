@@ -58,7 +58,7 @@ namespace SourceBot.Utils
             {
                 Title = $"Spell Suggestion",
                 //Text = $"Do you want to continue and search for {original} or  {altered}",
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
+                Images = new List<CardImage> { new CardImage("https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Original-"+original, value: original),
                     new CardAction(ActionTypes.PostBack, "Suggested-"+altered, value: altered) }
             };
