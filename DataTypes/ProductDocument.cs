@@ -181,7 +181,7 @@ namespace SourceBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.40"), category),
-                Subtitle = Utilities.GetSentence("12.41"),
+                //Subtitle = Utilities.GetSentence("12.41"),
                 Text = GetCategory(category),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
@@ -217,7 +217,7 @@ namespace SourceBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
-                Subtitle = Utilities.GetSentence("12.1"),
+                //Subtitle = Utilities.GetSentence("12.1"),
                 Text = Utilities.GetSentence("12.2"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.5"), value: HIGHLIGHT), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.6"), value: HELP) }
@@ -231,7 +231,7 @@ namespace SourceBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
-                Subtitle = Utilities.GetSentence("12.01"),
+                //Subtitle = Utilities.GetSentence("12.01"),
                 Text = Utilities.GetSentence("12.02"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/laszlo-article-for-hp-june-2018.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
@@ -246,8 +246,8 @@ namespace SourceBot.DataTypes
         {
             var productCard = new HeroCard
             {
-                Title = Utilities.GetSentence("12.10") +$" : {TapiProductName} " ,
-                Subtitle = Utilities.GetSentence("12.11"),
+                Title = Utilities.GetSentence("12.10") +$" :\n\n{TapiProductName} " ,
+                //Subtitle = Utilities.GetSentence("12.11"),
                 Text = Utilities.GetSentence("12.12"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.20"), value: Utilities.GetSentence("12.20")),

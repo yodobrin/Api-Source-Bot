@@ -29,7 +29,7 @@
 12 = I Found {0} in my catalog
 12.0 = {0}
 12.01 = Addtional information exist
-12.02 = What do you want to do next?
+12.02 = What would you like to do next?
 12.1 = We have more information for it.
 12.2 = Please confirm this is the API you were looking for	
 12.3 = Send me all information by mail
@@ -40,7 +40,7 @@
 12.6 = No this is not the API I was looking for
 12.10 = Here is the information I have for
 12.11 = The information is broken to specific categories
-12.12 = You can click on the categories below to see more information
+12.12 = You can click on the topics below to see more information
 12.20 = Innovator/Marketer
 12.21 = CAS Number
 12.22 = DMF Availability
