@@ -147,8 +147,7 @@ namespace SourceBot.Dialogs
             if (tproducts!=null && tproducts[0]!=null)
             {
                 if ("Packaging PIC".Equals(result.Query))
-                {
-                    await context.PostAsync($"the pics i got:{tproducts[0].PackagingPIC}");
+                {                    
                     message.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                     message.Attachments = tproducts[0].GetProductPicCarousel();
                 }else  message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
