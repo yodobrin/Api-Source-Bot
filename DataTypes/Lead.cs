@@ -29,6 +29,7 @@ namespace SourceBot.DataTypes
     public class Lead
     {
         public const string PDF = "lead-send-catalog";
+        public const string SEND_PDF = "send-catalog";
         public const string SEARCH = "lead-search";
         public const string LEADCREATE = "lead-create";
         public const string UPDATE_ONCE_EXIST = "update-me-once-api";

@@ -300,8 +300,19 @@ namespace SourceBot.Dialogs
         }
 
         [LuisIntent("CRM.SubmitLead")]
+        // TODO
+        // 1. check what is the action, based on the action, determine what info is required to continue
+        // 2. in the case it is only pdf, just email. the other, need full lead
+        
+
         public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
         {
+            // check if lead exist
+            Lead alead;
+            if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
+            {
+                MyLead = alead;
+            }
 
             MyLead.SetMessageType(Action);
             //MyLead.SetSubject("A contact with these details expressed interest");

@@ -33,13 +33,13 @@
 12.1 = We have more information for it.
 12.2 = Please confirm this is the API you were looking for	
 12.3 = Send me all information by mail
-12.4 = Show me avilable categories
-12.41 = Show me other categories again
+12.4 = Show me avilable topics
+12.41 = Show me other topics again
 12.42 = I'm OK. Send me the information by email.
 12.5 = Confirmed
 12.6 = No this is not the API I was looking for
 12.10 = Here is the information I have for
-12.11 = The information is broken to specific categories
+12.11 = The information is broken to specific topics
 12.12 = You can click on the topics below to see more information
 12.20 = Innovator/Marketer
 12.21 = CAS Number
@@ -50,7 +50,7 @@
 12.26 = LOA indication 
 12.27 = COA
 #12.28 = Full Pack
-12.40 = Category: {0}
+12.40 = {0}
 12.41 = Has the following information
 16 = Matching your search criteria
 16.1 = Showing up to 5 first results

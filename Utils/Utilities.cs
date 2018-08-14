@@ -42,17 +42,22 @@ namespace SourceBot.Utils
         // Service Bus area
         static string ServiceBusConnString = null;
 		static string ServiceBusKey = null;
-		static string QueueName = null;
+        // lead creation + survey
+		static string QueueNamePersist = null;
+        // send mails with results + pdf
+        static string QueueNameTransient = null;
 
         //static string LeadQueueName = null;
         //static string SurveyQueueName = null;
         //static string QueueName = null;
 
-        static IQueueClient queueClient = null;
+        static IQueueClient queueClientPersist = null;
 
-		// Azure Searxh Area
+        static IQueueClient queueClientTransient = null;
 
-		static string SearchIndexName = null;
+        // Azure Searxh Area
+
+        static string SearchIndexName = null;
 		static string SearchServiceName = null;
 		static string SearchServiceQueryApiKey = null;
 		static ISearchIndexClient IndexClient = null;
@@ -117,15 +122,19 @@ namespace SourceBot.Utils
         public static async void InitQ()
 		{
 			// verify global setting were not initilized yet
-			if (queueClient == null || QueueName == null || ServiceBusKey == null || ServiceBusConnString == null)
+			if (queueClientPersist == null || QueueNamePersist == null || ServiceBusKey == null || ServiceBusConnString == null)
 			{
 				// take from bot configuration setting
 				ServiceBusConnString = ConfigurationManager.AppSettings["ServiceBusConnString"];
 				ServiceBusKey = ConfigurationManager.AppSettings["ServiceBusKey"];
-				QueueName = ConfigurationManager.AppSettings["QueueName"];
-				// init the queue client with which messages would be sent
-				queueClient = new QueueClient(ServiceBusConnString, QueueName);
-			}
+				QueueNamePersist = ConfigurationManager.AppSettings["PersistQueueName"];
+                QueueNameTransient = ConfigurationManager.AppSettings["TransientQueueName"];
+
+                // init the queue client with which messages would be sent
+                queueClientPersist = new QueueClient(ServiceBusConnString, QueueNamePersist);
+                queueClientTransient = new QueueClient(ServiceBusConnString, QueueNameTransient);
+
+            }
 			else return;
 		}
 
@@ -155,16 +164,34 @@ namespace SourceBot.Utils
 		 * the message needs to be formatted in json structure as defined below
 		 * 
 		 **/
-
+         
 		public static async Task AddMessageToQueueAsync(string messageBody)
 		{
 			InitQ();
 			var message = new Message(Encoding.UTF8.GetBytes(messageBody));
-			await queueClient.SendAsync(message);
+			await queueClientPersist.SendAsync(message);
 		}
 
+        public static async Task AddMessageToQueueAsync(string messageBody, string queue)
+        {
+            InitQ();
+            var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+            switch (queue)
+            {
+                case "TransientQueueName":
+                    await queueClientTransient.SendAsync(message);
+                    break;
+                case "PersistQueueName":
+                    await queueClientPersist.SendAsync(message);
+                    break;
+                default: break;
+            }
 
-		public static DocumentSearchResult Search(string searchText)
+            await queueClientPersist.SendAsync(message);
+        }
+
+
+        public static DocumentSearchResult Search(string searchText)
 		{
 			InitSearch();
 			// Execute search based on query string
