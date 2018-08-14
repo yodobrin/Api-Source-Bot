@@ -16,7 +16,7 @@
 # Each line needs to contain a sequence number preceeded by an equal ('=') sign/ The value preceeding the '=' is considered to be the sentence dispalyed
 # comments can be added using a prefix to the start of the line only, prefix supported are # / ; ' - nothing else
 ##################################################
-0 = Welcome to the TAPIs API sourcing tool. To start type the API name you are looking for.
+0 = Hi, I am Sophi! (Your Source for Pharamsutical inqueries ). To start type the API name you are looking for.
 1 = My test sentence
 2 = A test sentence with {0} parameters, {1} 
 5 = No products were found.

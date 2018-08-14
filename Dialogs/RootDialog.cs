@@ -127,7 +127,7 @@ namespace SourceBot.Dialogs
             {
                 alead.SetMessageType(Lead.PDF);
                 alead.SetSubject("A lead is interested in the catalog pdf.");
-                await Utilities.AddMessageToQueueAsync(alead.ToMessage());
+                await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
                 await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
                 //MyLead = alead;
                 //MyLead.SetAction(Action);
@@ -146,7 +146,12 @@ namespace SourceBot.Dialogs
             var message = context.MakeMessage();
             if (tproducts!=null && tproducts[0]!=null)
             {
-                message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
+                if ("Packaging PIC".Equals(result.Query))
+                {
+                    await context.PostAsync($"the pics i got:{tproducts[0].PackagingPIC}");
+                    message.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                    message.Attachments = tproducts[0].GetProductPicCarousel();
+                }else  message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
             }else message.Attachments.Add(AttachmentsUtil.GetErrorCard("No products in search results"));
 
 
@@ -174,8 +179,9 @@ namespace SourceBot.Dialogs
                         alead.SetMessageType(ProductDocument.FETCH_BY_MAIL);
                         alead.SetSubject(tproducts[0].MoleculeID);
                         alead.SetProduct(tproducts[0]);
-                        
-                        await Utilities.AddMessageToQueueAsync(alead.ToMessage());
+                        // need to create a lead and send the search results
+                        await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
+                        await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.PERSIST_Q);
                         await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
                     }
                     else
@@ -317,7 +323,7 @@ namespace SourceBot.Dialogs
             MyLead.SetMessageType(Action);
             //MyLead.SetSubject("A contact with these details expressed interest");
             MyLead.SetProduct(tproducts[0]);
-            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage());               
+            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(),Utilities.PERSIST_Q);               
             // Infor the lead process ended
             await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
             // post a nice end message with an option to provide feedback (and share - not functional)

@@ -15,9 +15,9 @@ You agree:
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using SourceBot.Utils;
+using System.Configuration;
 
 
 
@@ -40,6 +40,7 @@ namespace SourceBot.DataTypes
         public const string FLUSH = "flush";
         public const string HELP = "help";
         public const string CONFIRM = "confirm";
+        public static string PIC_URI = ConfigurationManager.AppSettings["PackingPicURI"];
 
 
         public const string USER_QUERY = "user-query";
@@ -177,7 +178,7 @@ namespace SourceBot.DataTypes
 
         public Attachment GetProductCat(string category)
         {
-            if ("Packaging PIC".Equals(category)) return GetProductPic();
+            //if ("Packaging PIC".Equals(category)) return GetProductPic();
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.40"), category),
@@ -192,23 +193,51 @@ namespace SourceBot.DataTypes
 
         }
 
-        private Attachment GetProductPic()
-        {
-            string picURI = $"https://tapistore.blob.core.windows.net/packingpics/{PackagingPIC}";
-            var productCard = new HeroCard
-            {
-                Title = $"Packing pic for {TapiProductName}",
-                //Subtitle = Utilities.GetSentence("12.41"),
-                //Text = GetCategory(category),
-                Images = new List<CardImage> { new CardImage(picURI) },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
-            };
+        //private Attachment GetProductPic()
+        //{
+        //    string picURI = $"https://tapistore.blob.core.windows.net/packingpics/{PackagingPIC}";
+        //    var productCard = new HeroCard
+        //    {
+        //        Title = $"Packing pic for {TapiProductName}",
+        //        //Subtitle = Utilities.GetSentence("12.41"),
+        //        //Text = GetCategory(category),
+        //        Images = new List<CardImage> { new CardImage(picURI) },
+        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
+        //                                         new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
+        //    };
 
-            return productCard.ToAttachment();
+        //    return productCard.ToAttachment();
+
+        //}
+
+        public IList<Attachment> GetProductPicCarousel()
+        {
+            // need to change the return value to be IList of attachments
+            // check if the packingpic contains delimited string, and conver to list/array
+            // need to create IList of attachment per pic
+            
+            
+            IList<Attachment> attchments = new List<Attachment>();
+            string[] pics = PackagingPIC.Split(';');
+            foreach(string pic in pics)
+            {
+                string picURI = $"{PIC_URI}{pic}";
+                var productCard = new HeroCard
+                {
+                    Title = $"Packing pic for {TapiProductName}",
+
+                    Images = new List<CardImage> { new CardImage(picURI) },
+                    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
+                };
+                attchments.Add(productCard.ToAttachment());
+
+            }
+            
+
+            return attchments;
 
         }
-
 
 
 

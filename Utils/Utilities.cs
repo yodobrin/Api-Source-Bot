@@ -38,6 +38,9 @@ namespace SourceBot.Utils
         private const string NO_SUCH_SENTENCE = "Sorry no such sentence number";
         private const string ISSUE_WITH_SENTENCE = "Sorry I'm having an issue loading the sentences file";
 
+        public const string PERSIST_Q = "PersistQueueName";
+        public const string TRANSIENT_Q = "TransientQueueName";
+
 
         // Service Bus area
         static string ServiceBusConnString = null;
@@ -178,10 +181,10 @@ namespace SourceBot.Utils
             var message = new Message(Encoding.UTF8.GetBytes(messageBody));
             switch (queue)
             {
-                case "TransientQueueName":
+                case PERSIST_Q:
                     await queueClientTransient.SendAsync(message);
                     break;
-                case "PersistQueueName":
+                case TRANSIENT_Q:
                     await queueClientPersist.SendAsync(message);
                     break;
                 default: break;
