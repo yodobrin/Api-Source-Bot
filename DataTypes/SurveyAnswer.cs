@@ -25,11 +25,11 @@ namespace SourceBot.DataTypes
 {
     public class SurveyAnswer
     {
-        public const string EXT_SAT = "extremely-satisfied";
-        public const string VER_SAT = "very-satisfied";
+        public const string EXT_SAT = "extremely - satisfied";
+        public const string VER_SAT = "very - satisfied";
         public const string SAT = "satisfied";
-        public const string NOT_SAT = "not-satisfied";
-        public const string NOT_AT_SAT = "not-satisfied-at-all";
+        public const string NOT_SAT = "not - satisfied";
+        public const string NOT_AT_SAT = "not - satisfied - at - all";
 
         public static Attachment GetSurveyCard(string locName)
         {
@@ -39,10 +39,10 @@ namespace SourceBot.DataTypes
                 Title = string.Format(Utilities.GetSentence("19"), locName),
 
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), NOT_AT_SAT)), // Utilities.GetSentence("19.1"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), NOT_SAT)), //Utilities.GetSentence("19.2"))) ,
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), EXT_SAT)), // Utilities.GetSentence("19.1"))) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), VER_SAT)), //Utilities.GetSentence("19.2"))) ,
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: string.Format(Utilities.GetSentence("19.20"), SAT)), //Utilities.GetSentence("19.3"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: string.Format(Utilities.GetSentence("19.20"), VER_SAT)), //Utilities.GetSentence("19.4"))) ,
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: string.Format(Utilities.GetSentence("19.20"), NOT_SAT)), //Utilities.GetSentence("19.4"))) ,
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: string.Format(Utilities.GetSentence("19.20"), NOT_AT_SAT)), //Utilities.GetSentence("19.5"))) 
                 }
 
