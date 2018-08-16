@@ -19,6 +19,8 @@
 0 = Hi, I am Sophi! (Your Source for Pharamsutical inqueries ). To start type the API name you are looking for.
 1 = My test sentence
 1.0 = Ok, I am Sophi, and I am sorry to see you leave - Good Bye
+1.1 = OK, you said {0}, would you like to end this conversation? 
+1.11 = Please note all information up to now will be terminated
 2 = A test sentence with {0} parameters, {1} 
 5 = No products were found.
 5.1 = You searched for {0}

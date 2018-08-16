@@ -206,11 +206,18 @@ namespace SourceBot.Dialogs
         public async Task ConversationEndIntent(IDialogContext context, LuisResult result)
         {
             // this intent, remove any and all conversation left overs. similar to closing the browser.
-            await context.PostAsync(Utilities.GetSentence("1.0"));
-            context.EndConversation(ActivityTypes.EndOfConversation);
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.GetConversationEndCard(result.Query));
+            await context.PostAsync(message);            
             
         }
 
+        [LuisIntent("Conversation.Terminate")]
+        public async Task ConversationTerminateIntent(IDialogContext context, LuisResult result)
+        {
+            // this intent, remove any and all conversation left overs. similar to closing the browser.
+            context.EndConversation(ActivityTypes.EndOfConversation);
+        }
 
         [LuisIntent("Cancel")]
         public async Task CancelIntent(IDialogContext context, LuisResult result)
