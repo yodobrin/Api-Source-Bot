@@ -205,9 +205,10 @@ namespace SourceBot.Dialogs
         [LuisIntent("Conversation.End")]
         public async Task ConversationEndIntent(IDialogContext context, LuisResult result)
         {
-            //context.Reset();
+            // this intent, remove any and all conversation left overs. similar to closing the browser.
+            await context.PostAsync(Utilities.GetSentence("1.0"));
             context.EndConversation(ActivityTypes.EndOfConversation);
-            //await this.ShowLuisResult(context, result);
+            
         }
 
 
@@ -221,7 +222,7 @@ namespace SourceBot.Dialogs
         public async Task HelpIntent(IDialogContext context, LuisResult result)
         {
             await context.PostAsync(Utilities.GetSentence("911.0"));
-            //await this.ShowLuisResult(context, result);
+
         }
 
         /**
@@ -251,7 +252,7 @@ namespace SourceBot.Dialogs
                 // ONLY take the first entity
                 // TODO - why is the not at all, and not sat are not showing any message
                 EntityRecommendation inst = entities[0];
-                //await context.PostAsync($"the entity is {inst.Entity}");
+                await context.PostAsync($"the entity is |{inst.Entity}|");
                 switch (inst.Entity)
                 {
                     case SurveyAnswer.NOT_AT_SAT:

@@ -68,19 +68,19 @@ namespace SourceBot.Utils
 
 
 
-        public static Attachment GetOpenCard(string name, string company)
-        {
-            var openCard = new HeroCard
-            {
-                Title = string.Format(Utilities.GetSentence("19.70"), name, company), // $"API Source Bot tailored for {name} @ {company}",
-                Subtitle = Utilities.GetSentence("19.71"),
-                Text = Utilities.GetSentence("19.72"),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
-            };
+        //public static Attachment GetOpenCard(string name, string company)
+        //{
+        //    var openCard = new HeroCard
+        //    {
+        //        Title = string.Format(Utilities.GetSentence("19.70"), name, company), // $"API Source Bot tailored for {name} @ {company}",
+        //        Subtitle = Utilities.GetSentence("19.71"),
+        //        Text = Utilities.GetSentence("19.72"),
+        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
+        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
+        //    };
 
-            return openCard.ToAttachment();
-        }
+        //    return openCard.ToAttachment();
+        //}
 
         public static Attachment GetErrorCard(string code)
         {

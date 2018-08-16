@@ -168,12 +168,12 @@ namespace SourceBot.Utils
 		 * 
 		 **/
          
-		public static async Task AddMessageToQueueAsync(string messageBody)
-		{
-			InitQ();
-			var message = new Message(Encoding.UTF8.GetBytes(messageBody));
-			await queueClientPersist.SendAsync(message);
-		}
+		//public static async Task AddMessageToQueueAsync(string messageBody)
+		//{
+		//	InitQ();
+		//	var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+		//	await queueClientPersist.SendAsync(message);
+		//}
 
         public static async Task AddMessageToQueueAsync(string messageBody, string queue)
         {
