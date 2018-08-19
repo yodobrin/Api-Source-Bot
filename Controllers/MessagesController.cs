@@ -41,16 +41,7 @@ namespace Microsoft.Bot.Sample.LuisBot
         public virtual async Task<HttpResponseMessage> Post([FromBody] Microsoft.Bot.Connector.Activity activity)
         {
             // check if activity is of type message
-            string actype = activity.GetActivityType();
-            ConnectorClient client = new ConnectorClient(new Uri(activity.ServiceUrl));
-
-            var reply = activity.CreateReply();
-
-
-            reply.Text = $"activity type is{actype}";// Utilities.GetSentence("1"); 
-
-            await client.Conversations.ReplyToActivityAsync(reply);
-
+            
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
                 await Conversation.SendAsync(activity, () => new RootDialog());
