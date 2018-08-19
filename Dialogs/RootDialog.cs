@@ -204,10 +204,11 @@ namespace SourceBot.Dialogs
 
             LeadDialog diag = new LeadDialog();
             context.Call(diag, ResumeAfterForm);
+            //await context.Forward(diag, this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
 
             //var message = context.MakeMessage();
             //message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
-            
+
             //await context.PostAsync(message);
             //await context.PostAsync(Utilities.GetSentence("911.0"));
 

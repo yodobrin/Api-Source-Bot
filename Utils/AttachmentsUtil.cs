@@ -201,7 +201,7 @@ namespace SourceBot.Utils
                             Size = "2",
                             Items = new List<CardElement>
                             {  new TextBlock  {  Text = "Tell us about yourself...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
-                               new TextBlock  {  Text = "We just need a few more details to get you booked for the trip of a lifetime!", IsSubtle = true,  Wrap = true, },
+                               new TextBlock  {  Text = "We just need a few more details to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
                                new TextBlock  {  Text = "Your name", Wrap = true, },
                                new TextInput  {  Id = "myName", Placeholder = "Last, First",  },
                                new TextBlock  {  Text = "Your email", Wrap = true, },

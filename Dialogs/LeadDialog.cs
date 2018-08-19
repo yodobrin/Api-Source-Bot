@@ -30,69 +30,21 @@ namespace SourceBot.Dialogs
     [Serializable]
     public class LeadDialog : IDialog<Lead>
     {
-        Lead thisLead;
-        //string tempLine;
+       
         public async Task StartAsync(IDialogContext context)
         {
-
-            var message = context.MakeMessage();
-            message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
-            await context.PostAsync(message);
-
-            //await context.PostAsync("I would need some basic details from you ...");
-            //if (!context.PrivateConversationData.TryGetValue("bot-lead", out thisLead))
-            //{
-            //    thisLead = new Lead(1);
-            //    await context.PostAsync($"i know nothing:{thisLead.flush()}");
-            //    context.PrivateConversationData.SetValue("bot-lead", thisLead);
-            //}
-            //Dictionary<string, LineItem> fields = thisLead.GetValues(Lead.UNFILLED);
-            ////string val;
-            //await context.PostAsync($"I would need some basic details from you ...{fields.Count}");
-            //foreach (LineItem itm in fields.Values)
-            //{
-            //    //await context.Forward(new LineDialog(itm.Type),this.ResumeAfterLine, context.Activity, CancellationToken.None);
-            //    // await context.PostAsync($"trying to initiate line dialog for {itm.Type}");
-            //    //await context.Forward(new LineDialog(itm.Type), this.ResumeAfterLine, context.Activity, CancellationToken.None);
-            //    //context.Call(new LineDialog(itm.Type), this.ResumeAfterLine);
-            //    //await context.PostAsync($"I got: {tempLine} for the filed {itm.Type}");
-            //    context.PrivateConversationData.SetValue("curent-field", itm.Type);
-            //    PromptDialog.Text(context, this.ResumeAfterPrompt, Utilities.GetSentence(itm.Type));
-            //    string temp;
-            //    context.PrivateConversationData.TryGetValue(itm.Type, out temp);
-            //    itm.Value = temp;
-            //    await context.PostAsync($"got {itm.Value} for {itm.Type}");
-            //    //thisLead.properties[]
-            //}
-
-            //context.Wait(this.MessageReceivedAsync);
+            context.Wait(this.MessageReceivedAsync);
         }
 
 
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            var message = await result;
-            await context.PostAsync($"got {message} ");
-            context.Done(thisLead);
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
+            await context.PostAsync(message);
         }
 
-        private async Task ResumeAfterPrompt(IDialogContext context, IAwaitable<object> result)
-        {
-            try
-            {
-                string line;
-                context.PrivateConversationData.TryGetValue("current-field", out line);
-
-                string value = (string)await result;
-                context.PrivateConversationData.SetValue(line, value);
-            }
-            catch (TooManyAttemptsException)
-            {
-            }
-
-            context.Wait(this.MessageReceivedAsync);
-        }
-
+      
        
     }
 }
