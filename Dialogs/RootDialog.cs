@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using SourceBot.Utils;
 
 using SourceBot.DataTypes;
-using SourceBot.Dialogs;
+
 using System.Threading;
 
 
@@ -51,14 +51,7 @@ namespace SourceBot.Dialogs
             tproducts = new List<ProductDocument>();
         }
 
-        //public RootDialog() : base(new LuisService(new LuisModelAttribute(
-        //   ConfigurationManager.AppSettings["LuisAppId"],
-        //   ConfigurationManager.AppSettings["LuisAPIKey"],
-        //   domain: ConfigurationManager.AppSettings["LuisAPIHostName"])))
-        //{
-        //    tproducts = new List<ProductDocument>();
-
-        //}
+       
 
         private static LuisModelAttribute GetLuisModelAttribute()
         {
@@ -83,36 +76,18 @@ namespace SourceBot.Dialogs
             var message = context.MakeMessage();
             message.Attachments.Add(AttachmentsUtil.GetSpellSuggestCard(result.Query,altered));
             await context.PostAsync(message);
-
-            //await context.PostAsync($"query:{result.Query} --- alterquery {altered}");
-            //await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
-            // await this.ShowLuisResult(context, result);
         }
 
         
 
-       // TODO
-       // Survey - test (+ feedback in case it was good)
-       // Share - potential
-       // message about other searches
-
+      
 
         [LuisIntent("Greeting")]
         public async Task GreetingInten(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync(Utilities.GetSentence("1"));
-            Action = Lead.LEADCREATE;
-            Lead alead;
-            DetailsDialog dialog = new DetailsDialog();
-            
-            if ( context.PrivateConversationData.TryGetValue("bot-lead", out alead) )
-            {
-              //dialog.SetLead(alead);
-                MyLead = alead;
-                //await context.PostAsync($"A lead is on the private data{alead.Name}");
-            }
-            
-            else context.Call(dialog, this.ResumeAfterForm);           
+            var message = context.MakeMessage();
+            message.Text = Utilities.GetSentence("0.1");
+            await context.PostAsync(message);
         }
 
 
@@ -129,10 +104,6 @@ namespace SourceBot.Dialogs
                 alead.SetSubject("A lead is interested in the catalog pdf.");
                 await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
                 await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
-                //MyLead = alead;
-                //MyLead.SetAction(Action);
-                //// need to add a message to a queue
-                //await context.PostAsync($"A lead is on the private data{alead.Name}");
             }
 
             else context.Call(dialog, this.ResumeAfterForm);
@@ -252,6 +223,7 @@ namespace SourceBot.Dialogs
         {
             // need to check the entities, if exist act according to them (send a message to a q)
             var message = context.MakeMessage();
+            
             string locName = (MyLead != null && MyLead.Name != null) ? MyLead.Name : "Guest";
             IList<EntityRecommendation> entities = result.Entities;
             if (entities != null && entities.Count > 0)
@@ -261,6 +233,7 @@ namespace SourceBot.Dialogs
                 // send the result to the persist queue
                 string surveyMessage = $"Answer:{inst.Entity}, time stamp{DateTime.Now}";
                 await context.PostAsync(surveyMessage);
+                
                 await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.PERSIST_Q);
 
                 switch (inst.Entity)
@@ -412,6 +385,7 @@ namespace SourceBot.Dialogs
 
         private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
         {
+            // remove the verbiage
             MyLead = await result;
             if(MyLead!=null)
             {
@@ -419,7 +393,7 @@ namespace SourceBot.Dialogs
                 var message = context.MakeMessage();
                 message.Attachments.Add(MyLead.GetLeadCard(tproducts));
                 await context.PostAsync(message);
-            } else await context.PostAsync(" Lead process ended without a lead");
+            } //else await context.PostAsync(" Lead process ended without a lead");
 
         }
 
