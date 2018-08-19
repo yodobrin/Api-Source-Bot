@@ -201,7 +201,10 @@ namespace SourceBot.Dialogs
         [LuisIntent("Help")]
         public async Task HelpIntent(IDialogContext context, LuisResult result)
         {
-            await context.PostAsync(Utilities.GetSentence("911.0"));
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
+            await context.PostAsync(message);
+            //await context.PostAsync(Utilities.GetSentence("911.0"));
 
         }
 

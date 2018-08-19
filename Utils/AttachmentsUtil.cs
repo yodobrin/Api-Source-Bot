@@ -54,49 +54,43 @@ namespace SourceBot.Utils
 
         public static Attachment GetConversationEndCard(string safeword)
         {
+           
+            AdaptiveCard card = new AdaptiveCard()
+            {
+                Body = new List<CardElement>()
+                { 
+                    new Container()
+                    {
+                        Items = new List<CardElement>  { new TextBlock  { Text = string.Format(Utilities.GetSentence("1.1"),safeword), Wrap = true  }   }
+                    }
+                },
+                Actions = new List<ActionBase>() { new SubmitAction() { Data = "wipe-clean" , Title = "Wipe all data" } }
+            };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType,  Content = card  };
+
+            return attachment;
+
+        }
+
+        public static Attachment GetConversationStartCard()
+        {
 
             AdaptiveCard card = new AdaptiveCard()
             {
                 Body = new List<CardElement>()
-                { /* */
+                {
                     new Container()
                     {
-                        Items = new List<CardElement>
-                        {
-                        new Image
-                            {
-                                Url = "https://www.tapi.com/globalassets/about-us-new.jpg",
-                                Size = ImageSize.Medium,
-                            },
-                          new TextBlock
-                          {
-                            Text = string.Format(Utilities.GetSentence("1.1"),safeword),
-                          }
-                        }
+                        Items = new List<CardElement>  { new TextBlock  { Text = Utilities.GetSentence("0"), Wrap = true  }   }
                     }
-                },
-                // Buttons
-                Actions = new List<ActionBase>() { new SubmitAction() { DataJson = "{\"foo\":\"wipe-clean\"}", Title = "Wipe all data" } }
-
+                }
             };
 
-            Attachment attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = card
-            };
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
 
             return attachment;
 
-            //var endCard = new AdaptiveCard
-            //{
-            //    Title = string.Format(Utilities.GetSentence("1.1"),safeword),
-            //    Text = Utilities.GetSentence("1.11"),
-            //    Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-            //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Wipe all data", value: "wipe-clean")  }
-            //};
-
-            //return endCard.ToAttachment();
         }
 
         public static Attachment GetSpellSuggestCard(string original, string altered)
@@ -191,7 +185,65 @@ namespace SourceBot.Utils
             return resultCard.ToAttachment();
         }
 
+
+
+        public static Attachment CreateLeadFormCard()
+        {
+            var card = new AdaptiveCard();
+
+            var columnsBlock = new ColumnSet()
+            {
+                Separation = SeparationStyle.None,
+                Columns = new List<Column>
+                    {
+                        new Column
+                        {
+                            Size = "2",
+                            Items = new List<CardElement>
+                            {  new TextBlock  {  Text = "Tell us about yourself...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
+                               new TextBlock  {  Text = "We just need a few more details to get you booked for the trip of a lifetime!", IsSubtle = true,  Wrap = true, },
+                               new TextBlock  {  Text = "Your name", Wrap = true, },
+                               new TextInput  {  Id = "myName", Placeholder = "Last, First",  },
+                               new TextBlock  {  Text = "Your email", Wrap = true, },
+                               new TextInput  {  Id = "myEmail", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
+                               new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "myTel", Placeholder = "xxx-xxxx-xxxx", Style = TextInputStyle.Tel, },
+                            }
+                        },
+                        new Column
+                        {
+                            Size = "1",
+                            Items = new List<CardElement>
+                            {
+                                new Image
+                                {
+                                    Url = "https://upload.wikimedia.org/wikipedia/commons/b/b2/Diver_Silhouette%2C_Great_Barrier_Reef.jpg",
+                                    Size = ImageSize.Auto,
+                                }
+                            }
+                        }
+                    }
+            };
+            card.Body.Add(columnsBlock);
+
+            card.Actions = new List<ActionBase>()
+                {
+                    new SubmitAction
+                    {
+                        Title = "Submit",
+                        DataJson = "{ \"Type\": \"CreateFormCard\" }",
+                    }
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+            
+        }
+
     }
+
+
 
     
 }

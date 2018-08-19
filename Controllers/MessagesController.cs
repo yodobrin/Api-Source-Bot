@@ -69,13 +69,8 @@ namespace Microsoft.Bot.Sample.LuisBot
                 if (message.MembersAdded.Any(o => o.Id == message.Recipient.Id))
                 {
                     ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
-
                     var reply = message.CreateReply();
-
-
-                    reply.Text = Utilities.GetSentence("0"); 
-                    //reply.TextFormat = 
-
+                    reply.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
                     await client.Conversations.ReplyToActivityAsync(reply);
                 }
             }
