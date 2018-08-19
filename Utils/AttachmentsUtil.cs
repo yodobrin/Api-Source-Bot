@@ -24,8 +24,8 @@ using Microsoft.Bot.Builder.Luis.Models;
 
 
 using System.Collections.Generic;
-using System;
 
+using AdaptiveCards;
 using SourceBot.DataTypes;
 using SourceBot.Dialogs;
 using System.Threading;
@@ -54,15 +54,49 @@ namespace SourceBot.Utils
 
         public static Attachment GetConversationEndCard(string safeword)
         {
-            var endCard = new HeroCard
+
+            AdaptiveCard card = new AdaptiveCard()
             {
-                Title = string.Format(Utilities.GetSentence("1.1"),safeword),
-                Text = Utilities.GetSentence("1.11"),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Wipe all data", value: "wipe-clean")  }
+                Body = new List<CardElement>()
+                { /* */
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                        new Image
+                            {
+                                Url = "https://www.tapi.com/globalassets/about-us-new.jpg",
+                                Size = ImageSize.Auto,
+                            },
+                          new TextBlock
+                          {
+                            Text = string.Format(Utilities.GetSentence("1.1"),safeword),
+                          }
+                        }
+                    }
+                },
+                // Buttons
+                Actions = new List<ActionBase>() { new SubmitAction() { Data = "wipe-clean", Title = "Wipe all data" } }
+
             };
 
-            return endCard.ToAttachment();
+            Attachment attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card
+            };
+
+            return attachment;
+
+            //var endCard = new AdaptiveCard
+            //{
+            //    Title = string.Format(Utilities.GetSentence("1.1"),safeword),
+            //    Text = Utilities.GetSentence("1.11"),
+            //    Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
+            //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Wipe all data", value: "wipe-clean")  }
+            //};
+
+            //return endCard.ToAttachment();
         }
 
         public static Attachment GetSpellSuggestCard(string original, string altered)

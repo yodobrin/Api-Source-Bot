@@ -103,7 +103,9 @@ namespace SourceBot.Dialogs
                 alead.SetMessageType(Lead.PDF);
                 alead.SetSubject("A lead is interested in the catalog pdf.");
                 await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
-                await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
+                var message = context.MakeMessage();
+                message.Text = string.Format(Utilities.GetSentence("19.80"),alead.Email);
+                await context.PostAsync(message);
             }
 
             else context.Call(dialog, this.ResumeAfterForm);
@@ -232,7 +234,7 @@ namespace SourceBot.Dialogs
                 EntityRecommendation inst = entities[0];
                 // send the result to the persist queue
                 string surveyMessage = $"Answer:{inst.Entity}, time stamp{DateTime.Now}";
-                await context.PostAsync(surveyMessage);
+               // await context.PostAsync(surveyMessage);
                 
                 await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.PERSIST_Q);
 

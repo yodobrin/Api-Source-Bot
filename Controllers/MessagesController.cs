@@ -74,6 +74,7 @@ namespace Microsoft.Bot.Sample.LuisBot
 
 
                     reply.Text = Utilities.GetSentence("0"); 
+                    //reply.TextFormat = 
 
                     await client.Conversations.ReplyToActivityAsync(reply);
                 }
