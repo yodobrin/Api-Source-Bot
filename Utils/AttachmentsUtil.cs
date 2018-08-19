@@ -66,7 +66,7 @@ namespace SourceBot.Utils
                         new Image
                             {
                                 Url = "https://www.tapi.com/globalassets/about-us-new.jpg",
-                                Size = ImageSize.Auto,
+                                Size = ImageSize.Medium,
                             },
                           new TextBlock
                           {
@@ -76,7 +76,7 @@ namespace SourceBot.Utils
                     }
                 },
                 // Buttons
-                Actions = new List<ActionBase>() { new SubmitAction() { Data = "wipe-clean", Title = "Wipe all data" } }
+                Actions = new List<ActionBase>() { new SubmitAction() { DataJson = "wipe-clean", Title = "Wipe all data" } }
 
             };
 
