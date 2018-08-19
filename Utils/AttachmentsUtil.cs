@@ -76,7 +76,7 @@ namespace SourceBot.Utils
                     }
                 },
                 // Buttons
-                Actions = new List<ActionBase>() { new SubmitAction() { DataJson = "wipe-clean", Title = "Wipe all data" } }
+                Actions = new List<ActionBase>() { new SubmitAction() { DataJson = "{\"foo\":\"wipe-clean\"}", Title = "Wipe all data" } }
 
             };
 
