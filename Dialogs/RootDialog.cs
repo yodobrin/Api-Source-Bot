@@ -256,10 +256,13 @@ namespace SourceBot.Dialogs
             IList<EntityRecommendation> entities = result.Entities;
             if (entities != null && entities.Count > 0)
             {
-                // ONLY take the first entity
-                // TODO - why is the not at all, and not sat are not showing any message
+
                 EntityRecommendation inst = entities[0];
-                await context.PostAsync($"the entity is |{inst.Entity}|");
+                // send the result to the persist queue
+                string surveyMessage = $"Answer:{inst.Entity}, time stamp{DateTime.Now}";
+                await context.PostAsync(surveyMessage);
+                await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.PERSIST_Q);
+
                 switch (inst.Entity)
                 {
                     case SurveyAnswer.NOT_AT_SAT:
