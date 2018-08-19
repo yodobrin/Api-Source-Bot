@@ -210,18 +210,18 @@ namespace SourceBot.Utils
                                new TextInput  {  Id = "myTel", Placeholder = "xxx-xxxx-xxxx", Style = TextInputStyle.Tel, },
                             }
                         },
-                        new Column
-                        {
-                            Size = "1",
-                            Items = new List<CardElement>
-                            {
-                                new Image
-                                {
-                                    Url = "https://upload.wikimedia.org/wikipedia/commons/b/b2/Diver_Silhouette%2C_Great_Barrier_Reef.jpg",
-                                    Size = ImageSize.Auto,
-                                }
-                            }
-                        }
+                        //new Column
+                        //{
+                        //    Size = "1",
+                        //    Items = new List<CardElement>
+                        //    {
+                        //        new Image
+                        //        {
+                        //            Url = "https://upload.wikimedia.org/wikipedia/commons/b/b2/Diver_Silhouette%2C_Great_Barrier_Reef.jpg",
+                        //            Size = ImageSize.Auto,
+                        //        }
+                        //    }
+                        //}
                     }
             };
             card.Body.Add(columnsBlock);
@@ -231,7 +231,7 @@ namespace SourceBot.Utils
                     new SubmitAction
                     {
                         Title = "Submit",
-                        DataJson = "{ \"Type\": \"CreateFormCard\" }",
+                        DataJson = "{ \"Type\": \"CreateLeadCard\" }",
                     }
                 };
 
