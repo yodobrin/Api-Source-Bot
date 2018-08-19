@@ -16,7 +16,7 @@
 # Each line needs to contain a sequence number preceeded by an equal ('=') sign/ The value preceeding the '=' is considered to be the sentence dispalyed
 # comments can be added using a prefix to the start of the line only, prefix supported are # / ; ' - nothing else
 ##################################################
-0 = Hi, My name is Sophi and I will help you source for the API you need. To start, please type in the name of the API you are looking for. (at any stage you can start over by typing restart)
+0 = Hi, My name is Sophi and I will help you source for the API you need. **nnTo start, please type in the name of the API you are looking for. **nn(at any stage you can start over by typing restart)
 1 = My test sentence
 1.0 = Ok, I am Sophi, and I am sorry to see you leave - Good Bye
 1.1 = OK, you said {0}, would you like to end this conversation? 
@@ -41,7 +41,7 @@
 12.42 = I'm OK. Send me the information by email.
 12.5 = Confirmed
 12.6 = No this is not the API I was looking for
-12.10 = Great, here is what I found. \n\n Click on each of the topics for detailed information.
+12.10 = Great, here is what I found. Click on each of the topics for detailed information.
 12.11 = The information is broken to specific topics
 12.12 = You can click on the topics below to see more information
 12.20 = Innovator/Marketer
@@ -73,7 +73,7 @@
 19.60 = Care to provide us with feedback?
 19.70 = API Source Bot tailored for {0} @ {1}
 19.71 = Tapi bots — Welcome tapi your api partner
-19.72 = Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts.\n It's all here. You can search by typing sentences as below:
+19.72 = Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts.**nn It's all here. You can search by typing sentences as below:
 22 = A request was sent to our communication auto-broker with the {0} provided.
 911.0 = Please type the API you are looking for ... 
 950 = An Error has occured
