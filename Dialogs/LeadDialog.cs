@@ -44,7 +44,14 @@ namespace SourceBot.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            await context.PostAsync($"|{message.Text}|");
+            if (message.Value != null)
+            {
+                // Got an Action Submit
+                dynamic value = message.Value;
+                string submitType = value.Type.ToString();
+                await context.PostAsync($"|{submitType}|");
+            }
+                
         }
 
       

@@ -203,8 +203,8 @@ namespace SourceBot.Dialogs
         {
 
             LeadDialog diag = new LeadDialog();
-            context.Call(diag, ResumeAfterForm);
-            //await context.Forward(diag, this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
+            //context.Call(diag, ResumeAfterForm);
+            await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
 
             //var message = context.MakeMessage();
             //message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
@@ -219,8 +219,8 @@ namespace SourceBot.Dialogs
          * In case of a find item intent, the context is forwaded to the search dialog. 
          * The search dialog will return a list of products it retrived from the azure search
          * 
-         */ 
-		[LuisIntent("Catalog.FindItem")]
+         */
+        [LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             // setting the action to search
@@ -406,6 +406,11 @@ namespace SourceBot.Dialogs
                 await context.PostAsync(message);
             } //else await context.PostAsync(" Lead process ended without a lead");
 
+        }
+
+        private async Task ResumeAfterLeadForm(IDialogContext context, IAwaitable<object> result)
+        {
+            context.Wait(MessageReceived);
         }
 
         private async Task ResumeAfterSend(IDialogContext context, IAwaitable<object> result)

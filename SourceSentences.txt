@@ -16,7 +16,8 @@
 # Each line needs to contain a sequence number preceeded by an equal ('=') sign/ The value preceeding the '=' is considered to be the sentence dispalyed
 # comments can be added using a prefix to the start of the line only, prefix supported are # / ; ' - nothing else
 ##################################################
-0 = Hi, My name is Sophi and I will help you source for the API you need. To start, please type in the name of the API you are looking for. (at any stage you can start over by typing restart)
+0 = Hi, My name is Sophi and I will help you source for the API you need. 
+0.01 = To start, please type in the name of the API you are looking for. (at any stage you can start over by typing restart)
 0.1 = To start, please type in the name of the **API** you are looking for.
 1 = My test sentence
 1.0 = Ok, I am Sophi, and I am sorry to see you leave - Good Bye

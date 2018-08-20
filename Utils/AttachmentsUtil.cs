@@ -82,7 +82,11 @@ namespace SourceBot.Utils
                 {
                     new Container()
                     {
-                        Items = new List<CardElement>  { new TextBlock  { Text = Utilities.GetSentence("0"), Wrap = true  }   }
+                        Items = new List<CardElement>
+                        {
+                            new TextBlock  { Text = Utilities.GetSentence("0"), Wrap = true  },
+                            new TextBlock  { Text = Utilities.GetSentence("0.01"), Wrap = true  }
+                        }
                     }
                 }
             };
