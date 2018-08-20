@@ -220,25 +220,25 @@ namespace SourceBot.Utils
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "PhoneNumber", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
-                               //new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },
-                               ////new TextInput  {  Id = "Country", Placeholder = "optional", Style = TextInputStyle.Tel, },
+                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },
+                               //new TextInput  {  Id = "Country", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
-                               //new ChoiceSet()
-                               //{
-                               //     Id = "Country",  Style = ChoiceInputStyle.Compact,
-                               //     Choices = new List<Choice>()
-                               //     {
-                               //         new Choice() { Title = "USA", Value = "USA", IsSelected = true },
-                               //         new Choice() { Title = "Israel", Value = "IL" },
-                               //         new Choice() { Title = "United Kindom", Value = "UK" }
-                               //     }
-                               // },
+                               new ChoiceSet()
+                               {
+                                    Id = "Country",  Style = ChoiceInputStyle.Compact,
+                                    Choices = new List<Choice>()
+                                    {
+                                        new Choice() { Title = "USA", Value = "USA", IsSelected = true },
+                                        new Choice() { Title = "Israel", Value = "IL" },
+                                        new Choice() { Title = "United Kindom", Value = "UK" }
+                                    }
+                                },
 
-                               //new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
-                               //new TextInput  {  Id = "Company", Placeholder = "optional", Style = TextInputStyle.Tel, },
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "Company", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
-                               //new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
-                               //new TextInput  {  Id = "Comments", Placeholder = "optional", Style = TextInputStyle.Tel, },
+                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "Comments", Placeholder = "optional", Style = TextInputStyle.Tel, },
                             },
 
                         }
