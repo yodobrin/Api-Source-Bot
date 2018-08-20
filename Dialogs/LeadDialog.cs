@@ -53,8 +53,8 @@ namespace SourceBot.Dialogs
                 string name = value.Name.toString();
                 string country = value.Country.toString();
                 await context.PostAsync($"|{name}-{email}-{country}|");
-            }
-                
+            }else await context.PostAsync("something is wrong - message value is null");
+
         }
 
       
