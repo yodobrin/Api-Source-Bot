@@ -203,12 +203,13 @@ namespace SourceBot.Dialogs
         {
 
             LeadDialog diag = new LeadDialog();
-            //context.Call(diag, ResumeAfterLeadForm);
+            
             var message = context.MakeMessage();
             message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
             await context.PostAsync(message);
 
-            await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
+            context.Call(diag, ResumeAfterLeadForm);
+            //await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
 
             //var message = context.MakeMessage();
             //message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
