@@ -33,15 +33,18 @@ namespace SourceBot.Dialogs
        
         public async Task StartAsync(IDialogContext context)
         {
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
+            await context.PostAsync(message);
+
             context.Wait(this.MessageReceivedAsync);
         }
 
 
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
-            var message = context.MakeMessage();
-            message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
-            await context.PostAsync(message);
+            var message = await result;
+            await context.PostAsync($"|{message.Text}|");
         }
 
       
