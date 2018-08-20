@@ -189,7 +189,11 @@ namespace SourceBot.Utils
             return resultCard.ToAttachment();
         }
 
-
+        //private List<CardElement> GetFormFields()
+        //{
+        //    List<CardElement> list = new List<CardElement>();
+        //    foreach(string field in)
+        //}
 
         public static Attachment CreateLeadFormCard()
         {
@@ -199,34 +203,46 @@ namespace SourceBot.Utils
             {
                 Separation = SeparationStyle.None,
                 Columns = new List<Column>
-                    {
+                {
                         new Column
                         {
                             Size = "2",
                             Items = new List<CardElement>
                             {  new TextBlock  {  Text = "Tell us about yourself...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
                                new TextBlock  {  Text = "We just need a few more details to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
+
                                new TextBlock  {  Text = "Your name", Wrap = true, },
-                               new TextInput  {  Id = "myName", Placeholder = "Last, First",  },
+                               new TextInput  {  Id = "Name", Placeholder = "Last, First",  },
+
                                new TextBlock  {  Text = "Your email", Wrap = true, },
-                               new TextInput  {  Id = "myEmail", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
+                               new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
+
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "myTel", Placeholder = "xxx-xxxx-xxxx", Style = TextInputStyle.Tel, },
-                            }
-                        },
-                        //new Column
-                        //{
-                        //    Size = "1",
-                        //    Items = new List<CardElement>
-                        //    {
-                        //        new Image
-                        //        {
-                        //            Url = "https://upload.wikimedia.org/wikipedia/commons/b/b2/Diver_Silhouette%2C_Great_Barrier_Reef.jpg",
-                        //            Size = ImageSize.Auto,
-                        //        }
-                        //    }
-                        //}
-                    }
+                               new TextInput  {  Id = "PhoneNumber", Placeholder = "optional", Style = TextInputStyle.Tel, },
+
+                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },
+                               //new TextInput  {  Id = "Country", Placeholder = "optional", Style = TextInputStyle.Tel, },
+
+                               new ChoiceSet()
+                               {
+                                    Id = "Country",  Style = ChoiceInputStyle.Compact,
+                                    Choices = new List<Choice>()
+                                    {
+                                        new Choice() { Title = "USA", Value = "USA", IsSelected = true },
+                                        new Choice() { Title = "Israel", Value = "IL" },
+                                        new Choice() { Title = "United Kindom", Value = "UK" }
+                                    }
+                                },
+
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "Company", Placeholder = "optional", Style = TextInputStyle.Tel, },
+
+                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "Comments", Placeholder = "optional", Style = TextInputStyle.Tel, },
+                            },
+
+                        }
+                }
             };
             card.Body.Add(columnsBlock);
 

@@ -49,7 +49,10 @@ namespace SourceBot.Dialogs
                 // Got an Action Submit
                 dynamic value = message.Value;
                 string submitType = value.Type.ToString();
-                await context.PostAsync($"|{submitType}|");
+                string email = value.Email.toString();
+                string name = value.Name.toString();
+                string country = value.Country.toString();
+                await context.PostAsync($"|{name}-{email}-{country}|");
             }
                 
         }
