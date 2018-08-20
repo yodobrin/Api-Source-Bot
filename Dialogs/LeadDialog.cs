@@ -33,9 +33,7 @@ namespace SourceBot.Dialogs
        
         public async Task StartAsync(IDialogContext context)
         {
-            var message = context.MakeMessage();
-            message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
-            await context.PostAsync(message);
+            
 
             context.Wait(this.MessageReceivedAsync);
         }
@@ -49,11 +47,11 @@ namespace SourceBot.Dialogs
                 
                 dynamic value = message.Value;
                 string submitType = value.Type.ToString();
-                //string email = value.Email.toString();
-                //string name = value.Name.toString();
-                //string country = value.Country.toString();
-                //await context.PostAsync($"|{name}-{email}|");
-                await context.PostAsync($"|{submitType}|");
+                string email = value.Email.toString();
+                string name = value.Name.toString();
+                string country = value.Country.toString();
+                await context.PostAsync($"|{name}-{email}-{country}|");
+                //await context.PostAsync($"|{submitType}|");
             }
             else await context.PostAsync("something is wrong - message value is null");
             // pass control back to the calling dialog (root)
