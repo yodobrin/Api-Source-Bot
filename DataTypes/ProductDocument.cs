@@ -193,22 +193,7 @@ namespace SourceBot.DataTypes
 
         }
 
-        //private Attachment GetProductPic()
-        //{
-        //    string picURI = $"https://tapistore.blob.core.windows.net/packingpics/{PackagingPIC}";
-        //    var productCard = new HeroCard
-        //    {
-        //        Title = $"Packing pic for {TapiProductName}",
-        //        //Subtitle = Utilities.GetSentence("12.41"),
-        //        //Text = GetCategory(category),
-        //        Images = new List<CardImage> { new CardImage(picURI) },
-        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
-        //                                         new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
-        //    };
-
-        //    return productCard.ToAttachment();
-
-        //}
+    
 
         public IList<Attachment> GetProductPicCarousel()
         {

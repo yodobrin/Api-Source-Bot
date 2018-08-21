@@ -44,31 +44,29 @@ namespace SourceBot.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-           // 
+            string output = null;
+           
             if (message.Value != null)
-            {
-                //await context.PostAsync($"|{message.ToString()}|");
-                dynamic value = message.Value;
-                string submitType = value.Type.ToString();
+            {                
+                dynamic value = message.Value;                           
                 try
                 {
-                    await context.PostAsync($"json::{parse(value)}");
-                }catch (Exception ex)
+                    output = ParseForm(value);
+                    Lead lead = JsonConvert.DeserializeObject<Lead>(output);
+                    await context.PostAsync($"got lead::{lead.Name} - {lead.Phone}");
+                }
+                catch (Exception ex)
                 {
+                    // need to move to log
                     await context.PostAsync($"got exception::{ex.ToString()}");
                 }
-                //string email = value.Email.toString();
-                //string name = value.Name.toString();
-                //string country = value.Country.toString();
-                //await context.PostAsync($"|{name}-{email}-{country}|");
-                //await context.PostAsync($"|{submitType}|{email}");
             }
             else await context.PostAsync("something is wrong - message value is null");
             // pass control back to the calling dialog (root)
-            context.Done<object>("wtf");
+            context.Done<object>(output);
         }
 
-        private string parse(dynamic mess)
+        private string ParseForm(dynamic mess)
         {
             return JsonConvert.SerializeObject(mess);
         }
