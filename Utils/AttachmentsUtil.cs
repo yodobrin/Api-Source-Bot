@@ -57,6 +57,19 @@ namespace SourceBot.Utils
 
         public static Attachment GetConversationEndCard(string safeword)
         {
+            var endCard = new ThumbnailCard
+            {
+                Title = string.Format(Utilities.GetSentence("1.1"), safeword),
+                //Text = Utilities.GetSentence("19.60"),
+                //Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Wipe all data", value: "wipe-clean") }
+            };
+
+            return endCard.ToAttachment();
+        }
+
+        public static Attachment GetConversationEndCard1(string safeword)
+        {
            
             AdaptiveCard card = new AdaptiveCard()
             {

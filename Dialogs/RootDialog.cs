@@ -321,7 +321,7 @@ namespace SourceBot.Dialogs
             }
 
             MyLead.SetMessageType(Action);
-            string dispName = (string.IsNullOrEmpty(alead.Name)) ? alead.Name : alead.Email;
+            string dispName = (!string.IsNullOrEmpty(alead.Name)) ? alead.Name : alead.Email;
             IList<EntityRecommendation> entities = result.Entities;
             if (entities != null && entities.Count > 0)
             {

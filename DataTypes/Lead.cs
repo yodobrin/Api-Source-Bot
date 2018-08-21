@@ -203,11 +203,12 @@ namespace SourceBot.DataTypes
                     default: break;
                 }
             }
-            
+            string dispName = (!string.IsNullOrEmpty(Name)) ? Name : Email;
+            string dispComp = (!string.IsNullOrEmpty(Company)) ? $"@ {Company}" : "";
             var leadCard = new ThumbnailCard
             {
-                Title = $"Hello {Name} @ {Company}",
-                Subtitle = "This is what I know so far about as a lead...",
+                Title = $"Hello {dispName} @ {dispComp}",
+                //Subtitle = "This is what I know so far about as a lead...",
                 Text = message,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"confirm-{Action}"), new CardAction(ActionTypes.PostBack, "Revisit my details", value: "i am a dealer") }
