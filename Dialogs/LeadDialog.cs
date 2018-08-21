@@ -47,14 +47,14 @@ namespace SourceBot.Dialogs
            // 
             if (message.Value != null)
             {
-                await context.PostAsync($"|{message.ToString()}|");
+                //await context.PostAsync($"|{message.ToString()}|");
                 dynamic value = message.Value;
                 string submitType = value.Type.ToString();
-                //string email = value.Email.toString();
+                string email = value.Email.toString();
                 //string name = value.Name.toString();
                 //string country = value.Country.toString();
                 //await context.PostAsync($"|{name}-{email}-{country}|");
-                await context.PostAsync($"|{submitType}|");
+                await context.PostAsync($"|{submitType}|{email}");
             }
             else await context.PostAsync("something is wrong - message value is null");
             // pass control back to the calling dialog (root)
