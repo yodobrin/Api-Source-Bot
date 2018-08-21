@@ -207,7 +207,7 @@ namespace SourceBot.DataTypes
             string dispComp = (!string.IsNullOrEmpty(Company)) ? $"@ {Company}" : "";
             var leadCard = new ThumbnailCard
             {
-                Title = $"Hello {dispName} @ {dispComp}",
+                Title = $"Hello {dispName} {dispComp}",
                 //Subtitle = "This is what I know so far about as a lead...",
                 Text = message,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
