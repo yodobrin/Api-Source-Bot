@@ -206,8 +206,8 @@ namespace SourceBot.Dialogs
             
             
 
-            //context.Call(diag, ResumeAfterLeadForm);
-            await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
+            context.Call(diag, ResumeAfterLeadForm);
+            //await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
 
             //var message = context.MakeMessage();
             //message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
