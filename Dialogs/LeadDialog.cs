@@ -44,17 +44,17 @@ namespace SourceBot.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-           // await context.PostAsync($"|{message.ToString()}|");
+           // 
             if (message.Value != null)
             {
-                
+                await context.PostAsync($"|{message.ToString()}|");
                 dynamic value = message.Value;
                 string submitType = value.Type.ToString();
-                string email = value.Email.toString();
-                string name = value.Name.toString();
-                string country = value.Country.toString();
-                await context.PostAsync($"|{name}-{email}-{country}|");
-                //await context.PostAsync($"|{submitType}|");
+                //string email = value.Email.toString();
+                //string name = value.Name.toString();
+                //string country = value.Country.toString();
+                //await context.PostAsync($"|{name}-{email}-{country}|");
+                await context.PostAsync($"|{submitType}|");
             }
             else await context.PostAsync("something is wrong - message value is null");
             // pass control back to the calling dialog (root)
