@@ -206,8 +206,8 @@ namespace SourceBot.Dialogs
             
             
 
-            //context.Call(diag, ResumeAfterLeadForm);
-            await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
+            context.Call(diag, ResumeAfterLeadForm);
+            //await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
 
             //var message = context.MakeMessage();
             //message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
@@ -413,6 +413,7 @@ namespace SourceBot.Dialogs
 
         private async Task ResumeAfterLeadForm(IDialogContext context, IAwaitable<object> result)
         {
+            await context.PostAsync($"back to root from lead dialog");
             context.Wait(MessageReceived);
         }
 

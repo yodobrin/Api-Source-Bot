@@ -28,7 +28,7 @@ using System.Threading;
 namespace SourceBot.Dialogs
 {
     [Serializable]
-    public class LeadDialog : IDialog<Lead>
+    public class LeadDialog : IDialog<object>
     {
        
         public async Task StartAsync(IDialogContext context)
@@ -44,7 +44,7 @@ namespace SourceBot.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            await context.PostAsync($"|{message.ToString()}|");
+           // await context.PostAsync($"|{message.ToString()}|");
             if (message.Value != null)
             {
                 
