@@ -83,46 +83,9 @@ namespace SourceBot.DataTypes
             else return NO_SUCH_FIELD;
         }
 
-        public Dictionary<string, LineItem> GetValues(int option)
-        {
-            if(properties == null)
-            {
-                InitProperties();
-            }
-            switch (option)
-            {
-                case ALL:
-                    return properties;
+      
 
-                case UNFILLED:
-                    return FilterUnFilled();
-
-                default: return properties;
-            }
-        }
-
-        private Dictionary<string, LineItem> FilterUnFilled()
-        {
-            Dictionary<string, LineItem> tmp = new Dictionary<string, LineItem>();
-            foreach (LineItem itm in properties.Values)
-            {
-                if (!itm.IsFill()) tmp.Add(itm.Type, itm);
-            }
-            return tmp;
-        }
-
-        public string flush()
-        {
-            string result = "{ ";
-            string pat = "\"{0}\":\"{1}\"";
-            foreach (LineItem itm in properties.Values)
-            {
-                result += string.Format(pat, itm.Type, itm.Value);
-            }
-            return result+" }";
-        }
-
-        [Prompt("Please enter your full name")]
+        //[Prompt("Please enter your full name")]
         [JsonProperty("Name")]
         public string Name { get; set; }
 
@@ -130,24 +93,24 @@ namespace SourceBot.DataTypes
         //[JsonProperty("Last Name")]
         //public string LastName { get; set; }
 
-        [Prompt("Please enter your email address")]
-        [Pattern(RegexConstants.Email)]
+        //[Prompt("Please enter your email address")]
+        //[Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
         public string Email { get; set; }
 
         // TODO must select from a list of countries
-        [Prompt("Great, in order to provide the most relavant information please provide your target market")]
+        //[Prompt("Great, in order to provide the most relavant information please provide your target market")]
         //[Pattern(RegexConstants.Email)]
         [JsonProperty("Country")]
         public string Country { get; set; }
 
-        [Prompt("Excelent, please provide your company name, so we can forward your request to the relavant person, in case you already a TAPI customer")]
+        //[Prompt("Excelent, please provide your company name, so we can forward your request to the relavant person, in case you already a TAPI customer")]
         [JsonProperty("Company")]
         public string Company { get; set; }
 
         // add a validation on the format and contact
-        [Prompt("Thanks, please provide your phone number ")]
-        [Pattern(RegexConstants.Phone)]
+        //[Prompt("Thanks, please provide your phone number ")]
+        //[Pattern(RegexConstants.Phone)]
         [JsonProperty("Phone")]
         public string Phone { get; set; }
 
@@ -166,7 +129,7 @@ namespace SourceBot.DataTypes
         private string Product { get; set; }
 
 
-        [Prompt("Any Comments? Information you provide will help us to provide information in the most accurate way, for example which documents are required? What is the quanitity of the API you need? Do you need price quatation? etc.")]
+        //[Prompt("Any Comments? Information you provide will help us to provide information in the most accurate way, for example which documents are required? What is the quanitity of the API you need? Do you need price quatation? etc.")]
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 

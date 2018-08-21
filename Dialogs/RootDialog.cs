@@ -159,7 +159,8 @@ namespace SourceBot.Dialogs
                         // need to create a lead and send the search results
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.PERSIST_Q);
-                        await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
+                        await context.PostAsync(string.Format(Utilities.GetSentence("22"), alead.Email));
+                        //await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
                     }
                     else
                     {
@@ -320,14 +321,30 @@ namespace SourceBot.Dialogs
             }
 
             MyLead.SetMessageType(Action);
-            //MyLead.SetSubject("A contact with these details expressed interest");
-            MyLead.SetProduct(tproducts[0]);
-            await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(),Utilities.PERSIST_Q);               
+            string dispName = (string.IsNullOrEmpty(alead.Name)) ? alead.Name : alead.Email;
+            IList<EntityRecommendation> entities = result.Entities;
+            if (entities != null && entities.Count > 0)
+            {
+
+                EntityRecommendation inst = entities[0];
+                switch (inst.Entity)
+                {
+                    case "confirm-lead-send-catalog":
+                        MyLead.SetSubject("A contact with these details expressed interest");
+                        await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.TRANSIENT_Q);
+                        break;
+                    case "confirm-lead-creation":
+                        if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0]);
+                        await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.PERSIST_Q);
+                        break;
+                }
+            }      
+                           
             // Infor the lead process ended
             await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
             // post a nice end message with an option to provide feedback (and share - not functional)
             var message = context.MakeMessage();
-            message.Attachments.Add(AttachmentsUtil.GetEndCard(MyLead.Name));
+            message.Attachments.Add(AttachmentsUtil.GetEndCard(dispName));
             await context.PostAsync(message);
 
         }
@@ -385,33 +402,33 @@ namespace SourceBot.Dialogs
 
         
 
-        private void SetSubject(IList<ProductDocument> tproducts)
-        {
-            string result = "";
-            if (tproducts != null)
-            {
-                foreach (ProductDocument prd in tproducts)
-                {
-                    string.Concat(result, ",", prd.TapiProductName);
-                }
-                MyLead.SetSubject( result);
-            }
-        }
+        //private void SetSubject(IList<ProductDocument> tproducts)
+        //{
+        //    string result = "";
+        //    if (tproducts != null)
+        //    {
+        //        foreach (ProductDocument prd in tproducts)
+        //        {
+        //            string.Concat(result, ",", prd.TapiProductName);
+        //        }
+        //        MyLead.SetSubject( result);
+        //    }
+        //}
 
 
-        private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
-        {
-            // remove the verbiage
-            MyLead = await result;
-            if(MyLead!=null)
-            {
-                MyLead.SetAction(Action);
-                var message = context.MakeMessage();
-                message.Attachments.Add(MyLead.GetLeadCard(tproducts));
-                await context.PostAsync(message);
-            } //else await context.PostAsync(" Lead process ended without a lead");
+        //private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
+        //{
+        //    // remove the verbiage
+        //    MyLead = await result;
+        //    if(MyLead!=null)
+        //    {
+        //        MyLead.SetAction(Action);
+        //        var message = context.MakeMessage();
+        //        message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+        //        await context.PostAsync(message);
+        //    } //else await context.PostAsync(" Lead process ended without a lead");
 
-        }
+        //}
 
         private async Task ResumeAfterLeadForm(IDialogContext context, IAwaitable<object> result)
         {
@@ -430,15 +447,15 @@ namespace SourceBot.Dialogs
             //context.Wait(MessageReceived);
         }
 
-        private async Task ResumeAfterSend(IDialogContext context, IAwaitable<object> result)
-        {
-            object obj = await result;
-            MyLead.SetAction(Action);
-            // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
-            var message = context.MakeMessage();
-            message.Attachments.Add(MyLead.GetLeadCard(tproducts));
-            await context.PostAsync(message);
-        }
+        //private async Task ResumeAfterSend(IDialogContext context, IAwaitable<object> result)
+        //{
+        //    object obj = await result;
+        //    MyLead.SetAction(Action);
+        //    // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
+        //    var message = context.MakeMessage();
+        //    message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+        //    await context.PostAsync(message);
+        //}
 
         
         
