@@ -97,7 +97,9 @@ namespace SourceBot.Dialogs
         {
             Action = Lead.PDF;
             Lead alead;
-            DetailsDialog dialog = new DetailsDialog();
+            //DetailsDialog dialog = new DetailsDialog();
+            LeadDialog diag = new LeadDialog();
+            diag.LeadType = AttachmentsUtil.MINIMAL;
 
             if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
@@ -109,7 +111,7 @@ namespace SourceBot.Dialogs
                 await context.PostAsync(message);
             }
 
-            else context.Call(dialog, this.ResumeAfterForm);
+            else context.Call(diag, this.ResumeAfterLeadForm);
 
            
         }
@@ -146,7 +148,9 @@ namespace SourceBot.Dialogs
                     break;
                 case ProductDocument.FETCH_BY_MAIL:
                     Lead alead;
-                    DetailsDialog dialog = new DetailsDialog();
+                    //DetailsDialog dialog = new DetailsDialog();
+                    LeadDialog diag = new LeadDialog();
+                    diag.LeadType = AttachmentsUtil.FULL;
                     if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
                     {
                         alead.SetMessageType(ProductDocument.FETCH_BY_MAIL);
@@ -160,7 +164,7 @@ namespace SourceBot.Dialogs
                     else
                     {
                         Action = Lead.SEARCH;
-                        context.Call(dialog, this.ResumeAfterForm);
+                        context.Call(diag, this.ResumeAfterLeadForm);
                     }
                     break;
                 case ProductDocument.HIGHLIGHT:
@@ -203,18 +207,10 @@ namespace SourceBot.Dialogs
         public async Task HelpIntent(IDialogContext context, LuisResult result)
         {
 
-            LeadDialog diag = new LeadDialog();
-            
-            
+            //LeadDialog diag = new LeadDialog();
+            //context.Call(diag, ResumeAfterLeadForm);
 
-            context.Call(diag, ResumeAfterLeadForm);
-            //await context.Forward(diag, this.ResumeAfterLeadForm, context.Activity, CancellationToken.None);
-
-            //var message = context.MakeMessage();
-            //message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
-
-            //await context.PostAsync(message);
-            //await context.PostAsync(Utilities.GetSentence("911.0"));
+            await context.PostAsync(Utilities.GetSentence("911.0"));
 
         }
 
@@ -290,16 +286,21 @@ namespace SourceBot.Dialogs
         public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
         {
             Lead alead;
-            DetailsDialog dialog = new DetailsDialog();
+            //DetailsDialog dialog = new DetailsDialog();
             Action = Lead.LEADCREATE;
             if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
                 MyLead = alead;
+            }else
+            {
+                LeadDialog diag = new LeadDialog();
+                diag.LeadType = AttachmentsUtil.FULL;
+                context.Call(diag, ResumeAfterLeadForm);
             }
-            if (MyLead==null || !MyLead.IsLead()) MyLead = new Lead();
-            //setting the action to lead creation
-            dialog.SetLead(MyLead);
-            context.Call(dialog, this.ResumeAfterForm);
+            //if (MyLead==null || !MyLead.IsLead()) MyLead = new Lead();
+            ////setting the action to lead creation
+            //dialog.SetLead(MyLead);
+            //context.Call(dialog, this.ResumeAfterForm);
 
         }
 
@@ -414,12 +415,19 @@ namespace SourceBot.Dialogs
 
         private async Task ResumeAfterLeadForm(IDialogContext context, IAwaitable<object> result)
         {
-            var message = await result;
+            var tempMess = await result;
             // just for test - would remove >>
-            Lead lead = JsonConvert.DeserializeObject<Lead>(message.ToString());
-            await context.PostAsync($"back to root from lead dialog: {lead.Name}");
+            MyLead = JsonConvert.DeserializeObject<Lead>(tempMess.ToString());
+            if (MyLead != null)
+            {
+                MyLead.SetAction(Action);
+                var message = context.MakeMessage();
+                message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+                await context.PostAsync(message);
+            }
+            //await context.PostAsync($"back to root from lead dialog: {lead.Name}");
             // <<
-            context.Wait(MessageReceived);
+            //context.Wait(MessageReceived);
         }
 
         private async Task ResumeAfterSend(IDialogContext context, IAwaitable<object> result)

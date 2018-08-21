@@ -30,11 +30,26 @@ namespace SourceBot.Dialogs
     [Serializable]
     public class LeadDialog : IDialog<object>
     {
+        public string LeadType;
+
        
         public async Task StartAsync(IDialogContext context)
         {
             var message = context.MakeMessage();
-            message.Attachments.Add(AttachmentsUtil.CreateLeadFormCard());
+            Attachment attachment = null;
+            switch (LeadType)
+            {
+                case AttachmentsUtil.FULL:
+                    attachment = AttachmentsUtil.CreateFullLeadFormCard();
+                    break;
+                case AttachmentsUtil.MINIMAL:
+                    attachment = AttachmentsUtil.CreateMinimalLeadFormCard();
+                    break;
+                default:
+                    attachment = AttachmentsUtil.CreateFullLeadFormCard();
+                    break;
+            }
+            message.Attachments.Add(attachment);
             await context.PostAsync(message);
 
             context.Wait(this.MessageReceivedAsync);

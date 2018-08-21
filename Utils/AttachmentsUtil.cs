@@ -38,6 +38,9 @@ namespace SourceBot.Utils
     [Serializable]
     public class AttachmentsUtil
     {
+
+        public const string FULL = "full-lead";
+        public const string MINIMAL = "minimal-lead";
         public static Attachment GetEndCard(string name)
         {
             var endCard = new HeroCard
@@ -195,7 +198,7 @@ namespace SourceBot.Utils
         //    foreach(string field in)
         //}
 
-        public static Attachment CreateLeadFormCard()
+        public static Attachment CreateFullLeadFormCard()
         {
             var card = new AdaptiveCard();
 
@@ -238,7 +241,7 @@ namespace SourceBot.Utils
                                new TextInput  {  Id = "Company", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Comments", Placeholder = "optional", Style = TextInputStyle.Tel, },
+                               new TextInput  {  Id = "Comments", Placeholder = "optional", Style = TextInputStyle.Tel, IsMultiline = true, },
                             },
 
                         }
@@ -259,6 +262,47 @@ namespace SourceBot.Utils
 
             return attachment;
             
+        }
+
+
+        public static Attachment CreateMinimalLeadFormCard()
+        {
+            var card = new AdaptiveCard();
+
+            var columnsBlock = new ColumnSet()
+            {
+                Separation = SeparationStyle.None,
+                Columns = new List<Column>
+                {
+                        new Column
+                        {
+                            Size = "2",
+                            Items = new List<CardElement>
+                            {  
+                               new TextBlock  {  Text = "We just need an email address to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
+
+                               new TextBlock  {  Text = "Your email", Wrap = true, },
+                               new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
+                            },
+
+                        }
+                }
+            };
+            card.Body.Add(columnsBlock);
+
+            card.Actions = new List<ActionBase>()
+                {
+                    new SubmitAction
+                    {
+                        Title = "Submit",
+                        DataJson = "{ \"Type\": \"CreateMinimalLeadCard\" }",
+                    }
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
         }
 
     }
