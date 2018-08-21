@@ -58,7 +58,7 @@ namespace SourceBot.Dialogs
             }
             else await context.PostAsync("something is wrong - message value is null");
             // pass control back to the calling dialog (root)
-            context.Done<object>(null);
+            context.Done<object>("wtf");
         }
 
       
