@@ -17,7 +17,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
-
+using Newtonsoft.Json;
 using System.Collections.Generic;
 
 using SourceBot.DataTypes;
@@ -50,15 +50,27 @@ namespace SourceBot.Dialogs
                 //await context.PostAsync($"|{message.ToString()}|");
                 dynamic value = message.Value;
                 string submitType = value.Type.ToString();
-                string email = value.Email.toString();
+                try
+                {
+                    await context.PostAsync($"json::{parse(value)}");
+                }catch (Exception ex)
+                {
+                    await context.PostAsync($"got exception::{ex.ToString()}");
+                }
+                //string email = value.Email.toString();
                 //string name = value.Name.toString();
                 //string country = value.Country.toString();
                 //await context.PostAsync($"|{name}-{email}-{country}|");
-                await context.PostAsync($"|{submitType}|{email}");
+                //await context.PostAsync($"|{submitType}|{email}");
             }
             else await context.PostAsync("something is wrong - message value is null");
             // pass control back to the calling dialog (root)
             context.Done<object>("wtf");
+        }
+
+        private string parse(dynamic mess)
+        {
+            return JsonConvert.SerializeObject(mess);
         }
 
       
