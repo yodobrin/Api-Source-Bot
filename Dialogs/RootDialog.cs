@@ -29,6 +29,7 @@ using SourceBot.Utils;
 using SourceBot.DataTypes;
 
 using System.Threading;
+using Newtonsoft.Json;
 
 
 using Microsoft.Bot.Connector;
@@ -414,7 +415,10 @@ namespace SourceBot.Dialogs
         private async Task ResumeAfterLeadForm(IDialogContext context, IAwaitable<object> result)
         {
             var message = await result;
-            await context.PostAsync($"back to root from lead dialog {message.ToString()}");
+            // just for test - would remove >>
+            Lead lead = JsonConvert.DeserializeObject<Lead>(message.ToString());
+            await context.PostAsync($"back to root from lead dialog: {lead.Name}");
+            // <<
             context.Wait(MessageReceived);
         }
 

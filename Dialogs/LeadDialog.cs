@@ -52,8 +52,9 @@ namespace SourceBot.Dialogs
                 try
                 {
                     output = ParseForm(value);
-                    Lead lead = JsonConvert.DeserializeObject<Lead>(output);
-                    await context.PostAsync($"got lead::{lead.Name} - {lead.Phone}");
+                    Lead lead = JsonConvert.DeserializeObject<Lead>(message.ToString());
+                    context.PrivateConversationData.SetValue("bot-lead", lead);
+                    //await context.PostAsync($"got lead::{lead.Name} - {lead.Phone}");
                 }
                 catch (Exception ex)
                 {
