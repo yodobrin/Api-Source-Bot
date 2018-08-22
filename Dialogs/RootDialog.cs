@@ -319,15 +319,16 @@ namespace SourceBot.Dialogs
             {
                 MyLead = alead;
             }
+            await context.PostAsync($"query={result.Query}");
 
             MyLead.SetMessageType(Action);
             string dispName = (!string.IsNullOrEmpty(alead.Name)) ? alead.Name : alead.Email;
-            IList<EntityRecommendation> entities = result.Entities;
-            if (entities != null && entities.Count > 0)
-            {
-
-                EntityRecommendation inst = entities[0];
-                switch (inst.Entity)
+            //IList<EntityRecommendation> entities = result.Entities;
+            //if (entities != null && entities.Count > 0)
+            //{                
+            //    EntityRecommendation inst = entities[0];
+            //    await context.PostAsync($"inst={inst}");
+                switch (result.Query)
                 {
                     case "confirm-lead-send-catalog":
                         MyLead.SetSubject("A contact with these details expressed interest");
@@ -341,7 +342,7 @@ namespace SourceBot.Dialogs
                         await context.PostAsync("call again the lead diag?");
                         break;
                 }
-            }      
+            //}      
                            
             // Inform the lead process ended
             await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
