@@ -43,7 +43,7 @@
 12.42 = I'm OK. Send me the information by email.
 12.5 = Yes
 12.6 = No, this is not the API I was looking for
-12.10 = Great, here is what I found. Click on each of the topics for detailed information.
+12.10 = Great, here is what I found. 
 12.11 = The information is broken to specific topics
 12.12 = You can click on the topics below to see more information
 12.20 = Innovator/Marketer
