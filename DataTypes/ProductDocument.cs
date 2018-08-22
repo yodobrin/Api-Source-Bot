@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using SourceBot.Utils;
 using System.Configuration;
 
-
+using AdaptiveCards;
 
 
 using Microsoft.Bot.Connector;
@@ -277,5 +277,7 @@ namespace SourceBot.DataTypes
 
             return productCard.ToAttachment();
         }
+
+
     }
 }

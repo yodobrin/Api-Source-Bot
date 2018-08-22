@@ -210,8 +210,10 @@ namespace SourceBot.Dialogs
 
             //LeadDialog diag = new LeadDialog();
             //context.Call(diag, ResumeAfterLeadForm);
-
-            await context.PostAsync(Utilities.GetSentence("911.0"));
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.getAdaptiveFull());
+            await context.PostAsync(message);
+           // await context.PostAsync(Utilities.GetSentence("911.0"));
 
         }
 

@@ -385,6 +385,88 @@ namespace SourceBot.Utils
 
         }
 
+        public static Attachment getAdaptiveFull()
+        {
+            AdaptiveCard card = new AdaptiveCard()
+            {
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Speak = "<s>Hello!</s><s>Are you looking for a flight or a hotel?</s>",
+                        Items = new List<CardElement>()
+                        {
+                            new ColumnSet()
+                            {
+                                Columns = new List<Column>()
+                                {
+                                    new Column()
+                                    {
+                                        Size = ColumnSize.Auto,
+                                        Items = new List<CardElement>()
+                                        {
+                                            new Image()
+                                            {
+                                                Url = "https://placeholdit.imgix.net/~text?txtsize=65&txt=Adaptive+Cards&w=300&h=300",
+                                                Size = ImageSize.Medium,
+                                                Style = ImageStyle.Person
+                                            }
+                                        }
+                                    },
+                                    new Column()
+                                    {
+                                        Size = ColumnSize.Stretch,
+                                        Items = new List<CardElement>()
+                                        {
+                                            new TextBlock()
+                                            {
+                                                Text =  "Hello!",
+                                                Weight = TextWeight.Bolder,
+                                                IsSubtle = true
+                                            },
+                                            new TextBlock()
+                                            {
+                                                Text = "Are you looking for a flight or a hotel?",
+                                                Wrap = true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                // Buttons
+                Actions = new List<ActionBase>() {
+
+                    new ShowCardAction()
+                    {
+                        Title = "Flights",
+                        Speak = "<s>Flights</s>",
+                        Card = new AdaptiveCard()
+                        {
+                            Body = new List<CardElement>()
+                            {
+                                new TextBlock()
+                                {
+                                    Text = "Flights is not implemented =(",
+                                    Speak = "<s>Flights is not implemented</s>",
+                                    Weight = TextWeight.Bolder
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            Attachment attachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card
+            };
+            return attachment;
+        }
+
     }
 
 
