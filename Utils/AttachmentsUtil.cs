@@ -393,7 +393,7 @@ namespace SourceBot.Utils
                 {
                     new Container()
                     {
-                        Speak = "<s>Hello!</s><s>Are you looking for a flight or a hotel?</s>",
+                        
                         Items = new List<CardElement>()
                         {
                             new ColumnSet()
@@ -405,11 +405,19 @@ namespace SourceBot.Utils
                                         Size = ColumnSize.Auto,
                                         Items = new List<CardElement>()
                                         {
-                                            new Image()
+                                            new TextBlock()
                                             {
-                                                Url = "https://placeholdit.imgix.net/~text?txtsize=65&txt=Adaptive+Cards&w=300&h=300",
-                                                Size = ImageSize.Medium,
-                                                Style = ImageStyle.Person
+                                                Text =  "my first topic!",
+                                                Weight = TextWeight.Normal,
+                                                Color = TextColor.Good,
+                                                IsSubtle = true
+                                            },
+                                            new TextBlock()
+                                            {
+                                                Text =  "my second topic:",
+                                                Weight = TextWeight.Normal,
+                                                Color = TextColor.Dark,
+                                                IsSubtle = true
                                             }
                                         }
                                     },
@@ -420,14 +428,16 @@ namespace SourceBot.Utils
                                         {
                                             new TextBlock()
                                             {
-                                                Text =  "Hello!",
+                                                Text =  "a topic value!",
                                                 Weight = TextWeight.Bolder,
                                                 IsSubtle = true
                                             },
                                             new TextBlock()
                                             {
-                                                Text = "Are you looking for a flight or a hotel?",
-                                                Wrap = true
+                                                Text =  "a second topic value!",
+                                                Weight = TextWeight.Bolder,
+                                                Color = TextColor.Dark,
+                                                IsSubtle = true
                                             }
                                         }
                                     }
