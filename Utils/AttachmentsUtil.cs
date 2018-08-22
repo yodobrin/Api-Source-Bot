@@ -430,6 +430,7 @@ namespace SourceBot.Utils
                                             {
                                                 Text =  "a topic value!",
                                                 Weight = TextWeight.Bolder,
+                                                Wrap = true,
                                                 IsSubtle = true
                                             },
                                             new TextBlock()
@@ -437,6 +438,7 @@ namespace SourceBot.Utils
                                                 Text =  "a second topic value!",
                                                 Weight = TextWeight.Bolder,
                                                 Color = TextColor.Dark,
+                                                Wrap = true,
                                                 IsSubtle = true
                                             }
                                         }
