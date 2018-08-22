@@ -319,30 +319,28 @@ namespace SourceBot.Dialogs
             {
                 MyLead = alead;
             }
-            await context.PostAsync($"query={result.Query}");
+            
 
             MyLead.SetMessageType(Action);
             string dispName = (!string.IsNullOrEmpty(alead.Name)) ? alead.Name : alead.Email;
-            //IList<EntityRecommendation> entities = result.Entities;
-            //if (entities != null && entities.Count > 0)
-            //{                
-            //    EntityRecommendation inst = entities[0];
-            //    await context.PostAsync($"inst={inst}");
-                switch (result.Query)
-                {
-                    case "confirm-lead-send-catalog":
-                        MyLead.SetSubject("A contact with these details expressed interest");
-                        await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.TRANSIENT_Q);
-                        break;
-                    case "confirm-lead-creation":
-                        if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0]);
-                        await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.PERSIST_Q);
-                        break;
-                    case Lead.REVISIT_DETAILS:
-                        await context.PostAsync("call again the lead diag?");
-                        break;
-                }
-            //}      
+            
+            switch (result.Query)
+            {
+                case "confirm-lead-send-catalog":
+                    MyLead.SetSubject("A contact with these details expressed interest");
+                    await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.TRANSIENT_Q);
+                    break;
+                case "confirm-lead-creation":
+                    if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0]);
+                    await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.PERSIST_Q);
+                    break;
+                case Lead.REVISIT_DETAILS:
+                    LeadDialog diag = new LeadDialog();
+                    diag.LeadType = AttachmentsUtil.FULL;
+                    context.Call(diag, this.ResumeAfterLeadForm);                    
+                    break;
+            }
+            
                            
             // Inform the lead process ended
             await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
