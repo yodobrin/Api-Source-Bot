@@ -41,6 +41,8 @@ namespace SourceBot.Utils
 
         public const string FULL = "full-lead";
         public const string MINIMAL = "minimal-lead";
+        public const string REVISIT = "revisit-lead";
+
         public static Attachment GetEndCard(string name)
         {
             var endCard = new HeroCard

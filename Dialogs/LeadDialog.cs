@@ -40,7 +40,7 @@ namespace SourceBot.Dialogs
             var message = context.MakeMessage();
             Attachment attachment = null;
             // in case it is a revisit of the details
-            if (Temporary != null) attachment = AttachmentsUtil.CreateFullLeadFormCard(Temporary);
+            
             switch (LeadType)
             {
                 case AttachmentsUtil.FULL:
@@ -48,6 +48,9 @@ namespace SourceBot.Dialogs
                     break;
                 case AttachmentsUtil.MINIMAL:
                     attachment = AttachmentsUtil.CreateMinimalLeadFormCard();
+                    break;
+                case AttachmentsUtil.REVISIT:
+                    attachment = AttachmentsUtil.CreateFullLeadFormCard(Temporary);
                     break;
                 default:
                     attachment = AttachmentsUtil.CreateFullLeadFormCard();

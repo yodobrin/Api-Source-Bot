@@ -349,7 +349,7 @@ namespace SourceBot.Dialogs
                 case Lead.REVISIT_DETAILS:
                     LeadDialog diag = new LeadDialog();
                     diag.Temporary = MyLead;
-                    diag.LeadType = AttachmentsUtil.FULL;
+                    diag.LeadType = AttachmentsUtil.REVISIT;
                     context.Call(diag, this.ResumeAfterLeadForm);                    
                     break;
             }
