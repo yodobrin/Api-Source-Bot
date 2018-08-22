@@ -211,6 +211,71 @@ namespace SourceBot.Utils
         //    foreach(string field in)
         //}
 
+        public static Attachment CreateFullLeadFormCard(Lead lead)
+        {
+            var card = new AdaptiveCard();
+
+            var columnsBlock = new ColumnSet()
+            {
+                Separation = SeparationStyle.None,
+                Columns = new List<Column>
+                {
+                        new Column
+                        {
+                            Size = "2",
+                            Items = new List<CardElement>
+                            {  new TextBlock  {  Text = "Please revisit details...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
+                               //new TextBlock  {  Text = "We just need a few more details to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
+
+                               new TextBlock  {  Text = "Your name", Wrap = true, },
+                               new TextInput  {  Id = "Name", Placeholder = lead.Name,  },
+
+                               new TextBlock  {  Text = "Your email", Wrap = true, },
+                               new TextInput  {  Id = "Email", Placeholder = lead.Email, Style = TextInputStyle.Email, },
+
+                               new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "PhoneNumber", Placeholder = lead.Phone, Style = TextInputStyle.Tel, },
+
+                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },
+                               //new TextInput  {  Id = "Country", Placeholder = "optional", Style = TextInputStyle.Tel, },
+
+                               new ChoiceSet()
+                               {
+                                    Id = "Country",  Style = ChoiceInputStyle.Compact,
+                                    Choices = new List<Choice>()
+                                    {
+                                        new Choice() { Title = "USA", Value = "USA", IsSelected = true },
+                                        new Choice() { Title = "Israel", Value = "IL" },
+                                        new Choice() { Title = "United Kindom", Value = "UK" }
+                                    }
+                                },
+
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "Company",  Placeholder = lead.Company, Style = TextInputStyle.Tel, },
+
+                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "Comments",  Placeholder = lead.Company, Style = TextInputStyle.Tel, IsMultiline = true, },
+                            },
+
+                        }
+                }
+            };
+            card.Body.Add(columnsBlock);
+
+            card.Actions = new List<ActionBase>()
+                {
+                    new SubmitAction
+                    {
+                        Title = "Submit",
+                        DataJson = "{ \"Type\": \"CreateLeadCard\" }",
+                    }
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+        }
+
         public static Attachment CreateFullLeadFormCard()
         {
             var card = new AdaptiveCard();

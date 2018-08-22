@@ -32,11 +32,15 @@ namespace SourceBot.Dialogs
     {
         public string LeadType;
 
+        public Lead Temporary;
+
        
         public async Task StartAsync(IDialogContext context)
         {
             var message = context.MakeMessage();
             Attachment attachment = null;
+            // in case it is a revisit of the details
+            if (Temporary != null) attachment = AttachmentsUtil.CreateFullLeadFormCard(Temporary);
             switch (LeadType)
             {
                 case AttachmentsUtil.FULL:
