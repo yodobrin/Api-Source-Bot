@@ -30,6 +30,7 @@ namespace SourceBot.DataTypes
     {
         public const string PDF = "lead-send-catalog";
         public const string SEND_PDF = "send-catalog";
+        public const string REVISIT_DETAILS = "revisit-lead-details";
         public const string SEARCH = "lead-search";
         public const string LEADCREATE = "lead-create";
         public const string UPDATE_ONCE_EXIST = "update-me-once-api";
@@ -211,7 +212,7 @@ namespace SourceBot.DataTypes
                 //Subtitle = "This is what I know so far about as a lead...",
                 Text = message,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"confirm-{Action}"), new CardAction(ActionTypes.PostBack, "Revisit my details", value: ProductDocument.FETCH_BY_MAIL) }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"confirm-{Action}"), new CardAction(ActionTypes.PostBack, "Revisit my details", value: REVISIT_DETAILS) }
             };
 
             return leadCard.ToAttachment();
