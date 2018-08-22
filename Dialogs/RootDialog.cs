@@ -348,6 +348,16 @@ namespace SourceBot.Dialogs
                     // Inform the lead process ended
                     await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
                     break;
+                case "confirm-lead-search":
+                    if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0]);
+                    await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.PERSIST_Q);
+                    // post a nice end message with an option to provide feedback (and share - not functional)
+
+                    message.Attachments.Add(AttachmentsUtil.GetEndCard(dispName));
+                    await context.PostAsync(message);
+                    // Inform the lead process ended
+                    await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
+                    break;
                 case Lead.REVISIT_DETAILS:
                     LeadDialog diag = new LeadDialog();
                     diag.Temporary = MyLead;
