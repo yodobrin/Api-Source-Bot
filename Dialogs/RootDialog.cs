@@ -380,10 +380,7 @@ namespace SourceBot.Dialogs
             tproducts = (IList<ProductDocument>)await result;
             var message = context.MakeMessage();
             if (tproducts != null && tproducts.Count > 0)
-            {
-                // await context.PostAsync($"after search {tproducts.Count}");
-                // SetSubject(tproducts);
-
+            {               
                 message.Attachments.Add(AttachmentsUtil.GetResultCard(tproducts));
                 await context.PostAsync(message);
             }

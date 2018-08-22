@@ -62,7 +62,7 @@ namespace SourceBot.Utils
                 Title = string.Format(Utilities.GetSentence("1.1"), safeword),
                 Text = Utilities.GetSentence("1.11"),
                 //Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Wipe all data", value: "wipe-clean") }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure, I'm done", value: "wipe-clean") }
             };
 
             return endCard.ToAttachment();
@@ -251,10 +251,10 @@ namespace SourceBot.Utils
                                 },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Company", Placeholder = "optional", Style = TextInputStyle.Tel, },
+                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Comments", Placeholder = "optional", Style = TextInputStyle.Tel, IsMultiline = true, },
+                               new TextInput  {  Id = "Comments",  Style = TextInputStyle.Tel, IsMultiline = true, },
                             },
 
                         }
