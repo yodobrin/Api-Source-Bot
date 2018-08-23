@@ -42,15 +42,20 @@ namespace SourceBot.Utils
         public const string FULL = "full-lead";
         public const string MINIMAL = "minimal-lead";
         public const string REVISIT = "revisit-lead";
+        private static string SHARE_URL = ConfigurationManager.AppSettings["WebShareUrl"];
+        
+        private static string shareurl = string.Format(Utilities.GetSentence("1000"), SHARE_URL);
 
         public static Attachment GetEndCard(string name)
         {
+            
             var endCard = new HeroCard
             {
                 Title = $"{name}  - Thank you!",
                 Text = Utilities.GetSentence("19.60"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey"),
+                    new CardAction(ActionTypes.OpenUrl, "Share", value:shareurl ),
                     new CardAction(ActionTypes.PostBack, "No", value: "bye") }
             };
 
@@ -70,26 +75,7 @@ namespace SourceBot.Utils
             return endCard.ToAttachment();
         }
 
-        public static Attachment GetConversationEndCard1(string safeword)
-        {
-           
-            AdaptiveCard card = new AdaptiveCard()
-            {
-                Body = new List<CardElement>()
-                { 
-                    new Container()
-                    {
-                        Items = new List<CardElement>  { new TextBlock  { Text = string.Format(Utilities.GetSentence("1.1"),safeword), Wrap = true  }   }
-                    }
-                },
-                Actions = new List<ActionBase>() { new SubmitAction() { Data = "wipe-clean" , Title = "Wipe all data" } }
-            };
-
-            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType,  Content = card  };
-
-            return attachment;
-
-        }
+        
 
         public static Attachment GetConversationStartCard()
         {

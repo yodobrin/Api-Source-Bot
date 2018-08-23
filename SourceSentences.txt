@@ -82,6 +82,7 @@
 950 = An Error has occured
 951 = Please try your operation again {0}
 952 = Try re-entering your search keywords
+1000 = https://www.linkedin.com/shareArticle?mini=true&url={0}&title=Sophi&summary=My%20Pharmaceutical%20Asistant&source=LinkedIn
 ### propmpts ####
 Email = Please Enter Valid Email address
 First = Please enter your first name
