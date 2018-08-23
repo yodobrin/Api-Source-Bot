@@ -104,7 +104,7 @@ namespace SourceBot.Dialogs
             if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
                 alead.SetMessageType(Lead.PDF);
-                alead.SetSubject("A lead is interested in the catalog pdf.");
+                alead.SetSubject("PDF");
                 await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
                 var message = context.MakeMessage();
                 message.Text = string.Format(Utilities.GetSentence("19.80"),alead.Email);
@@ -331,7 +331,7 @@ namespace SourceBot.Dialogs
             switch (result.Query)
             {
                 case "confirm-lead-send-catalog":
-                    MyLead.SetSubject("A contact with these details expressed interest");
+                    MyLead.SetSubject("PDF");
                     await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.TRANSIENT_Q);
                     // post a nice end message with an option to provide feedback (and share - not functional)
                     

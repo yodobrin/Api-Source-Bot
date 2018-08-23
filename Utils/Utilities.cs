@@ -193,7 +193,7 @@ namespace SourceBot.Utils
                     await queueClientTransient.SendAsync(message);
                     break;
                 case TRANSIENT_Q:
-                    await queueClientLeadPersist.SendAsync(message);
+                    await queueClientTransient.SendAsync(message);
                     break;
                 case SURVEY_Q:
                     await queueClientSurveyPersist.SendAsync(message);
