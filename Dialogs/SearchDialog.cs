@@ -58,7 +58,7 @@ namespace SourceBot.Dialogs
             context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out currSearch);
 
 
-            context.ConversationData.SetValue(ProductDocument.USER_QUERY, currSearch);
+            //context.ConversationData.SetValue(ProductDocument.USER_QUERY, currSearch);
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
             // loop over the entities find the "Product" entity
             if (Entities != null && Entities.Count > 0)
