@@ -37,6 +37,8 @@ namespace SourceBot.Utils
         /// </summary>
         private static readonly string ApiKey = ConfigurationManager.AppSettings["BingSpellcheckKey"];
 
+        
+
         /// <summary>
         /// Gets the correct spelling for the given text
         /// </summary>

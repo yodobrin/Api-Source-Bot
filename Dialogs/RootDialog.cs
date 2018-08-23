@@ -60,7 +60,7 @@ namespace SourceBot.Dialogs
             ConfigurationManager.AppSettings["LuisAppId"],
             ConfigurationManager.AppSettings["LuisAPIKey"],
             domain: ConfigurationManager.AppSettings["LuisAPIHostName"]);
-            attribute.BingSpellCheckSubscriptionKey = ConfigurationManager.AppSettings["BingSpellcheckKey"];
+            //attribute.BingSpellCheckSubscriptionKey = ConfigurationManager.AppSettings["BingSpellcheckKey"];
             return attribute;
         }
 
@@ -245,7 +245,7 @@ namespace SourceBot.Dialogs
 
                 EntityRecommendation inst = entities[0];
                 // send the result to the persist queue
-                string surveyMessage = $"Answer:{inst.Entity}, time stamp{DateTime.Now}";
+                string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\"}}";
                // await context.PostAsync(surveyMessage);
                 
                 await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.PERSIST_Q);
