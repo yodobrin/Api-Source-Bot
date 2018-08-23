@@ -43,7 +43,7 @@ namespace SourceBot.DataTypes
         public const int UNFILLED = 1;
 
         public readonly string[] Fields = { "Email", "Name", "PhoneNumber","Country","Company","Comments" };
-        public Dictionary<string, LineItem> properties;
+       // public Dictionary<string, LineItem> properties;
 
         //[JsonProperty("MessageType")]        
         //public string MessageType { get; set; }
@@ -55,63 +55,53 @@ namespace SourceBot.DataTypes
         }
 
 
-        public Lead(int dum)
-        {
-            InitProperties();
-        }
+        //public Lead(int dum)
+        //{
+        //    InitProperties();
+        //}
 
-        private void InitProperties()
-        {
-            properties = new Dictionary<string, LineItem>();
-            foreach (string line in Fields)
-            {
-                LineItem itm = new LineItem();
-                itm.Type = line;
-                properties.Add(line, itm);
+        //private void InitProperties()
+        //{
+        //    properties = new Dictionary<string, LineItem>();
+        //    foreach (string line in Fields)
+        //    {
+        //        LineItem itm = new LineItem();
+        //        itm.Type = line;
+        //        properties.Add(line, itm);
 
-            }
+        //    }
 
-        }
+        //}
 
-        public string GetValueBYType(string type)
-        {
-            LineItem itm;
-            if (properties.ContainsKey(type))
-            {
-                properties.TryGetValue(type, out itm);
-                return (itm.IsFill()) ? itm.Value : FIELD_NOT_SET;
-            }
-            else return NO_SUCH_FIELD;
-        }
+        //public string GetValueBYType(string type)
+        //{
+        //    LineItem itm;
+        //    if (properties.ContainsKey(type))
+        //    {
+        //        properties.TryGetValue(type, out itm);
+        //        return (itm.IsFill()) ? itm.Value : FIELD_NOT_SET;
+        //    }
+        //    else return NO_SUCH_FIELD;
+        //}
 
       
 
-        //[Prompt("Please enter your full name")]
+
         [JsonProperty("Name")]
         public string Name { get; set; }
 
-        //[Prompt("What is your last name?")]
-        //[JsonProperty("Last Name")]
-        //public string LastName { get; set; }
 
-        //[Prompt("Please enter your email address")]
-        //[Pattern(RegexConstants.Email)]
         [JsonProperty("Email")]
         public string Email { get; set; }
 
-        // TODO must select from a list of countries
-        //[Prompt("Great, in order to provide the most relavant information please provide your target market")]
-        //[Pattern(RegexConstants.Email)]
         [JsonProperty("Country")]
         public string Country { get; set; }
 
-        //[Prompt("Excelent, please provide your company name, so we can forward your request to the relavant person, in case you already a TAPI customer")]
+
         [JsonProperty("Company")]
         public string Company { get; set; }
 
-        // add a validation on the format and contact
-        //[Prompt("Thanks, please provide your phone number ")]
-        //[Pattern(RegexConstants.Phone)]
+
         [JsonProperty("Phone")]
         public string Phone { get; set; }
 
@@ -130,15 +120,14 @@ namespace SourceBot.DataTypes
         private string Product { get; set; }
 
 
-        //[Prompt("Any Comments? Information you provide will help us to provide information in the most accurate way, for example which documents are required? What is the quanitity of the API you need? Do you need price quatation? etc.")]
+        
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 
         
 
         public string ToMessage()
-        {
-            //    return "wtf";
+        {      
            SetTimeStamp();
            return JsonConvert.SerializeObject(this, Formatting.None);
         }
@@ -158,6 +147,10 @@ namespace SourceBot.DataTypes
             Product = product.ToMessage();
         }
 
+        public void SetProduct(string product)
+        {
+            Product = product;
+        }
 
         private void SetTimeStamp()
         {
@@ -168,23 +161,23 @@ namespace SourceBot.DataTypes
         {
             return Subject;
         }
-        public bool IsLead()
-        {
-            if (this.Name != null && this.Name != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
-            else return false;
-        }
+        //public bool IsLead()
+        //{
+        //    if (this.Name != null && this.Name != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
+        //    else return false;
+        //}
 
-        public Lead(string dummy)
-        {
-            Email = "dummy@mail.com";
-            Name = "Dummi";
-            //LastName = "DoDo";
-            Company = "essence";
-            Subject = "search dummy subject";
-            Comments = "just dummy comments";
-        }
+        //public Lead(string dummy)
+        //{
+        //    Email = "dummy@mail.com";
+        //    Name = "Dummi";
+        //    //LastName = "DoDo";
+        //    Company = "essence";
+        //    Subject = "search dummy subject";
+        //    Comments = "just dummy comments";
+        //}
 
-        public Lead() { }
+        //public Lead() { }
 
 
         public Attachment GetLeadCard(IList<ProductDocument> tproducts)
@@ -224,7 +217,7 @@ namespace SourceBot.DataTypes
             {
                 foreach (ProductDocument prd in tproducts)
                 {
-                    string.Concat(result, ",", prd.TapiProductName);
+                    string.Concat(result, ";", prd.TapiProductName);
                 }
                 Subject = result;
             }

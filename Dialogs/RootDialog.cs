@@ -136,6 +136,8 @@ namespace SourceBot.Dialogs
         [LuisIntent("Catalog.Fetch")]
         public async Task CatalogFetchIntent(IDialogContext context, LuisResult result)
         {
+            string currSearch = "";
+            context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out currSearch);
             switch (result.Query)
             {
                 case ProductDocument.SHOW_ME_MORE:
@@ -154,13 +156,13 @@ namespace SourceBot.Dialogs
                     if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
                     {
                         alead.SetMessageType(ProductDocument.FETCH_BY_MAIL);
-                        alead.SetSubject(tproducts[0].MoleculeID);
-                        alead.SetProduct(tproducts[0]);
+                        alead.SetSubject(currSearch);
+                        alead.SetProduct(tproducts[0].MoleculeID);
                         // need to create a lead and send the search results
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
-                        await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.PERSIST_Q);
+                        await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.LEAD_Q);
                         await context.PostAsync(string.Format(Utilities.GetSentence("22"), alead.Email));
-                        //await context.PostAsync($"A request was sent to our communication auto-broker to the address:{alead.Email} provided.");
+                        await context.PostAsync($"lead message||{alead.ToMessage()} ||");
                     }
                     else
                     {
@@ -248,7 +250,7 @@ namespace SourceBot.Dialogs
                 string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\"}}";
                // await context.PostAsync(surveyMessage);
                 
-                await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.PERSIST_Q);
+                await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.SURVEY_Q);
 
                 switch (inst.Entity)
                 {
@@ -339,8 +341,8 @@ namespace SourceBot.Dialogs
                     await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
                     break;
                 case "confirm-lead-creation":
-                    if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0]);
-                    await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.PERSIST_Q);
+                    if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0].MoleculeID);
+                    await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.LEAD_Q);
                     // post a nice end message with an option to provide feedback (and share - not functional)
                     
                     message.Attachments.Add(AttachmentsUtil.GetEndCard(dispName));
@@ -349,8 +351,8 @@ namespace SourceBot.Dialogs
                     await context.PostAsync(string.Format(Utilities.GetSentence("22"), MyLead.Email));
                     break;
                 case "confirm-lead-search":
-                    if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0]);
-                    await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.PERSIST_Q);
+                    if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0].MoleculeID);
+                    await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.LEAD_Q);
                     // post a nice end message with an option to provide feedback (and share - not functional)
 
                     message.Attachments.Add(AttachmentsUtil.GetEndCard(dispName));

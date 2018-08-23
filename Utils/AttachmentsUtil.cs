@@ -230,7 +230,7 @@ namespace SourceBot.Utils
                                //new TextBlock  {  Text = "We just need a few more details to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
 
                                new TextBlock  {  Text = "Your name", Wrap = true, },
-                               new TextInput  {  Id = "Name", Placeholder = lead.Name,  },
+                               new TextInput  {  Id = "Name", Placeholder = lead.Name, Style = TextInputStyle.Text, },
 
                                new TextBlock  {  Text = "Your email", Wrap = true, },
                                new TextInput  {  Id = "Email", Placeholder = lead.Email, Style = TextInputStyle.Email, },
@@ -254,11 +254,16 @@ namespace SourceBot.Utils
                                 },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Company",  Placeholder = lead.Company, Style = TextInputStyle.Tel, },
+                               new TextInput  {  Id = "Company",  Placeholder = lead.Company, Style = TextInputStyle.Text, },
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Comments",  Placeholder = lead.Company, Style = TextInputStyle.Tel, IsMultiline = true, },
-                            },
+                               new TextInput  {  Id = "Comments",  Placeholder = lead.Company, Style = TextInputStyle.Text, IsMultiline = true, },
+
+                               new TextBlock  {  Text = "Subject", Wrap = true, Color = TextColor.Attention },
+                               new TextInput  {  Id = "Subject",  Placeholder = lead.GetSubject(), Style = TextInputStyle.Text, IsMultiline = true, },
+
+                               
+        },
 
                         }
                 }
@@ -324,7 +329,9 @@ namespace SourceBot.Utils
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Comments",  Style = TextInputStyle.Tel, IsMultiline = true, },
-                            },
+
+
+        },
 
                         }
                 }

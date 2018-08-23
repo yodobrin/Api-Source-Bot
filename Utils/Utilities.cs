@@ -38,23 +38,29 @@ namespace SourceBot.Utils
         private const string NO_SUCH_SENTENCE = "Sorry no such sentence number";
         private const string ISSUE_WITH_SENTENCE = "Sorry I'm having an issue loading the sentences file";
 
-        public const string PERSIST_Q = "PersistQueueName";
+        public const string LEAD_Q = "PersistQueueName";
         public const string TRANSIENT_Q = "TransientQueueName";
+        public const string SURVEY_Q = "SurveyQueueName";
 
 
         // Service Bus area
         static string ServiceBusConnString = null;
 		static string ServiceBusKey = null;
-        // lead creation + survey
-		static string QueueNamePersist = null;
+        // lead creation 
+		static string QueueNameLeadPersist = null;
         // send mails with results + pdf
         static string QueueNameTransient = null;
+
+        // survey creation 
+        static string QueueNameSurveyPersist = null;
 
         //static string LeadQueueName = null;
         //static string SurveyQueueName = null;
         //static string QueueName = null;
 
-        static IQueueClient queueClientPersist = null;
+        static IQueueClient queueClientLeadPersist = null;
+
+        static IQueueClient queueClientSurveyPersist = null;
 
         static IQueueClient queueClientTransient = null;
 
@@ -125,18 +131,19 @@ namespace SourceBot.Utils
         public static async void InitQ()
 		{
 			// verify global setting were not initilized yet
-			if (queueClientPersist == null || QueueNamePersist == null || ServiceBusKey == null || ServiceBusConnString == null)
+			if (queueClientLeadPersist == null || QueueNameLeadPersist == null || ServiceBusKey == null || ServiceBusConnString == null)
 			{
 				// take from bot configuration setting
 				ServiceBusConnString = ConfigurationManager.AppSettings["ServiceBusConnString"];
 				ServiceBusKey = ConfigurationManager.AppSettings["ServiceBusKey"];
-				QueueNamePersist = ConfigurationManager.AppSettings["PersistQueueName"];
-                QueueNameTransient = ConfigurationManager.AppSettings["TransientQueueName"];
+				QueueNameLeadPersist = ConfigurationManager.AppSettings[LEAD_Q];
+                QueueNameTransient = ConfigurationManager.AppSettings[TRANSIENT_Q];
+                QueueNameSurveyPersist = ConfigurationManager.AppSettings[SURVEY_Q];
 
                 // init the queue client with which messages would be sent
-                queueClientPersist = new QueueClient(ServiceBusConnString, QueueNamePersist);
+                queueClientLeadPersist = new QueueClient(ServiceBusConnString, QueueNameLeadPersist);
                 queueClientTransient = new QueueClient(ServiceBusConnString, QueueNameTransient);
-
+                queueClientSurveyPersist = new QueueClient(ServiceBusConnString, QueueNameSurveyPersist);
             }
 			else return;
 		}
@@ -179,18 +186,22 @@ namespace SourceBot.Utils
         {
             InitQ();
             var message = new Message(Encoding.UTF8.GetBytes(messageBody));
+            
             switch (queue)
             {
-                case PERSIST_Q:
+                case LEAD_Q:
                     await queueClientTransient.SendAsync(message);
                     break;
                 case TRANSIENT_Q:
-                    await queueClientPersist.SendAsync(message);
+                    await queueClientLeadPersist.SendAsync(message);
+                    break;
+                case SURVEY_Q:
+                    await queueClientSurveyPersist.SendAsync(message);
                     break;
                 default: break;
             }
 
-            await queueClientPersist.SendAsync(message);
+            await queueClientLeadPersist.SendAsync(message);
         }
 
 

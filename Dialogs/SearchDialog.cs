@@ -54,7 +54,11 @@ namespace SourceBot.Dialogs
         {
             var message = await result;
             int count = 0;
-            context.ConversationData.SetValue(ProductDocument.USER_QUERY, Query);
+            string currSearch ="";
+            context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out currSearch);
+
+
+            context.ConversationData.SetValue(ProductDocument.USER_QUERY, currSearch);
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
             // loop over the entities find the "Product" entity
             if (Entities != null && Entities.Count > 0)
@@ -63,13 +67,19 @@ namespace SourceBot.Dialogs
                 {
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
-                         count = SearchProduct(context, inst, searchClient);
+                        count = SearchProduct(context, inst, searchClient);
+                        currSearch += $";{inst}";
                     }
                     else continue;
                 }
             }
             // in case it is a find intent, but not recognized as a product
-            else count = SearchQuery(context, Query, searchClient);
+            else
+            {
+                count = SearchQuery(context, Query, searchClient);
+                currSearch = Query;
+            }
+            context.ConversationData.SetValue(ProductDocument.USER_QUERY, currSearch);
             // TODO decide what to do with the count
             //await context.PostAsync($"Your search resulted in: {count} results. And in the list i have: {products.Count}");
             // pass control back to the calling dialog (root)
