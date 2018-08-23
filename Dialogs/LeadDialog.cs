@@ -81,7 +81,7 @@ namespace SourceBot.Dialogs
                 catch (Exception ex)
                 {
                     // need to move to log
-                    await context.PostAsync($"got exception::{ex.ToString()}");
+                    //await context.PostAsync($"got exception::{ex.ToString()}");
                 }
             }
             else await context.PostAsync("something is wrong - message value is null");

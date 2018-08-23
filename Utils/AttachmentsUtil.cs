@@ -55,7 +55,7 @@ namespace SourceBot.Utils
                 Text = Utilities.GetSentence("19.60"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey"),
-                    new CardAction(ActionTypes.OpenUrl, "Share", value:shareurl ),
+                    new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value:shareurl ),
                     new CardAction(ActionTypes.PostBack, "No", value: "bye") }
             };
 

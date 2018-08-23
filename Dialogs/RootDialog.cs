@@ -162,7 +162,7 @@ namespace SourceBot.Dialogs
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.LEAD_Q);
                         await context.PostAsync(string.Format(Utilities.GetSentence("22"), alead.Email));
-                        await context.PostAsync($"lead message||{alead.ToMessage()} ||");
+                        //await context.PostAsync($"lead message||{alead.ToMessage()} ||");
                     }
                     else
                     {
