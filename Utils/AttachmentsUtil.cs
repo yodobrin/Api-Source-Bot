@@ -216,7 +216,7 @@ namespace SourceBot.Utils
         public static Attachment CreateFullLeadFormCard(Lead lead)
         {
             var card = new AdaptiveCard();
-
+            string subject = lead.GetSubject();
             var columnsBlock = new ColumnSet()
             {
                 Separation = SeparationStyle.None,
@@ -238,20 +238,8 @@ namespace SourceBot.Utils
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "PhoneNumber", Placeholder = lead.Phone, Style = TextInputStyle.Tel, },
 
-                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },
-                               //new TextInput  {  Id = "Country", Placeholder = "optional", Style = TextInputStyle.Tel, },
-
-                               new ChoiceSet()
-                               {
-                                    Id = "Country",  Style = ChoiceInputStyle.Compact,
-                                    Choices = GetCountries()
-                                    //new List<Choice>()
-                                    //{
-                                    //    new Choice() { Title = "USA", Value = "USA", IsSelected = true },
-                                    //    new Choice() { Title = "Israel", Value = "IL" },
-                                    //    new Choice() { Title = "United Kindom", Value = "UK" }
-                                    //}
-                                },
+                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },                               
+                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries() },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Company",  Placeholder = lead.Company, Style = TextInputStyle.Text, },
@@ -259,11 +247,10 @@ namespace SourceBot.Utils
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Comments",  Placeholder = lead.Company, Style = TextInputStyle.Text, IsMultiline = true, },
 
-                               new TextBlock  {  Text = "Subject", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Subject",  Placeholder = lead.GetSubject(), Style = TextInputStyle.Text, IsMultiline = true, },
+                               new TextBlock  {  Text = $"Subject:{subject}", Wrap = true, Color = TextColor.Attention },                               
 
                                
-        },
+                            },
 
                         }
                 }
@@ -310,29 +297,14 @@ namespace SourceBot.Utils
                                new TextInput  {  Id = "PhoneNumber", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },
-                               //new TextInput  {  Id = "Country", Placeholder = "optional", Style = TextInputStyle.Tel, },
-
-                               new ChoiceSet()
-                               {
-                                    Id = "Country",  Style = ChoiceInputStyle.Compact,
-                                    Choices = GetCountries()
-                                    //new List<Choice>()
-                                    //{
-                                    //    new Choice() { Title = "USA", Value = "USA", IsSelected = true },
-                                    //    new Choice() { Title = "Israel", Value = "IL" },
-                                    //    new Choice() { Title = "United Kindom", Value = "UK" }
-                                    //}
-                                },
+                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries() },                               
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Company",  Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Comments",  Style = TextInputStyle.Tel, IsMultiline = true, },
-
-
-        },
-
+                            },
                         }
                 }
             };
