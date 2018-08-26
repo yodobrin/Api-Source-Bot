@@ -62,6 +62,7 @@ namespace SourceBot.Dialogs
             {
                 foreach (EntityRecommendation inst in Entities)
                 {
+                    await context.PostAsync($"inst type - {inst.Type}");
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
                         count = SearchProduct(context, inst, searchClient);
@@ -78,7 +79,7 @@ namespace SourceBot.Dialogs
             }
             context.ConversationData.SetValue(ProductDocument.USER_QUERY, currSearch);
             // TODO decide what to do with the count
-            //await context.PostAsync($"Your search resulted in: {count} results. And in the list i have: {products.Count}");
+            await context.PostAsync($"set the following subject - {currSearch}");
             // pass control back to the calling dialog (root)
             context.Done(products);
         }
@@ -93,7 +94,8 @@ namespace SourceBot.Dialogs
                     ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
                     products.Add(prodDoc);                    
                 }
-
+                string subject = Lead.GetSubject(products);
+                context.ConversationData.SetValue(ProductDocument.USER_QUERY, subject);
                 return products.Count;
             }
             else return 0;
@@ -110,6 +112,8 @@ namespace SourceBot.Dialogs
                     products.Add(prodDoc);
 
                 }
+                string subject = Lead.GetSubject(products);
+                context.ConversationData.SetValue(ProductDocument.USER_QUERY, subject);
                 return products.Count;
             }
             else return 0; 

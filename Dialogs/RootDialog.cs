@@ -244,9 +244,10 @@ namespace SourceBot.Dialogs
 
                 EntityRecommendation inst = entities[0];
                 // send the result to the persist queue
-                string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\"}}";
-               // await context.PostAsync(surveyMessage);
-                
+                //string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\"}}";
+                string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\",\"Name\":\"{locName}\"}}";
+                // await context.PostAsync(surveyMessage);
+
                 await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.SURVEY_Q);
 
                 switch (inst.Entity)
@@ -313,7 +314,8 @@ namespace SourceBot.Dialogs
             {
                 MyLead = alead;
             }
-            
+            string currSearch = "";
+            context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out currSearch);
 
             MyLead.SetMessageType(Action);
             string dispName = (!string.IsNullOrEmpty(alead.Name)) ? alead.Name : alead.Email;
@@ -332,6 +334,7 @@ namespace SourceBot.Dialogs
                     break;
                 case "confirm-lead-creation":
                     if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0].MoleculeID);
+                    MyLead.SetSubject(currSearch);
                     await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.LEAD_Q);
                     // post a nice end message with an option to provide feedback (and share - not functional)
                     
@@ -342,6 +345,7 @@ namespace SourceBot.Dialogs
                     break;
                 case "confirm-lead-search":
                     if (tproducts != null && tproducts[0] != null) MyLead.SetProduct(tproducts[0].MoleculeID);
+                    MyLead.SetSubject(currSearch);
                     await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.LEAD_Q);
                     // post a nice end message with an option to provide feedback (and share - not functional)
 

@@ -163,6 +163,11 @@ namespace SourceBot.DataTypes
         }
         private void SetSubject(IList<ProductDocument> tproducts)
         {
+            Subject = GetSubject(tproducts);
+        }
+
+        public static string GetSubject(IList<ProductDocument> tproducts)
+        {
             string result = "";
             if (tproducts != null)
             {
@@ -170,8 +175,10 @@ namespace SourceBot.DataTypes
                 {
                     string.Concat(result, ", ", prd.TapiProductName);
                 }
-                Subject = result;
+               
             }
+            return result;
         }
+
     }
 }
