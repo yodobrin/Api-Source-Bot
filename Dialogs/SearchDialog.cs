@@ -54,19 +54,18 @@ namespace SourceBot.Dialogs
         {
             var message = await result;
             int count = 0;
-            string currSearch ="";
-            context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out currSearch);            
+            //string currSearch ="";
+            //context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out currSearch);            
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
             // loop over the entities find the "Product" entity
             if (Entities != null && Entities.Count > 0)
             {
                 foreach (EntityRecommendation inst in Entities)
-                {
-                    await context.PostAsync($"inst type - {inst.Type}");
+                {                    
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
                         count = SearchProduct(context, inst, searchClient);
-                        currSearch += $";{inst.Entity}";
+                        //currSearch += $"{inst.Entity}";
                     }
                     else continue;
                 }
@@ -75,11 +74,12 @@ namespace SourceBot.Dialogs
             else
             {
                 count = SearchQuery(context, Query, searchClient);
-                currSearch = Query;
+                //currSearch = Query;
+                //context.ConversationData.SetValue(ProductDocument.USER_QUERY, Query);
             }
-            context.ConversationData.SetValue(ProductDocument.USER_QUERY, currSearch);
+            
             // TODO decide what to do with the count
-            await context.PostAsync($"set the following subject - {currSearch}");
+            //await context.PostAsync($"set the following subject - {currSearch}");
             // pass control back to the calling dialog (root)
             context.Done(products);
         }

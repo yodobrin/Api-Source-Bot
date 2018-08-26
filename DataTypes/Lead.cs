@@ -172,8 +172,9 @@ namespace SourceBot.DataTypes
             if (tproducts != null)
             {
                 foreach (ProductDocument prd in tproducts)
-                {
-                    string.Concat(result, ", ", prd.TapiProductName);
+                {                    
+                    if ("".Equals(result)) result = string.Concat(result, prd.TapiProductName);
+                    else result = string.Concat(result, ", ", prd.TapiProductName);
                 }
                
             }
