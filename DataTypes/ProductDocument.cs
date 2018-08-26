@@ -92,7 +92,7 @@ namespace SourceBot.DataTypes
            return JsonConvert.SerializeObject(this,Formatting.None);
         }
 
-      //  {"molecule (Level 1)\nID":"a1F24000000MbKf","molecule + Salt IMS Name":"MUPIROCIN BASE","tapi\nProduct Name (Level\n2)":"Mupirocin","innovator/Marketer":"GlaxoSmithKline","caS\nNumber":"12650-69-0","sub Status (Calculated)":"Commercial","dmF\nAvailability":"CEP; EU DMF; US DMF; Other","dosage Form":"M - TOPICAL/\nDERMATOLOGICAL (Ointements/ Creams/ Lotions/ Gelsג€¦); Q - NASAL\nTOPICAL","number of available samples":"Less then 3","packaging\nPIC":"Mupirocin_60.png","loA indication (Y/N)":"Y","coA\n(Y/N)":"Y"}
+    
 
     public string ToMessage()
         {
@@ -197,11 +197,7 @@ namespace SourceBot.DataTypes
 
         public IList<Attachment> GetProductPicCarousel()
         {
-            // need to change the return value to be IList of attachments
-            // check if the packingpic contains delimited string, and conver to list/array
-            // need to create IList of attachment per pic
-            
-            
+                      
             IList<Attachment> attchments = new List<Attachment>();
             string[] pics = PackagingPIC.Split(';');
             foreach(string pic in pics)
@@ -255,7 +251,7 @@ namespace SourceBot.DataTypes
         }
 
 
-        // TODO show only categories with values 
+        
         private Attachment GetFull()
         {
             var productCard = new HeroCard
@@ -264,16 +260,7 @@ namespace SourceBot.DataTypes
                 //Subtitle = Utilities.GetSentence("12.11"),
                 Text = Utilities.GetSentence("12.12"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },
-                Buttons = GetFilledButtons()
-                //Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.20"), value: Utilities.GetSentence("12.20")),
-                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")) ,
-                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.22"), value: Utilities.GetSentence("12.22")) ,
-                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")) ,
-                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.24"), value: Utilities.GetSentence("12.24")) ,
-                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.25"), value: Utilities.GetSentence("12.25")) ,
-                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")) ,
-                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")) }
-                //                                 //new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.28"), value: Utilities.GetSentence("12.28")) }            
+                Buttons = GetFilledButtons()                       
             };
 
             return productCard.ToAttachment();

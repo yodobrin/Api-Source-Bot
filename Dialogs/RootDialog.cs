@@ -97,7 +97,7 @@ namespace SourceBot.Dialogs
         {
             Action = Lead.PDF;
             Lead alead;
-            //DetailsDialog dialog = new DetailsDialog();
+            
             LeadDialog diag = new LeadDialog();
             diag.LeadType = AttachmentsUtil.MINIMAL;
 
@@ -150,7 +150,7 @@ namespace SourceBot.Dialogs
                     break;
                 case ProductDocument.FETCH_BY_MAIL:
                     Lead alead;
-                    //DetailsDialog dialog = new DetailsDialog();
+                    
                     LeadDialog diag = new LeadDialog();
                     diag.LeadType = AttachmentsUtil.FULL;
                     if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
@@ -208,10 +208,7 @@ namespace SourceBot.Dialogs
 
         [LuisIntent("Help")]
         public async Task HelpIntent(IDialogContext context, LuisResult result)
-        {
-
-            //LeadDialog diag = new LeadDialog();
-            //context.Call(diag, ResumeAfterLeadForm);
+        {           
             var message = context.MakeMessage();
             message.Attachments.Add(AttachmentsUtil.getAdaptiveFull());
             await context.PostAsync(message);
@@ -291,7 +288,7 @@ namespace SourceBot.Dialogs
         public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
         {
             Lead alead;
-            //DetailsDialog dialog = new DetailsDialog();
+            
             Action = Lead.LEADCREATE;
             if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
@@ -302,19 +299,12 @@ namespace SourceBot.Dialogs
                 diag.LeadType = AttachmentsUtil.FULL;
                 context.Call(diag, ResumeAfterLeadForm);
             }
-            //if (MyLead==null || !MyLead.IsLead()) MyLead = new Lead();
-            ////setting the action to lead creation
-            //dialog.SetLead(MyLead);
-            //context.Call(dialog, this.ResumeAfterForm);
+        
 
         }
 
         [LuisIntent("CRM.SubmitLead")]
-        // TODO
-        // 1. check what is the action, based on the action, determine what info is required to continue
-        // 2. in the case it is only pdf, just email. the other, need full lead
-        
-
+       
         public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
         {
             // check if lead exist
@@ -417,36 +407,7 @@ namespace SourceBot.Dialogs
            
         }
 
-        
-
-        //private void SetSubject(IList<ProductDocument> tproducts)
-        //{
-        //    string result = "";
-        //    if (tproducts != null)
-        //    {
-        //        foreach (ProductDocument prd in tproducts)
-        //        {
-        //            string.Concat(result, ",", prd.TapiProductName);
-        //        }
-        //        MyLead.SetSubject( result);
-        //    }
-        //}
-
-
-        //private async Task ResumeAfterForm(IDialogContext context, IAwaitable<Lead> result)
-        //{
-        //    // remove the verbiage
-        //    MyLead = await result;
-        //    if(MyLead!=null)
-        //    {
-        //        MyLead.SetAction(Action);
-        //        var message = context.MakeMessage();
-        //        message.Attachments.Add(MyLead.GetLeadCard(tproducts));
-        //        await context.PostAsync(message);
-        //    } //else await context.PostAsync(" Lead process ended without a lead");
-
-        //}
-
+              
         private async Task ResumeAfterLeadForm(IDialogContext context, IAwaitable<object> result)
         {
             var tempMess = await result;
@@ -459,22 +420,10 @@ namespace SourceBot.Dialogs
                 message.Attachments.Add(MyLead.GetLeadCard(tproducts));
                 await context.PostAsync(message);
             }
-            //await context.PostAsync($"back to root from lead dialog: {lead.Name}");
-            // <<
-            //context.Wait(MessageReceived);
+           
         }
 
-        //private async Task ResumeAfterSend(IDialogContext context, IAwaitable<object> result)
-        //{
-        //    object obj = await result;
-        //    MyLead.SetAction(Action);
-        //    // echo the current lead details - it will direct to the submit lead intent, in case he clicks on 'Confirm'
-        //    var message = context.MakeMessage();
-        //    message.Attachments.Add(MyLead.GetLeadCard(tproducts));
-        //    await context.PostAsync(message);
-        //}
-
-        
+              
         
 
     }

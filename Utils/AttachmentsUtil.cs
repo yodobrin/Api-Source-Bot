@@ -67,8 +67,7 @@ namespace SourceBot.Utils
             var endCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("1.1"), safeword),
-                Text = Utilities.GetSentence("1.11"),
-                //Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
+                Text = Utilities.GetSentence("1.11"),               
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure, I'm done", value: "wipe-clean") }
             };
 
@@ -105,8 +104,7 @@ namespace SourceBot.Utils
         {
             var spellCard = new HeroCard
             {
-                Title = $"Spell Suggestion",
-                //Text = $"Do you want to continue and search for {original} or  {altered}",
+                Title = $"Spell Suggestion",                
                 Images = new List<CardImage> { new CardImage("https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Original-"+original, value: original),
                     new CardAction(ActionTypes.PostBack, "Suggested-"+altered, value: altered) }
@@ -117,19 +115,6 @@ namespace SourceBot.Utils
 
 
 
-        //public static Attachment GetOpenCard(string name, string company)
-        //{
-        //    var openCard = new HeroCard
-        //    {
-        //        Title = string.Format(Utilities.GetSentence("19.70"), name, company), // $"API Source Bot tailored for {name} @ {company}",
-        //        Subtitle = Utilities.GetSentence("19.71"),
-        //        Text = Utilities.GetSentence("19.72"),
-        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Find me Aripiprazole", value: "find me Aripiprazole"), new CardAction(ActionTypes.PostBack, "Find me Aztreonam", value: "find me Aztreonam") }
-        //    };
-
-        //    return openCard.ToAttachment();
-        //}
 
         public static Attachment GetErrorCard(string code)
         {
@@ -177,7 +162,7 @@ namespace SourceBot.Utils
                 foreach (ProductDocument prd in tproducts)
                 {
                     if (count == ProductDocument.MAX_PROD_IN_RESULT) break;
-                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.TapiProductName}", value: $"find me {prd.MoleculeID}"));
+                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.TapiProductName}", value: $"{prd.TapiProductName}"));
                     count++;
                 }
             }
@@ -193,11 +178,7 @@ namespace SourceBot.Utils
             return resultCard.ToAttachment();
         }
 
-        //private List<CardElement> GetFormFields()
-        //{
-        //    List<CardElement> list = new List<CardElement>();
-        //    foreach(string field in)
-        //}
+       
 
         public static Attachment CreateFullLeadFormCard(Lead lead)
         {
@@ -213,8 +194,7 @@ namespace SourceBot.Utils
                             Size = "2",
                             Items = new List<CardElement>
                             {  new TextBlock  {  Text = "Please revisit details...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
-                               //new TextBlock  {  Text = "We just need a few more details to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
-
+                               
                                new TextBlock  {  Text = "Your name", Wrap = true, },
                                new TextInput  {  Id = "Name", Value = lead.Name, Style = TextInputStyle.Text, },
 

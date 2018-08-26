@@ -42,12 +42,7 @@ namespace SourceBot.DataTypes
         public const int ALL = 0;
         public const int UNFILLED = 1;
 
-       // public readonly string[] Fields = { "Email", "Name", "PhoneNumber","Country","Company","Comments" };
-       // public Dictionary<string, LineItem> properties;
-
-        //[JsonProperty("MessageType")]        
-        //public string MessageType { get; set; }
-        // defaulting to search action
+      
         private string Action = SEARCH;
         public void SetAction(string action)
         {
@@ -55,36 +50,7 @@ namespace SourceBot.DataTypes
         }
 
 
-        //public Lead(int dum)
-        //{
-        //    InitProperties();
-        //}
-
-        //private void InitProperties()
-        //{
-        //    properties = new Dictionary<string, LineItem>();
-        //    foreach (string line in Fields)
-        //    {
-        //        LineItem itm = new LineItem();
-        //        itm.Type = line;
-        //        properties.Add(line, itm);
-
-        //    }
-
-        //}
-
-        //public string GetValueBYType(string type)
-        //{
-        //    LineItem itm;
-        //    if (properties.ContainsKey(type))
-        //    {
-        //        properties.TryGetValue(type, out itm);
-        //        return (itm.IsFill()) ? itm.Value : FIELD_NOT_SET;
-        //    }
-        //    else return NO_SUCH_FIELD;
-        //}
-
-      
+          
 
 
         [JsonProperty("Name")]
@@ -129,6 +95,7 @@ namespace SourceBot.DataTypes
         public string ToMessage()
         {      
            SetTimeStamp();
+            
            return JsonConvert.SerializeObject(this, Formatting.None);
         }
 
@@ -161,23 +128,7 @@ namespace SourceBot.DataTypes
         {
             return Subject;
         }
-        //public bool IsLead()
-        //{
-        //    if (this.Name != null && this.Name != "N/A" && this.Email != null && this.Email.Length > 3 && this.Subject != null && this.Subject.Length > 4) return true;
-        //    else return false;
-        //}
-
-        //public Lead(string dummy)
-        //{
-        //    Email = "dummy@mail.com";
-        //    Name = "Dummi";
-        //    //LastName = "DoDo";
-        //    Company = "essence";
-        //    Subject = "search dummy subject";
-        //    Comments = "just dummy comments";
-        //}
-
-        //public Lead() { }
+       
 
 
         public Attachment GetLeadCard(IList<ProductDocument> tproducts)
@@ -202,7 +153,7 @@ namespace SourceBot.DataTypes
             var leadCard = new ThumbnailCard
             {
                 Title = $"Hello {dispName} {dispComp}",
-                //Subtitle = "This is what I know so far about as a lead...",
+                
                 Text = message,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Confirm", value: $"confirm-{Action}"), new CardAction(ActionTypes.PostBack, "Revisit my details", value: REVISIT_DETAILS) }
@@ -217,7 +168,7 @@ namespace SourceBot.DataTypes
             {
                 foreach (ProductDocument prd in tproducts)
                 {
-                    string.Concat(result, ";", prd.TapiProductName);
+                    string.Concat(result, ", ", prd.TapiProductName);
                 }
                 Subject = result;
             }
