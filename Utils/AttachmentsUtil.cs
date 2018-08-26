@@ -279,16 +279,16 @@ namespace SourceBot.Utils
                                new TextBlock  {  Text = "Your email", Wrap = true, },
                                new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
 
-                               new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
+                               new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Default },
                                new TextInput  {  Id = "PhoneNumber", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
-                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },
+                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Default },
                                new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries() },                               
 
-                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Tel, },
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
+                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Text, },
 
-                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
+                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Default },
                                new TextInput  {  Id = "Comments",  Style = TextInputStyle.Tel, IsMultiline = true, },
                             },
                         }
@@ -328,8 +328,14 @@ namespace SourceBot.Utils
                             {  
                                new TextBlock  {  Text = "We just need an email address to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
 
+                               new TextBlock  {  Text = "Your name", Wrap = true, },
+                               new TextInput  {  Id = "Name", Placeholder = "Last, First",  },
+
                                new TextBlock  {  Text = "Your email", Wrap = true, },
                                new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
+
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
+                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Text, },
                             },
 
                         }

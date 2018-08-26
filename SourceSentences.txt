@@ -76,8 +76,9 @@
 19.70 = API Source Bot tailored for {0} @ {1}
 19.71 = Tapi bots — Welcome tapi your api partner
 19.72 = Active Pharmaceutical Ingredients (API) Production and Manufacturing - information and knowledge by TAPI's experts. It's all here. You can search by typing sentences as below:
-19.80 = A request was sent to our communication auto-broker to the address:***{0}*** provided.
-22 = A request was sent to our communication auto-broker with the ***{0}*** provided.
+#19.80 = A request was sent to our communication auto-broker to the address:***{0}*** provided.
+19.80 = Thank you for your inquiry, an email with the details will be sent to ***{0}***
+22 = Thank you for your inquiry, an email with the details will be sent to ***{0}***
 911.0 = Please type the API you are looking for ... 
 950 = An Error has occured
 951 = Please try your operation again {0}
