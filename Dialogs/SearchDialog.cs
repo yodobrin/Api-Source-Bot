@@ -66,7 +66,7 @@ namespace SourceBot.Dialogs
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
                         count = SearchProduct(context, inst, searchClient);
-                        currSearch += $";{inst}";
+                        currSearch += $";{inst.Entity}";
                     }
                     else continue;
                 }
