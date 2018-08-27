@@ -63,17 +63,17 @@ namespace SourceBot.Utils
                 var uri = $"{SpellCheckApiUrl}?{queryString}";
 
 
-                var values = new Dictionary<string, string>
-                {
-                    { "text", text },
-                    { "mode", "proof" },
-                    { "mkt", "en-US" }
-                };
+                //var values = new Dictionary<string, string>
+                //{
+                //    { "text", text },
+                //    { "mode", "proof" },
+                //    { "mkt", "en-US" }
+                //};
 
-                var content = new FormUrlEncodedContent(values);
+                //var content = new FormUrlEncodedContent(values);
 
-                var response = await client.PostAsync(SpellCheckApiUrl, content);
-                //var response = await client.GetAsync(uri);
+                //var response = await client.PostAsync(SpellCheckApiUrl, content);
+                var response = await client.GetAsync(uri);
                 var responseString = await response.Content.ReadAsStringAsync();
 
                 var spellCheckResponse = JsonConvert.DeserializeObject<BingSpellCheckResponse>(responseString);
