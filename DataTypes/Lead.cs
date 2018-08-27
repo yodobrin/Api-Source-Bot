@@ -119,6 +119,11 @@ namespace SourceBot.DataTypes
             Product = product;
         }
 
+        public void AddProduct(string product)
+        {
+            // tbd
+        }
+
         private void SetTimeStamp()
         {
             TimeStamp = DateTime.Now.ToLongDateString();

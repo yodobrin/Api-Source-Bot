@@ -46,6 +46,44 @@ namespace SourceBot.Utils
         
         private static string shareurl = string.Format(Utilities.GetSentence("1000"), SHARE_URL);
 
+        
+
+
+        public static Attachment GetHoreyCard(string locName)
+        {
+
+            var leadCard = new HeroCard
+            {
+                Title = string.Format(Utilities.GetSentence("19.50"), locName),
+                Images = new List<CardImage> { new CardImage("http://static.flickr.com/41/124082976_4c0da6dc61_o.jpg") },
+                //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
+            };
+
+            return leadCard.ToAttachment();
+        }
+
+
+        public static Attachment GetSurveyCard(string locName)
+        {
+
+            var leadCard = new HeroCard
+            {
+                Title = string.Format(Utilities.GetSentence("19"), locName),
+
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.EXT_SAT)), 
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.VER_SAT)), 
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.SAT)), 
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_SAT)), 
+                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_AT_SAT)), 
+                }
+
+            };
+
+            return leadCard.ToAttachment();
+        }
+
         public static Attachment GetEndCard(string name)
         {
             
@@ -74,7 +112,29 @@ namespace SourceBot.Utils
             return endCard.ToAttachment();
         }
 
-        
+        public static Attachment GetNoneConversationCard()
+        {
+
+            AdaptiveCard card = new AdaptiveCard()
+            {
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new TextBlock  { Text = Utilities.GetSentence("0.2"), Wrap = true, Size = TextSize.Large  }
+                            
+                        }
+                    }
+                }
+            };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+        }
 
         public static Attachment GetConversationStartCard()
         {
@@ -87,8 +147,8 @@ namespace SourceBot.Utils
                     {
                         Items = new List<CardElement>
                         {
-                            new TextBlock  { Text = Utilities.GetSentence("0"), Wrap = true  },
-                            new TextBlock  { Text = Utilities.GetSentence("0.01"), Wrap = true  }
+                            new TextBlock  { Text = Utilities.GetSentence("0"), Wrap = true, Size = TextSize.Large  },
+                            new TextBlock  { Text = Utilities.GetSentence("0.01"), Wrap = true, Size = TextSize.Large  }
                         }
                     }
                 }
@@ -139,8 +199,8 @@ namespace SourceBot.Utils
                 Text = Utilities.GetSentence("5.2"),
                 Images = new List<CardImage> { new CardImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHEl-j7JobwiGjkbpCBVemqrUKp9EQFtPQOyOLXIBsAvycS8Kx") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("6"), value: Lead.CONTACT_TAPI),
-                new CardAction(ActionTypes.PostBack, Utilities.GetSentence("7"), value: Lead.SEND_PDF),
-                new CardAction(ActionTypes.PostBack, Utilities.GetSentence("8"), value: Lead.UPDATE_ONCE_EXIST)
+                new CardAction(ActionTypes.PostBack, Utilities.GetSentence("7"), value: Lead.SEND_PDF)
+                //new CardAction(ActionTypes.PostBack, Utilities.GetSentence("8"), value: Lead.UPDATE_ONCE_EXIST)
                 }
             };
 
@@ -338,99 +398,7 @@ namespace SourceBot.Utils
 
         }
 
-        public static Attachment getAdaptiveFull()
-        {
-            AdaptiveCard card = new AdaptiveCard()
-            {
-                Body = new List<CardElement>()
-                {
-                    new Container()
-                    {
-                        
-                        Items = new List<CardElement>()
-                        {
-                            new ColumnSet()
-                            {
-                                Columns = new List<Column>()
-                                {
-                                    new Column()
-                                    {
-                                        Size = ColumnSize.Auto,
-                                        Items = new List<CardElement>()
-                                        {
-                                            new TextBlock()
-                                            {
-                                                Text =  "my first topic!",
-                                                Weight = TextWeight.Normal,
-                                                Color = TextColor.Good,
-                                                IsSubtle = true
-                                            },
-                                            new TextBlock()
-                                            {
-                                                Text =  "my second topic:",
-                                                Weight = TextWeight.Normal,
-                                                Color = TextColor.Dark,
-                                                IsSubtle = true
-                                            }
-                                        }
-                                    },
-                                    new Column()
-                                    {
-                                        Size = ColumnSize.Stretch,
-                                        Items = new List<CardElement>()
-                                        {
-                                            new TextBlock()
-                                            {
-                                                Text =  "a topic value!",
-                                                Weight = TextWeight.Bolder,
-                                                Wrap = true,
-                                                IsSubtle = true
-                                            },
-                                            new TextBlock()
-                                            {
-                                                Text =  "a second topic value!",
-                                                Weight = TextWeight.Bolder,
-                                                Color = TextColor.Dark,
-                                                Wrap = true,
-                                                IsSubtle = true
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                // Buttons
-                Actions = new List<ActionBase>() {
-
-                    new ShowCardAction()
-                    {
-                        Title = "Flights",
-                        Speak = "<s>Flights</s>",
-                        Card = new AdaptiveCard()
-                        {
-                            Body = new List<CardElement>()
-                            {
-                                new TextBlock()
-                                {
-                                    Text = "Flights is not implemented =(",
-                                    Speak = "<s>Flights is not implemented</s>",
-                                    Weight = TextWeight.Bolder
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-
-            Attachment attachment = new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = card
-            };
-            return attachment;
-        }
+        
 
         private static List<Choice> GetCountries()
         {

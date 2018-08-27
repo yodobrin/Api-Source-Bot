@@ -31,38 +31,39 @@ namespace SourceBot.DataTypes
         public const string NOT_SAT = "not - satisfied";
         public const string NOT_AT_SAT = "not - satisfied - at - all";
 
-        public static Attachment GetSurveyCard(string locName)
-        {
+        //public static Attachment GetSurveyCard(string locName)
+        //{
             
-            var leadCard = new HeroCard
-            {
-                Title = string.Format(Utilities.GetSentence("19"), locName),
+        //    var leadCard = new HeroCard
+        //    {
+        //        Title = string.Format(Utilities.GetSentence("19"), locName),
 
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), EXT_SAT)), // Utilities.GetSentence("19.1"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), VER_SAT)), //Utilities.GetSentence("19.2"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: string.Format(Utilities.GetSentence("19.20"), SAT)), //Utilities.GetSentence("19.3"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: string.Format(Utilities.GetSentence("19.20"), NOT_SAT)), //Utilities.GetSentence("19.4"))) ,
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: string.Format(Utilities.GetSentence("19.20"), NOT_AT_SAT)), //Utilities.GetSentence("19.5"))) 
-                }
+        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), EXT_SAT)), // Utilities.GetSentence("19.1"))) ,
+        //                                         new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), VER_SAT)), //Utilities.GetSentence("19.2"))) ,
+        //                                         new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: string.Format(Utilities.GetSentence("19.20"), SAT)), //Utilities.GetSentence("19.3"))) ,
+        //                                         new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: string.Format(Utilities.GetSentence("19.20"), NOT_SAT)), //Utilities.GetSentence("19.4"))) ,
+        //                                         new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: string.Format(Utilities.GetSentence("19.20"), NOT_AT_SAT)), //Utilities.GetSentence("19.5"))) 
+        //        }
 
-            };
+        //    };
 
-            return leadCard.ToAttachment();
-        }
+        //    return leadCard.ToAttachment();
+        //}
 
-        public static Attachment GetHoreyCard(string locName)
-        {
+        //public static Attachment GetHoreyCard(string locName)
+        //{
 
-            var leadCard = new HeroCard
-            {
-                Title = string.Format(Utilities.GetSentence("19.50"), locName),
-                Images = new List<CardImage> { new CardImage("http://static.flickr.com/41/124082976_4c0da6dc61_o.jpg") },
-                //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
-            };
+        //    var leadCard = new HeroCard
+        //    {
+        //        Title = string.Format(Utilities.GetSentence("19.50"), locName),
+        //        Images = new List<CardImage> { new CardImage("http://static.flickr.com/41/124082976_4c0da6dc61_o.jpg") },
+        //        //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
+        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value:shareurl ) }
+        //    };
 
-            return leadCard.ToAttachment();
-        }
+        //    return leadCard.ToAttachment();
+        //}
 
       
     }

@@ -79,9 +79,17 @@ namespace SourceBot.Dialogs
             await context.PostAsync(message);
         }
 
-        
+        [LuisIntent("CRM.Conversation")]
+        public async Task CRMConversationIntent(IDialogContext context, LuisResult result)
+        {
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.GetNoneConversationCard());
+            await context.PostAsync(message);
+        }
 
-      
+
+
+
 
         [LuisIntent("Greeting")]
         public async Task GreetingInten(IDialogContext context, LuisResult result)
@@ -198,6 +206,10 @@ namespace SourceBot.Dialogs
         {
             // this intent, remove any and all conversation left overs. similar to closing the browser.
             context.EndConversation(ActivityTypes.EndOfConversation);
+            // show the start conversation message again
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
+            await context.PostAsync(message);
         }
 
         [LuisIntent("Cancel")]
@@ -209,10 +221,10 @@ namespace SourceBot.Dialogs
         [LuisIntent("Help")]
         public async Task HelpIntent(IDialogContext context, LuisResult result)
         {           
-            var message = context.MakeMessage();
-            message.Attachments.Add(AttachmentsUtil.getAdaptiveFull());
-            await context.PostAsync(message);
-           // await context.PostAsync(Utilities.GetSentence("911.0"));
+            //var message = context.MakeMessage();
+            //message.Attachments.Add(AttachmentsUtil.getAdaptiveFull());
+            //await context.PostAsync(message);
+           await context.PostAsync(Utilities.GetSentence("911.0"));
 
         }
 
@@ -263,22 +275,20 @@ namespace SourceBot.Dialogs
                         break;
                     case SurveyAnswer.VER_SAT:
                         //show somehting nice
-                        message.Attachments.Add(SurveyAnswer.GetHoreyCard(locName));
+                        message.Attachments.Add(AttachmentsUtil.GetHoreyCard(locName));
                         await context.PostAsync(message);
                         break;
                     case SurveyAnswer.EXT_SAT:
                         //show somehting nice
-                        message.Attachments.Add(SurveyAnswer.GetHoreyCard(locName));
+                        message.Attachments.Add(AttachmentsUtil.GetHoreyCard(locName));
                         await context.PostAsync(message);
                         break;
                     default: break;
                 }
             }else
-            {
-                
-                message.Attachments.Add(SurveyAnswer.GetSurveyCard(locName));
+            {                
+                message.Attachments.Add(AttachmentsUtil.GetSurveyCard(locName));
                 await context.PostAsync(message);
-
             }
 
 
