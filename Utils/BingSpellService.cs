@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 using Newtonsoft.Json;
+using System.Web;
 using System.Configuration;
 using System;
 namespace SourceBot.Utils
@@ -55,6 +56,11 @@ namespace SourceBot.Utils
             {
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ApiKey);
 
+                var queryString = HttpUtility.ParseQueryString(string.Empty);
+                queryString["text"] = text;
+                var uri = $"{SpellCheckApiUrl}?{queryString}";
+
+
                 var values = new Dictionary<string, string>
                 {
                     { "text", text }
@@ -62,7 +68,8 @@ namespace SourceBot.Utils
 
                 var content = new FormUrlEncodedContent(values);
 
-                var response = await client.PostAsync(SpellCheckApiUrl, content);
+                //var response = await client.PostAsync(SpellCheckApiUrl, content);
+                var response = await client.GetAsync(uri);
                 var responseString = await response.Content.ReadAsStringAsync();
 
                 var spellCheckResponse = JsonConvert.DeserializeObject<BingSpellCheckResponse>(responseString);

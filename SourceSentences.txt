@@ -68,7 +68,7 @@
 19.5 = Not Satisfied at all
 19.10 = Can you please elaboate?
 19.20 = survey-answer {0}
-19.30 = Thanks for the feedback! And I am sorry to hear, what can I do to improve? 
+19.30 = Thanks for the feedback! 
 19.31 = Thanks for the feedback!
 19.50 = {0} - Thank you for using TAPI's sourcing tool.
 #\n Go méadaí Dia thú!
