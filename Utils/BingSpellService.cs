@@ -58,6 +58,8 @@ namespace SourceBot.Utils
 
                 var queryString = HttpUtility.ParseQueryString(string.Empty);
                 queryString["text"] = text;
+                queryString["mode"] = "proof";
+                queryString["mkt"] = "en-US";
                 var uri = $"{SpellCheckApiUrl}?{queryString}";
 
 
