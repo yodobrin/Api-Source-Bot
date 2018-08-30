@@ -256,19 +256,19 @@ namespace SourceBot.Utils
                             {  new TextBlock  {  Text = "Please revisit details...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
                                
                                new TextBlock  {  Text = "Your name", Wrap = true, },
-                               new TextInput  {  Id = "Name", Value = lead.Name, Style = TextInputStyle.Text, },
+                               new TextInput  {  Id = "Name", Value = lead.Name, Style = TextInputStyle.Text, IsRequired = true},
 
                                new TextBlock  {  Text = "Your email", Wrap = true, },
-                               new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, },
+                               new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, IsRequired = true },
 
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "PhoneNumber", Value = lead.Phone, Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },                               
-                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries() },
+                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries(), IsRequired = true },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Company",   Value = lead.Company, Style = TextInputStyle.Text, },
+                               new TextInput  {  Id = "Company",   Value = lead.Company, Style = TextInputStyle.Text, IsRequired = true },
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Comments",  Value = lead.Comments, Style = TextInputStyle.Text, IsMultiline = true, },
@@ -314,19 +314,19 @@ namespace SourceBot.Utils
                                new TextBlock  {  Text = "We just need a few more details to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
 
                                new TextBlock  {  Text = "Your name", Wrap = true, },
-                               new TextInput  {  Id = "Name", Placeholder = "Last, First",  },
+                               new TextInput  {  Id = "Name", Placeholder = "Last, First", IsRequired = true },
 
                                new TextBlock  {  Text = "Your email", Wrap = true, },
-                               new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
+                               new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, IsRequired = true },
 
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Default },
                                new TextInput  {  Id = "PhoneNumber", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Default },
-                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries() },                               
+                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries(), IsRequired = true },                               
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
-                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Text, },
+                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Text, IsRequired = true},
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Default },
                                new TextInput  {  Id = "Comments",  Style = TextInputStyle.Tel, IsMultiline = true, },
@@ -366,16 +366,16 @@ namespace SourceBot.Utils
                             Size = "2",
                             Items = new List<CardElement>
                             {  
-                               new TextBlock  {  Text = "We just need an email address to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
+                               new TextBlock  {  Text = "We just need an email address to get you TAPI's Catalog", IsSubtle = false,  Wrap = true, },
 
                                new TextBlock  {  Text = "Your name", Wrap = true, },
                                new TextInput  {  Id = "Name", Placeholder = "Last, First",  },
 
                                new TextBlock  {  Text = "Your email", Wrap = true, },
-                               new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, },
+                               new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, IsRequired = true },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
-                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Text, },
+                               new TextInput  {  Id = "Company",  Style = TextInputStyle.Text, IsRequired = true },
                             },
 
                         }
@@ -398,7 +398,51 @@ namespace SourceBot.Utils
 
         }
 
-        
+        public static Attachment CreateMinimalLeadFormCard(Lead lead)
+        {
+            var card = new AdaptiveCard();
+
+            var columnsBlock = new ColumnSet()
+            {
+                Separation = SeparationStyle.None,
+                Columns = new List<Column>
+                {
+                        new Column
+                        {
+                            Size = "2",
+                            Items = new List<CardElement>
+                            {
+                               new TextBlock  {  Text = "We just need an email address to get you TAPI's Catalog", IsSubtle = false,  Wrap = true, },
+
+                               new TextBlock  {  Text = "Your name", Wrap = true, },
+                               new TextInput  {  Id = "Name", Value = lead.Name,  },
+
+                               new TextBlock  {  Text = "Your email", Wrap = true, },
+                               new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, IsRequired = true },
+
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
+                               new TextInput  {  Id = "Company", Value = lead.Company, Style = TextInputStyle.Text, IsRequired = true },
+                            },
+
+                        }
+                }
+            };
+            card.Body.Add(columnsBlock);
+
+            card.Actions = new List<ActionBase>()
+                {
+                    new SubmitAction
+                    {
+                        Title = "Submit",
+                        DataJson = "{ \"Type\": \"CreateMinimalLeadCard\" }",
+                    }
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+        }
 
         private static List<Choice> GetCountries()
         {
