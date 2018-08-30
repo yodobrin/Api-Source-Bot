@@ -53,8 +53,11 @@
 12.23 = Dosage Form
 12.24 = Number of available samples 
 12.25 = Packaging PIC
-12.26 = LOA indication 
+12.26 = Storage Condition 
 12.27 = COA
+12.28 = ATC 1
+12.29 = Tech File
+
 #12.28 = Full Pack
 12.40 = {0}
 12.41 = Has the following information

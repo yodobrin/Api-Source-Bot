@@ -49,15 +49,29 @@ namespace SourceBot.DataTypes
         public const int MAX_PROD_IN_RESULT = 5;
 
         //private Dictionary<string, string> Data;
+   
+    //"Molecule ID": "TA-01000-PI",
+    //"Product Name": "Abaloparatide",
+    //"Molecule + Salt IMS Name": "N/A",
+    //"Innovator/Marketer": "Radius",
+    //"CAS Number": "247062-33-5",
+    //"DMF Availability": "Please contact us for further information",
+    //"Dosage Form": "F  - PARENTERAL ORDINARY  (Injectables)",
+    //"Packaging PIC": "N/A",
+    //"COA": "N/A",
+    //"ATC-1": "Systemic hormones",
+    //"Storage condition": "N/A",
+    //"Tech File": "N/A"
+  
 
-        //1
-        [JsonProperty("Molecule (Level 1) ID")]
+    //1
+    [JsonProperty("Molecule ID")]
         public string MoleculeID { get; set; }
         //2
         [JsonProperty("Molecule + Salt IMS Name")]
         public string MoleculeSaltName { get; set; }
         //3
-        [JsonProperty("Tapi Product Name (Level 2)")]
+        [JsonProperty("Product Name")]
         public string TapiProductName { get; set; }
         //4
         [JsonProperty("Innovator/Marketer")]
@@ -66,8 +80,8 @@ namespace SourceBot.DataTypes
         [JsonProperty("CAS Number")]
         public string CASNumber { get; set; }
         //6
-        [JsonProperty("Sub Status (Calculated)")]
-        public string SubStatus { get; set; }
+        [JsonProperty("Tech File")]
+        public string TechFile { get; set; }
         //7
         [JsonProperty("DMF Availability")]
         public string DMFAvailability { get; set; }
@@ -75,17 +89,18 @@ namespace SourceBot.DataTypes
         [JsonProperty("Dosage Form")]
         public string DosageForm { get; set; }
         //9
-        [JsonProperty("Number of available samples")]
-        public string NumOfAvailSamples { get; set; }
+        [JsonProperty("ATC-1")]
+        public string ATC1 { get; set; }
         //10
         [JsonProperty("Packaging PIC")]
         public string PackagingPIC { get; set; }
         //11
-        [JsonProperty("LOA indication (Y/N)")]
-        public string LOAInd { get; set; }
+        [JsonProperty("Storage condition")]
+        public string StorageCondition { get; set; }
         //12
         [JsonProperty("COA (Y/N)")]
         public string COAInd { get; set; }
+        
 
         public string ToMessage2()
         {                       
@@ -97,9 +112,9 @@ namespace SourceBot.DataTypes
     public string ToMessage()
         {
             string message = "<br> Innovator/Marketer: " + InnovatorMarketer+" \n\n" +
-                "CAS Number: " + CASNumber + "\n\n Sub Status (Calculated): " + SubStatus+ "\n\n DMF Availability: " + DMFAvailability+ "\n\n " +
-                "Dosage Form: " + DosageForm + "\n\n Number of available samples: " + NumOfAvailSamples+ 
-                "LOA indication (Y/N):" + LOAInd+ "\n\n COA (Y/N): " + COAInd+"\n\n";
+                "CAS Number: " + CASNumber + "\n\n Tech File: " + TechFile+ "\n\n DMF Availability: " + DMFAvailability+ "\n\n " +
+                "Dosage Form: " + DosageForm + "\n\n ATC1: " + ATC1+ 
+                "Storage Condition:" + StorageCondition+ "\n\n COA (Y/N): " + COAInd+"\n\n";
             return message;
         }
 
@@ -109,17 +124,17 @@ namespace SourceBot.DataTypes
             switch(cat)
             {
                 case "COA": return COAInd;
-                case "LOA indication": return LOAInd;
+                case "Storage Condition": return StorageCondition;
                 case "Packaging PIC": return PackagingPIC;
-                case "Number of available samples": return NumOfAvailSamples;
+                case "ATC1": return ATC1;
                 case "Dosage Form": return GetFormated(DosageForm,';');
                 case "DMF Availability": return GetFormated(DMFAvailability, ';');
-                case "Sub Status (Calculated)": return SubStatus;
+                case "Tech File": return TechFile;
                 case "CAS Number": return CASNumber;
                 case "Innovator/Marketer": return InnovatorMarketer;
-                case "Tapi Product Name(Level 2)": return TapiProductName;
+                case "Product Name": return TapiProductName;
                 case "Molecule + Salt IMS Name": return MoleculeSaltName;
-                case "Molecule (Level 1) ID": return MoleculeID;
+                case "Molecule ID": return MoleculeID;
                 default: return string.Format(NO_SUCH_CAT, cat);
             }
 
@@ -139,20 +154,20 @@ namespace SourceBot.DataTypes
 
         [JsonConstructor]
         public ProductDocument(string moleculeID, string moleculeSaltName, string tapiProductName, 
-            string innovatorMarketer, string cASNumber, string subStatus, string dMFAvailability,
-            string dosageForm, string numOfAvailSamples , string packagingPIC, string lOAInd, string cOAInd)
+            string innovatorMarketer, string cASNumber, string techFile, string dMFAvailability,
+            string dosageForm, string atc1 , string packagingPIC, string storageCondition, string cOAInd)
         {
             MoleculeID = moleculeID;
             MoleculeSaltName = moleculeSaltName;
             TapiProductName = tapiProductName;
             InnovatorMarketer = innovatorMarketer;
             CASNumber = cASNumber;
-            SubStatus = subStatus;
+            TechFile = techFile;
             DMFAvailability = dMFAvailability;
             DosageForm = dosageForm;
-            NumOfAvailSamples = numOfAvailSamples;
+            ATC1 = atc1;
             PackagingPIC = packagingPIC;
-            LOAInd = lOAInd;
+            StorageCondition = storageCondition;
             COAInd = cOAInd;
             
         }
@@ -271,25 +286,34 @@ namespace SourceBot.DataTypes
             List<CardAction> buttons = new List<CardAction>();
 
             //12.20 = Innovator / Marketer
-            if (!string.IsNullOrEmpty(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.20"), value: Utilities.GetSentence("12.20")));
+            if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.20"), value: Utilities.GetSentence("12.20")));
             //12.21 = CAS Number
-            if (!string.IsNullOrEmpty(CASNumber)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")));
+            if (!IsNullOrNA(CASNumber)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")));
             //12.22 = DMF Availability
-            if (!string.IsNullOrEmpty(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.22"), value: Utilities.GetSentence("12.22")));
+            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.22"), value: Utilities.GetSentence("12.22")));
             //12.23 = Dosage Form
-            if (!string.IsNullOrEmpty(DosageForm)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")));
+            if (!IsNullOrNA(DosageForm)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")));
             //12.25 = Packaging PIC
-            if (!string.IsNullOrEmpty(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.25"), value: Utilities.GetSentence("12.25")));
-            //12.26 = LOA indication
-            if (!string.IsNullOrEmpty(LOAInd)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")));
+            if (!IsNullOrNA(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.25"), value: Utilities.GetSentence("12.25")));
+            //12.26 = Storage Condition
+            if (!IsNullOrNA(StorageCondition)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")));
             //12.27 = COA
-            if (!string.IsNullOrEmpty(COAInd)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")));
+            if (!IsNullOrNA(COAInd)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")));
+
+            //12.28 = ATC1
+            if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.28"), value: Utilities.GetSentence("12.28")));
+
+            //12.27 = COA
+            if (!IsNullOrNA(TechFile)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.29"), value: Utilities.GetSentence("12.29")));
 
 
-            
+
             return buttons;
         }
 
-
+        private bool IsNullOrNA(string tobechecked)
+        {
+            return "N/A".Equals(tobechecked) || string.IsNullOrEmpty(tobechecked);
+        }
     }
 }

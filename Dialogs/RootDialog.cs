@@ -130,7 +130,7 @@ namespace SourceBot.Dialogs
             var message = context.MakeMessage();
             if (tproducts!=null && tproducts[0]!=null)
             {
-                if ("Packaging PIC".Equals(result.Query))
+                if ("Packaging PIC".Equals(result.Query) && !"N/A".Equals(tproducts[0].PackagingPIC))
                 {                    
                     message.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                     message.Attachments = tproducts[0].GetProductPicCarousel();
