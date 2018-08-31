@@ -65,13 +65,13 @@ namespace SourceBot.DataTypes
   
 
     //1
-    [JsonProperty("Molecule ID")]
+    [JsonProperty("MoleculeID")]
         public string MoleculeID { get; set; }
         //2
         [JsonProperty("Molecule + Salt IMS Name")]
         public string MoleculeSaltName { get; set; }
         //3
-        [JsonProperty("Product Name")]
+        [JsonProperty("ProductName")]
         public string TapiProductName { get; set; }
         //4
         [JsonProperty("Innovator/Marketer")]
