@@ -215,9 +215,10 @@ namespace SourceBot.DataTypes
                       
             IList<Attachment> attchments = new List<Attachment>();
             string[] pics = PackagingPIC.Split(';');
+            string suffix = ".png";
             foreach(string pic in pics)
             {
-                string picURI = $"{PIC_URI}{pic}";
+                string picURI = $"{PIC_URI}{pic}{suffix}";
                 var productCard = new HeroCard
                 {
                     Title = $"Packing pic for {TapiProductName}",
