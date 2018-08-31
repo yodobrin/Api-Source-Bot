@@ -163,6 +163,7 @@ namespace SourceBot.Utils
 				SearchServiceQueryApiKey = ConfigurationManager.AppSettings["SearchServiceQueryApiKey"];
 				// initiate the index client
 				IndexClient = new SearchIndexClient(SearchServiceName, SearchIndexName, new SearchCredentials(SearchServiceQueryApiKey));
+                
 			}
 			else return;
 
@@ -209,7 +210,7 @@ namespace SourceBot.Utils
 		{
 			InitSearch();
 			// Execute search based on query string
-			SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All };
+			SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All, Filter = $"Product Name eq {searchText}" };
 			return IndexClient.Documents.Search(searchText, sp);
 		}
 
@@ -221,14 +222,14 @@ namespace SourceBot.Utils
 
     }
 
-    public static class RegexConstants
-    {
-        public const string Email = @"[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
+    //public static class RegexConstants
+    //{
+    //    public const string Email = @"[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
 
-        public const string Phone = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
+    //    public const string Phone = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
 
-        //public const string Country = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
-    }
+    //    //public const string Country = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
+    //}
 
 
 }
