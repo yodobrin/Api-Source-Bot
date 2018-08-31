@@ -86,7 +86,8 @@ namespace SourceBot.Dialogs
 
         private int SearchProduct(IDialogContext context, EntityRecommendation prod, ISearchIndexClient searchClient)
         {
-            DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity);
+            SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All, Filter = $"Product Name eq {prod.Entity}" };
+            DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity,sp);
             if (searchResult != null)
             {
                 foreach (SearchResult temp in searchResult.Results)
