@@ -401,7 +401,10 @@ namespace SourceBot.Utils
         public static Attachment CreateMinimalLeadFormCard(Lead lead)
         {
             var card = new AdaptiveCard();
-
+            Dictionary<string, LineItem> validation = lead.Validate();
+            TextColor nameColor = (validation["Name"].IsValid()) ? TextColor.Good : TextColor.Warning;
+            TextColor emailColor = (validation["Email"].IsValid()) ? TextColor.Good : TextColor.Warning;
+            TextColor companyColor = (validation["Company"].IsValid()) ? TextColor.Good : TextColor.Warning;
             var columnsBlock = new ColumnSet()
             {
                 Separation = SeparationStyle.None,
@@ -412,16 +415,16 @@ namespace SourceBot.Utils
                             Size = "2",
                             Items = new List<CardElement>
                             {
-                               new TextBlock  {  Text = "We just need an email address to get you TAPI's Catalog", IsSubtle = false,  Wrap = true, },
+                               new TextBlock  {  Text = "Please revisit the details provided", IsSubtle = false,  Wrap = true, },
 
-                               new TextBlock  {  Text = "Your name", Wrap = true, },
-                               new TextInput  {  Id = "Name", Value = lead.Name,  },
+                               new TextBlock  {  Text = "Your name", Wrap = true, Color = nameColor},
+                               new TextInput  {  Id = "Name", Value = lead.Name, Placeholder = "Last, First" },
 
-                               new TextBlock  {  Text = "Your email", Wrap = true, },
-                               new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, IsRequired = true },
+                               new TextBlock  {  Text = "Your email", Wrap = true, Color = emailColor},
+                               new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, Placeholder = "Please enter valid corporate email" },
 
-                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
-                               new TextInput  {  Id = "Company", Value = lead.Company, Style = TextInputStyle.Text, IsRequired = true },
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = companyColor },
+                               new TextInput  {  Id = "Company", Value = lead.Company, Style = TextInputStyle.Text, Placeholder = "Please enter your company" },
                             },
 
                         }
