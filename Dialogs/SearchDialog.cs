@@ -89,7 +89,7 @@ namespace SourceBot.Dialogs
             // Filter = $"ProductName eq '{prod.Entity}'"
             //ScoringProfile score = new ScoringProfile();
             
-            SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All, Top = 1  };
+            SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All };
             DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity,sp);
             if (searchResult != null)
             {
@@ -107,7 +107,8 @@ namespace SourceBot.Dialogs
 
         private int SearchQuery(IDialogContext context, string query, ISearchIndexClient searchClient)
         {
-            DocumentSearchResult searchResult = searchClient.Documents.Search(query);
+            SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All};
+            DocumentSearchResult searchResult = searchClient.Documents.Search(query,sp);
             if (searchResult != null)
             {
                 foreach (SearchResult temp in searchResult.Results)
