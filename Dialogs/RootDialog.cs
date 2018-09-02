@@ -435,10 +435,13 @@ namespace SourceBot.Dialogs
             var tempMess = await result;
             // just for test - would remove >>
             MyLead = JsonConvert.DeserializeObject<Lead>(tempMess.ToString());
+            // validate
             if (MyLead != null)
             {
+                Dictionary<string, LineItem> validation = MyLead.Validate();
                 MyLead.SetAction(Action);
                 var message = context.MakeMessage();
+                message.Text = $"oh we are getting there: the lead is valid? {MyLead.IsValid(validation)}";
                 message.Attachments.Add(MyLead.GetLeadCard(tproducts));
                 await context.PostAsync(message);
             }

@@ -90,6 +90,25 @@ namespace SourceBot.DataTypes
         [JsonProperty("Comments")]
         public string Comments { get; set; }
 
+        public Dictionary<string,LineItem>Validate()
+        {
+            Dictionary<string,LineItem> validation = new Dictionary<string, LineItem>();
+            validation.Add("Name", new LineItem(LineItem.TEXT, Name));
+            validation.Add("Email", new LineItem(LineItem.EMAIL, Email));
+            validation.Add("Phone", new LineItem(LineItem.TEXT, Phone));
+            validation.Add("Company", new LineItem(LineItem.TEXT, Company));            
+            return validation;
+        }
+
+        public bool IsValid(Dictionary<string, LineItem> validation)
+        {                         
+            foreach(KeyValuePair<string,LineItem> itm in validation)
+            {
+                if (!itm.Value.IsValid()) return false;
+                else continue;
+            }
+            return true;
+        }
         
 
         public string ToMessage()

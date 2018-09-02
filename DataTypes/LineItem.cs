@@ -18,23 +18,59 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SourceBot.Utils;
+using System.Text.RegularExpressions;
 
 namespace SourceBot.DataTypes
 {
     [Serializable]
     public class LineItem
     {
+        public const string EMAIL = "email";
+        public const string TEXT = "text";
+
+        private readonly string [] NON_VALID_SUFF = {"gmail", "yahoo", "walla"};
+
+        //private const string 
         public string Type { get; set; }
         public string Value { get; set; }
 
-        public string GetPrompt()
+        public LineItem(string type, string value)
         {
-            return Utilities.GetSentence(Type);
+            Type = type;
+            Value = value;
         }
 
         public bool IsFill()
         {
-            return (Value != null  && (string.Compare(Value,"")!=0));
+            return ( ! string.IsNullOrEmpty(Value));
+        }
+
+        public bool IsValid()
+        {
+            switch(Type)
+            {
+                case EMAIL:
+                    return validateEmail(Value);
+                    
+                case TEXT:
+                    return IsFill();
+                    
+                default: return true;
+            }
+        }
+        private bool validateEmail(string email)
+        {
+            var match = Regex.Match(email, RegexConstants.Email, RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                // check further on corporate mail
+                foreach(string suff in NON_VALID_SUFF)
+                {
+                    if (email.Contains(suff)) return false;
+                }
+                return true;
+            }
+            else return false;
         }
 
     }
