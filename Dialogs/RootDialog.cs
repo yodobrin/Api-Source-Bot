@@ -74,9 +74,17 @@ namespace SourceBot.Dialogs
         {
             Action = Lead.SEARCH;
             string altered = await this.spellService.GetCorrectedTextAsync(result.Query);
-            var message = context.MakeMessage();
-            message.Attachments.Add(AttachmentsUtil.GetSpellSuggestCard(result.Query,altered));
-            await context.PostAsync(message);
+            if (altered.Equals(result.Query))
+            {
+                await context.PostAsync("no good spell suggestion");
+            }
+            else
+            {
+                var message = context.MakeMessage();
+                message.Attachments.Add(AttachmentsUtil.GetSpellSuggestCard(result.Query, altered));
+                await context.PostAsync(message);
+            }
+
         }
 
         [LuisIntent("CRM.Conversation")]

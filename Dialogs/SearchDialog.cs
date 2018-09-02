@@ -70,9 +70,10 @@ namespace SourceBot.Dialogs
                     else continue;
                 }
             }
-            // in case it is a find intent, but not recognized as a product
+            // in case it is a find 'intent', but not recognized as a product
             else
             {
+                await context.PostAsync($"trying an any search for {Query}");
                 count = SearchQuery(context, Query, searchClient);
                 //currSearch = Query;
                 //context.ConversationData.SetValue(ProductDocument.USER_QUERY, Query);
@@ -107,7 +108,7 @@ namespace SourceBot.Dialogs
 
         private int SearchQuery(IDialogContext context, string query, ISearchIndexClient searchClient)
         {
-            SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All};
+            SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.Any};
             DocumentSearchResult searchResult = searchClient.Documents.Search(query,sp);
             if (searchResult != null)
             {

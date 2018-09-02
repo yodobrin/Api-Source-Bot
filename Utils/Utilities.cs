@@ -25,6 +25,9 @@ using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using System.Collections.Generic;
 using System;
+using SourceBot.DataTypes;
+
+using Newtonsoft.Json;
 
 
 namespace SourceBot.Utils
@@ -210,9 +213,30 @@ namespace SourceBot.Utils
 		{
 			InitSearch();
 			// Execute search based on query string
-			SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All, Filter = $"Product Name eq {searchText}" };
+			SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All };
 			return IndexClient.Documents.Search(searchText, sp);
 		}
+
+        public static ProductDocument SearchQuery(string searchText, int feelinglucky)
+        {
+            //SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.Any };
+            IList<ProductDocument> products = new List<ProductDocument>();
+            DocumentSearchResult searchResult = Search(searchText);
+            if (searchResult != null)
+            {
+                foreach (SearchResult temp in searchResult.Results)
+                {
+                    ProductDocument prodDoc = JsonConvert.DeserializeObject<ProductDocument>((string)temp.Document["content"]);
+                    products.Add(prodDoc);
+
+                }
+                //string subject = Lead.GetSubject(products);
+                //context.ConversationData.SetValue(ProductDocument.USER_QUERY, subject);
+                return products[0];
+            }
+            else return null;
+        }
+
 
         public static ISearchIndexClient GetSearchClient()
         {
