@@ -61,7 +61,8 @@ namespace SourceBot.Dialogs
             if (Entities != null && Entities.Count > 0)
             {
                 foreach (EntityRecommendation inst in Entities)
-                {                    
+                {
+                    await context.PostAsync($"before if |{inst.Entity}|");
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
                         await context.PostAsync($"trying a regular search for {inst.Entity}");
