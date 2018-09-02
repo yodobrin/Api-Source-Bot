@@ -262,7 +262,7 @@ namespace SourceBot.Utils
                                new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, IsRequired = true },
 
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "PhoneNumber", Value = lead.Phone, Style = TextInputStyle.Tel, },
+                               new TextInput  {  Id = "Phone", Value = lead.Phone, Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },                               
                                new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries(), IsRequired = true },
@@ -320,7 +320,7 @@ namespace SourceBot.Utils
                                new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, IsRequired = true },
 
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Default },
-                               new TextInput  {  Id = "PhoneNumber", Placeholder = "optional", Style = TextInputStyle.Tel, },
+                               new TextInput  {  Id = "Phone", Placeholder = "optional", Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Default },
                                new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries(), IsRequired = true },                               
