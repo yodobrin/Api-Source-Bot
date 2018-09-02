@@ -62,7 +62,7 @@ namespace SourceBot.Dialogs
             {
                 foreach (EntityRecommendation inst in Entities)
                 {
-                    await context.PostAsync($"before if |{inst.Entity}|");
+                    await context.PostAsync($"before if |{inst.Type}-{inst.Entity}|");
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
                         await context.PostAsync($"trying a regular search for {inst.Entity}");
