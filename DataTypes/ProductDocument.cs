@@ -126,7 +126,7 @@ namespace SourceBot.DataTypes
                 case "COA": return COAInd;
                 case "Storage Condition": return StorageCondition;
                 case "Packaging PIC": return PackagingPIC;
-                case "ATC1": return ATC1;
+                case "ATC 1": return ATC1;
                 case "Dosage Form": return GetFormated(DosageForm,';');
                 case "DMF Availability": return GetFormated(DMFAvailability, ';');
                 case "Tech File": return TechFile;
