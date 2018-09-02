@@ -64,10 +64,16 @@ namespace SourceBot.Dialogs
                 {                    
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {
+                        await context.PostAsync($"trying a regular search for {inst.Entity}");
                         count = SearchProduct(context, inst, searchClient);
                         //currSearch += $"{inst.Entity}";
                     }
-                    else continue;
+                    else if (Utilities.NONPRODUCT.Equals(inst.Type))
+                    {
+                        await context.PostAsync($"trying an any  search for {inst.Entity}");
+                        count = SearchQuery(context, inst.Entity, searchClient);
+                        //currSearch += $"{inst.Entity}";
+                    }else continue;
                 }
             }
             // in case it is a find 'intent', but not recognized as a product

@@ -77,6 +77,7 @@ namespace SourceBot.Utils
 
         // constants
         public static string PRODUCT = "product";
+        public static string NONPRODUCT = "unknownproduct";
 
 
         static void InitSentences()
