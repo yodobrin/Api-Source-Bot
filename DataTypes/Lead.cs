@@ -109,6 +109,16 @@ namespace SourceBot.DataTypes
             }
             return true;
         }
+
+        public string GetValidationResult(Dictionary<string, LineItem> validation)
+        {
+            string result = "";
+            foreach (KeyValuePair<string, LineItem> itm in validation)
+            {
+                result += $"item:{itm.Key} is {itm.Value.Value} and isValid? {itm.Value.IsValid()} \n";
+            }
+            return result;
+        }
         
 
         public string ToMessage()
