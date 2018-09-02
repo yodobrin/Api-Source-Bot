@@ -242,6 +242,11 @@ namespace SourceBot.Utils
 
         public static Attachment CreateFullLeadFormCard(Lead lead)
         {
+            Dictionary<string, LineItem> validation = lead.Validate();
+            TextColor nameColor = (validation["Name"].IsValid()) ? TextColor.Good : TextColor.Warning;
+            TextColor emailColor = (validation["Email"].IsValid()) ? TextColor.Good : TextColor.Warning;
+            TextColor companyColor = (validation["Company"].IsValid()) ? TextColor.Good : TextColor.Warning;
+
             var card = new AdaptiveCard();
             string subject = lead.GetSubject();
             var columnsBlock = new ColumnSet()
@@ -255,20 +260,20 @@ namespace SourceBot.Utils
                             Items = new List<CardElement>
                             {  new TextBlock  {  Text = "Please revisit details...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
                                
-                               new TextBlock  {  Text = "Your name", Wrap = true, },
-                               new TextInput  {  Id = "Name", Value = lead.Name, Style = TextInputStyle.Text, IsRequired = true},
+                               new TextBlock  {  Text = "Your name", Wrap = true, Color = nameColor},
+                               new TextInput  {  Id = "Name", Value = lead.Name, Style = TextInputStyle.Text, Placeholder = "Please enter your name"},
 
-                               new TextBlock  {  Text = "Your email", Wrap = true, },
-                               new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, IsRequired = true },
+                               new TextBlock  {  Text = "Your email", Wrap = true, Color = emailColor},
+                               new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, Placeholder = "Please enter a valid corporate email" },
 
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Phone", Value = lead.Phone, Style = TextInputStyle.Tel, },
 
                                new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },                               
-                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries(), IsRequired = true },
+                               new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries(),  },
 
-                               new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Attention },
-                               new TextInput  {  Id = "Company",   Value = lead.Company, Style = TextInputStyle.Text, IsRequired = true },
+                               new TextBlock  {  Text = "Company", Wrap = true, Color = companyColor },
+                               new TextInput  {  Id = "Company",   Value = lead.Company, Style = TextInputStyle.Text, Placeholder = "Please provide your Company" },
 
                                new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
                                new TextInput  {  Id = "Comments",  Value = lead.Comments, Style = TextInputStyle.Text, IsMultiline = true, },
