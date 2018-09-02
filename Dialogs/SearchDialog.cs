@@ -60,6 +60,7 @@ namespace SourceBot.Dialogs
             // loop over the entities find the "Product" entity
             if (Entities != null && Entities.Count > 0)
             {
+                // do we need to loop, or will just taking the first one be good enough?
                 foreach (EntityRecommendation inst in Entities)
                 {
                     await context.PostAsync($"before if |{inst.Type}-{inst.Entity}|");
@@ -67,12 +68,14 @@ namespace SourceBot.Dialogs
                     {
                         await context.PostAsync($"trying a regular search for {inst.Entity}");
                         count = SearchProduct(context, inst, searchClient);
+                        break;
                         //currSearch += $"{inst.Entity}";
                     }
                     else if (Utilities.NONPRODUCT.Equals(inst.Type))
                     {
                         await context.PostAsync($"trying an any  search for {inst.Entity}");
                         count = SearchQuery(context, inst.Entity, searchClient);
+                        break;
                         //currSearch += $"{inst.Entity}";
                     }else continue;
                 }
