@@ -27,7 +27,7 @@
 1.2 = I have no spelling suggestion for {0}
 2 = A test sentence with {0} parameters, {1} 
 5 = No products were found.
-5.1 = You searched for {0}
+5.1 = You searched for ***{0}***
 5.2 = What do you want to do next?
 6 = Contact TAPI For more Questions
 7 = Send TAPIs catalog by email

@@ -128,7 +128,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         public async Task CatalogGetCategoryIntent(IDialogContext context, LuisResult result)
         {
             var message = context.MakeMessage();
-            if (tproducts!=null && tproducts[0]!=null)
+            if (tproducts!=null && tproducts.Count>0 && tproducts[0]!=null)
             {
                 if ("Packaging PIC".Equals(result.Query) && !"N/A".Equals(tproducts[0].PackagingPIC))
                 {                    
@@ -232,6 +232,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         [LuisIntent("Catalog.FindItem")]
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
+            context.ConversationData.SetValue("initialsearch", result.Query);
             // setting the action to search
             Action = ProductDocument.FETCH_BY_MAIL;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
@@ -403,9 +404,8 @@ namespace Tapi.Bot.SophiBot.Dialogs
             else
             {
                 // no results
-                
                 string output;
-                context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out output);
+                context.ConversationData.TryGetValue("initialsearch", out output);
                 message.Attachments.Add(AttachmentsUtil.GetNoResults(output));
                 await context.PostAsync(message);
                
