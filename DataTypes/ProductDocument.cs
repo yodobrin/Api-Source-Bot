@@ -27,7 +27,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
     {
         public const string FULL = "full-product";
         public const string HIGHLIGHT = "product-highlight";
-        public const string NO_SUCH_CAT = "Please select from the available topics. {0} - no such topic.";
+        public const string NO_SUCH_CAT = "Please select from the available topics. ***{0}*** - no such topic.";
         public const string NO_CAT = "no-cat";
         public const string NO_RESULT = "no-results";
 
