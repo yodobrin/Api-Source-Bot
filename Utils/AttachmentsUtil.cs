@@ -15,25 +15,14 @@ You agree:
 
 using System;
 using System.Configuration;
-using System.Threading.Tasks;
-
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Luis;
-
-using Microsoft.Bot.Builder.Luis.Models;
-
-
 using System.Collections.Generic;
-
 using AdaptiveCards;
-using SourceBot.DataTypes;
-using SourceBot.Dialogs;
-using System.Threading;
+using Tapi.Bot.SophiBot.DataTypes;
 
 
 using Microsoft.Bot.Connector;
 
-namespace SourceBot.Utils
+namespace Tapi.Bot.SophiBot.Utils
 {
     [Serializable]
     public class AttachmentsUtil

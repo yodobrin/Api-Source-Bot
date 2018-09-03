@@ -15,17 +15,12 @@ You agree:
 
 using System;
 using System.Collections.Generic;
-
-using SourceBot.Utils;
+using Tapi.Bot.SophiBot.Utils;
 using System.Configuration;
-
-using AdaptiveCards;
-
-
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
-namespace SourceBot.DataTypes
+namespace Tapi.Bot.SophiBot.DataTypes
 {
     [Serializable]
     public class ProductDocument
@@ -48,20 +43,7 @@ namespace SourceBot.DataTypes
 
         public const int MAX_PROD_IN_RESULT = 5;
 
-        //private Dictionary<string, string> Data;
-   
-    //"Molecule ID": "TA-01000-PI",
-    //"Product Name": "Abaloparatide",
-    //"Molecule + Salt IMS Name": "N/A",
-    //"Innovator/Marketer": "Radius",
-    //"CAS Number": "247062-33-5",
-    //"DMF Availability": "Please contact us for further information",
-    //"Dosage Form": "F  - PARENTERAL ORDINARY  (Injectables)",
-    //"Packaging PIC": "N/A",
-    //"COA": "N/A",
-    //"ATC-1": "Systemic hormones",
-    //"Storage condition": "N/A",
-    //"Tech File": "N/A"
+        
   
 
     //1
@@ -120,7 +102,6 @@ namespace SourceBot.DataTypes
 
         public string GetCategory(string cat)
         {
-            //string res;
             switch(cat)
             {
                 case "COA": return COAInd;
@@ -182,10 +163,7 @@ namespace SourceBot.DataTypes
                 case HIGHLIGHT:
                     return GetHighligh();
                 case CONFIRM:
-                    return GetProductConfirm();
-                //case NO_RESULT:
-                //    return GetNoResults();
-                    
+                    return GetProductConfirm();                  
                 default: return GetHighligh();
             }
             
@@ -193,11 +171,10 @@ namespace SourceBot.DataTypes
 
         public Attachment GetProductCat(string category)
         {
-            //if ("Packaging PIC".Equals(category)) return GetProductPic();
+
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.40"), category),
-                //Subtitle = Utilities.GetSentence("12.41"),
                 Text = GetCategory(category),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
@@ -243,7 +220,6 @@ namespace SourceBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
-                //Subtitle = Utilities.GetSentence("12.1"),
                 Text = Utilities.GetSentence("12.2"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.5"), value: HIGHLIGHT), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.6"), value: HELP) }
@@ -257,7 +233,6 @@ namespace SourceBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
-                //Subtitle = Utilities.GetSentence("12.01"),
                 Text = Utilities.GetSentence("12.02"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/laszlo-article-for-hp-june-2018.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
@@ -273,7 +248,6 @@ namespace SourceBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = Utilities.GetSentence("12.10") +$" :\n\n{TapiProductName} " ,
-                //Subtitle = Utilities.GetSentence("12.11"),
                 Text = Utilities.GetSentence("12.12"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },
                 Buttons = GetFilledButtons()                       
@@ -304,10 +278,8 @@ namespace SourceBot.DataTypes
             //12.28 = ATC1
             if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.28"), value: Utilities.GetSentence("12.28")));
 
-            //12.27 = COA
+            //12.29 = Tech File
             if (!IsNullOrNA(TechFile)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.29"), value: Utilities.GetSentence("12.29")));
-
-
 
             return buttons;
         }

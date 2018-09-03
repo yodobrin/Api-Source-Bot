@@ -22,12 +22,12 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Web.Http.Description;
 using System.Net.Http;
-using SourceBot.Dialogs;
+using Tapi.Bot.SophiBot.Dialogs;
 using System;
 using System.Linq;
 
-using SourceBot.Utils;
-namespace Microsoft.Bot.Sample.LuisBot
+using Tapi.Bot.SophiBot.Utils;
+namespace Tapi.Bot.SophiBot
 {
     [BotAuthentication]
     public class MessagesController : ApiController

@@ -14,13 +14,10 @@ You agree:
 // Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using SourceBot.Utils;
+using Tapi.Bot.SophiBot.Utils;
 using System.Text.RegularExpressions;
 
-namespace SourceBot.DataTypes
+namespace Tapi.Bot.SophiBot.DataTypes
 {
     [Serializable]
     public class LineItem

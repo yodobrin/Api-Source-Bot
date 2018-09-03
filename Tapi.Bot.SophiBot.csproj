@@ -241,18 +241,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="DataTypes\EmailMessage.cs" />
     <Compile Include="DataTypes\Lead.cs" />
     <Compile Include="DataTypes\LineItem.cs" />
     <Compile Include="DataTypes\ProductDocument.cs" />
     <Compile Include="DataTypes\SurveyAnswer.cs" />
-    <Compile Include="Dialogs\DetailsDialog.cs" />
     <Compile Include="Dialogs\LeadDialog.cs" />
-    <Compile Include="Dialogs\LineDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
-    <Compile Include="Dialogs\CarouselCardsDialog.cs" />
-    <Compile Include="Dialogs\GenericDetailDialog.cs" />
     <Compile Include="Dialogs\SearchDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

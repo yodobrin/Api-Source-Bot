@@ -18,14 +18,11 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using Tapi.Bot.SophiBot.DataTypes;
+using Tapi.Bot.SophiBot.Utils;
 
-using SourceBot.DataTypes;
-using SourceBot.Utils;
 
-using System.Threading;
-
-namespace SourceBot.Dialogs
+namespace Tapi.Bot.SophiBot.Dialogs
 {
     [Serializable]
     public class LeadDialog : IDialog<object>
@@ -81,12 +78,10 @@ namespace SourceBot.Dialogs
                     output = ParseForm(value);
                     Lead lead = JsonConvert.DeserializeObject<Lead>(output);
                     context.PrivateConversationData.SetValue("bot-lead", lead);
-                    //await context.PostAsync($"got lead::{lead.Name} - {lead.Phone}");
                 }
                 catch (Exception ex)
                 {
-                    // need to move to log
-                    //await context.PostAsync($"got exception::{ex.ToString()}");
+                    // need to move to log - doing nothing for now
                 }
             }
             else await context.PostAsync("You have selected to opt out from providing details");

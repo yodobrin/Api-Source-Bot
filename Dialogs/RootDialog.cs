@@ -16,25 +16,17 @@ You agree:
 using System;
 using System.Configuration;
 using System.Threading.Tasks;
-
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
-
 using Microsoft.Bot.Builder.Luis.Models;
-
-
 using System.Collections.Generic;
-using SourceBot.Utils;
-
-using SourceBot.DataTypes;
-
+using Tapi.Bot.SophiBot.Utils;
+using Tapi.Bot.SophiBot.DataTypes;
 using System.Threading;
 using Newtonsoft.Json;
-
-
 using Microsoft.Bot.Connector;
 
-namespace SourceBot.Dialogs
+namespace Tapi.Bot.SophiBot.Dialogs
 {
     
     [Serializable]
@@ -76,7 +68,7 @@ namespace SourceBot.Dialogs
             string altered = await this.spellService.GetCorrectedTextAsync(result.Query);
             if (altered.Equals(result.Query))
             {
-                await context.PostAsync("no good spell suggestion");
+                await context.PostAsync(string.Format(Utilities.GetSentence("1.2"),altered));
             }
             else
             {
@@ -178,7 +170,6 @@ namespace SourceBot.Dialogs
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.LEAD_Q);
                         await context.PostAsync(string.Format(Utilities.GetSentence("22"), alead.Email));
-                        //await context.PostAsync($"lead message||{alead.ToMessage()} ||");
                     }
                     else
                     {
@@ -229,11 +220,7 @@ namespace SourceBot.Dialogs
         [LuisIntent("Help")]
         public async Task HelpIntent(IDialogContext context, LuisResult result)
         {           
-            //var message = context.MakeMessage();
-            //message.Attachments.Add(AttachmentsUtil.getAdaptiveFull());
-            //await context.PostAsync(message);
            await context.PostAsync(Utilities.GetSentence("911.0"));
-
         }
 
         /**
@@ -246,7 +233,7 @@ namespace SourceBot.Dialogs
 		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
 		{
             // setting the action to search
-            Action = ProductDocument.FETCH_BY_MAIL;// Lead.SEARCH;
+            Action = ProductDocument.FETCH_BY_MAIL;
             await context.Forward(new SearchDialog(result.Entities, result.Query), this.ResumeAfterSearchDialog, context.Activity, CancellationToken.None);
 
         }
@@ -264,10 +251,7 @@ namespace SourceBot.Dialogs
 
                 EntityRecommendation inst = entities[0];
                 // send the result to the persist queue
-                //string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\"}}";
                 string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\",\"Name\":\"{locName}\"}}";
-                // await context.PostAsync(surveyMessage);
-
                 await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.SURVEY_Q);
 
                 switch (inst.Entity)
@@ -433,7 +417,7 @@ namespace SourceBot.Dialogs
         private async Task ResumeAfterLeadForm(IDialogContext context, IAwaitable<object> result)
         {
             var tempMess = await result;
-            // just for test - would remove >>
+            
             if (tempMess == null)
             {                
                 return;

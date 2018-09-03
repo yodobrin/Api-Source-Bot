@@ -25,12 +25,12 @@ using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using System.Collections.Generic;
 using System;
-using SourceBot.DataTypes;
+using Tapi.Bot.SophiBot.DataTypes;
 
 using Newtonsoft.Json;
 
 
-namespace SourceBot.Utils
+namespace Tapi.Bot.SophiBot.Utils
 {
 
     [Serializable]
@@ -57,9 +57,7 @@ namespace SourceBot.Utils
         // survey creation 
         static string QueueNameSurveyPersist = null;
 
-        //static string LeadQueueName = null;
-        //static string SurveyQueueName = null;
-        //static string QueueName = null;
+
 
         static IQueueClient queueClientLeadPersist = null;
 
@@ -174,18 +172,6 @@ namespace SourceBot.Utils
 
 		}
 
-		/*
-		 * used to send messages to the predefined queue (in bot settings)
-		 * the message needs to be formatted in json structure as defined below
-		 * 
-		 **/
-         
-		//public static async Task AddMessageToQueueAsync(string messageBody)
-		//{
-		//	InitQ();
-		//	var message = new Message(Encoding.UTF8.GetBytes(messageBody));
-		//	await queueClientPersist.SendAsync(message);
-		//}
 
         public static async Task AddMessageToQueueAsync(string messageBody, string queue)
         {
@@ -220,7 +206,6 @@ namespace SourceBot.Utils
 
         public static ProductDocument SearchQuery(string searchText, int feelinglucky)
         {
-            //SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.Any };
             IList<ProductDocument> products = new List<ProductDocument>();
             DocumentSearchResult searchResult = Search(searchText);
             if (searchResult != null)
@@ -231,8 +216,6 @@ namespace SourceBot.Utils
                     products.Add(prodDoc);
 
                 }
-                //string subject = Lead.GetSubject(products);
-                //context.ConversationData.SetValue(ProductDocument.USER_QUERY, subject);
                 return products[0];
             }
             else return null;

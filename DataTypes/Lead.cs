@@ -15,15 +15,10 @@ You agree:
 
 using System;
 using Newtonsoft.Json;
-using Microsoft.Bot.Builder.FormFlow;
-using SourceBot.Utils;
-
 using System.Collections.Generic;
-
-
 using Microsoft.Bot.Connector;
 
-namespace SourceBot.DataTypes
+namespace Tapi.Bot.SophiBot.DataTypes
 {
     [Serializable]
     public class Lead
@@ -140,20 +135,17 @@ namespace SourceBot.DataTypes
             MessageType = type;
         }
 
-        public void SetProduct(ProductDocument product)
-        {
-            Product = product.ToMessage();
-        }
+        //public void SetProduct(ProductDocument product)
+        //{
+        //    Product = product.ToMessage();
+        //}
 
         public void SetProduct(string product)
         {
             Product = product;
         }
 
-        public void AddProduct(string product)
-        {
-            // tbd
-        }
+        
 
         private void SetTimeStamp()
         {

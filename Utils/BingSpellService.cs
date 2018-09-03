@@ -13,17 +13,16 @@ You agree:
 // This code released under the terms of the 
 // Microsoft Public License (MS-PL, http://opensource.org/licenses/ms-pl.html.)
 
-using System.Collections.Generic;
+
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Configuration;
 using Newtonsoft.Json;
 using System.Web;
 using System.Configuration;
 using System;
-namespace SourceBot.Utils
+namespace Tapi.Bot.SophiBot.Utils
 {
     [Serializable]
     public class BingSpellService
@@ -61,18 +60,7 @@ namespace SourceBot.Utils
                 queryString["mode"] = "proof";
                 queryString["mkt"] = "en-US";
                 var uri = $"{SpellCheckApiUrl}?{queryString}";
-
-
-                //var values = new Dictionary<string, string>
-                //{
-                //    { "text", text },
-                //    { "mode", "proof" },
-                //    { "mkt", "en-US" }
-                //};
-
-                //var content = new FormUrlEncodedContent(values);
-
-                //var response = await client.PostAsync(SpellCheckApiUrl, content);
+                           
                 var response = await client.GetAsync(uri);
                 var responseString = await response.Content.ReadAsStringAsync();
 

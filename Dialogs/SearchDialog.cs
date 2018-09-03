@@ -19,15 +19,15 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
 using System.Collections.Generic;
-using SourceBot.Utils;
+using Tapi.Bot.SophiBot.Utils;
 using Microsoft.Azure.Search;
 using Microsoft.Azure.Search.Models;
 using Newtonsoft.Json;
-using SourceBot.DataTypes;
+using Tapi.Bot.SophiBot.DataTypes;
 
 using Microsoft.Bot.Builder.Luis.Models;
 
-namespace SourceBot.Dialogs
+namespace Tapi.Bot.SophiBot.Dialogs
 {
     [Serializable]
     public class SearchDialog : IDialog<object>
@@ -53,9 +53,7 @@ namespace SourceBot.Dialogs
         public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
-            int count = 0;
-            //string currSearch ="";
-            //context.ConversationData.TryGetValue(ProductDocument.USER_QUERY, out currSearch);            
+            int count = 0;                       
             ISearchIndexClient searchClient = Utilities.GetSearchClient();
             // loop over the entities find the "Product" entity
             if (Entities != null && Entities.Count > 0)
@@ -65,12 +63,10 @@ namespace SourceBot.Dialogs
                 {
                     
                     if (Utilities.PRODUCT.Equals(inst.Type))
-                    {
-                        
+                    {                        
                         count = SearchProduct(context, inst, searchClient);
                         // break in case something was found
                         if (count!=0) break;
-                        //currSearch += $"{inst.Entity}";
                     }
                     else if (Utilities.NONPRODUCT.Equals(inst.Type))
                     {
@@ -78,31 +74,21 @@ namespace SourceBot.Dialogs
                         count = SearchQuery(context, inst.Entity, searchClient);
                         // break in case something was found
                         if (count != 0) break;
-                        //currSearch += $"{inst.Entity}";
                     }
                     else continue;
                 }
             }
             // in case it is a find 'intent', but not recognized as a product
             else
-            {
-                
+            {                
                 count = SearchQuery(context, Query, searchClient);
-                //currSearch = Query;
-                //context.ConversationData.SetValue(ProductDocument.USER_QUERY, Query);
             }
-            
-            // TODO decide what to do with the count
-            //await context.PostAsync($"set the following subject - {currSearch}");
-            // pass control back to the calling dialog (root)
+          
             context.Done(products);
         }
 
         private int SearchProduct(IDialogContext context, EntityRecommendation prod, ISearchIndexClient searchClient)
         {
-            // Filter = $"ProductName eq '{prod.Entity}'"
-            //ScoringProfile score = new ScoringProfile();
-            
             SearchParameters sp = new SearchParameters() { SearchMode = SearchMode.All };
             DocumentSearchResult searchResult = searchClient.Documents.Search(prod.Entity,sp);
             if (searchResult != null)
