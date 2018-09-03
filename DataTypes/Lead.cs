@@ -197,7 +197,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
                 Title = $"Invalid information Provided",
 
                 Text = "Please revisit the details",
-                Images = new List<CardImage> { new CardImage("https://pngtree.com/free-icon/validation-failure_641153") },
+                Images = new List<CardImage> { new CardImage("https://safetymanagementgroup.com/wp-content/uploads/2017/07/Oopsbutton.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Revisit my details", value: REVISIT_DETAILS) }
             };
 
