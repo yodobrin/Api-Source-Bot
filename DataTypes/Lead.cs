@@ -194,10 +194,10 @@ namespace Tapi.Bot.SophiBot.DataTypes
         {
             var leadCard = new ThumbnailCard
             {
-                Title = $"Hello, there is an issue with the details provided",
+                Title = $"Invalid information Provided",
 
                 Text = "Please revisit the details",
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+                Images = new List<CardImage> { new CardImage("https://pngtree.com/free-icon/validation-failure_641153") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Revisit my details", value: REVISIT_DETAILS) }
             };
 
