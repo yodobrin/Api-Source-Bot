@@ -134,7 +134,8 @@ namespace Tapi.Bot.SophiBot.Dialogs
                 {                    
                     message.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                     message.Attachments = tproducts[0].GetProductPicCarousel();
-                }else  message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
+                }else 
+                    message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
             }else message.Attachments.Add(AttachmentsUtil.GetErrorCard("No products in search results"));
 
 

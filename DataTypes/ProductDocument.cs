@@ -27,7 +27,8 @@ namespace Tapi.Bot.SophiBot.DataTypes
     {
         public const string FULL = "full-product";
         public const string HIGHLIGHT = "product-highlight";
-        public const string NO_SUCH_CAT = "Missing information for: {0}";
+        public const string NO_SUCH_CAT = "Please select from the available topics. {0} - no such topic.";
+        public const string NO_CAT = "no-cat";
         public const string NO_RESULT = "no-results";
 
         public const string FETCH_BY_MAIL = "by-mail";
@@ -116,7 +117,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
                 case "Product Name": return TapiProductName;
                 case "Molecule + Salt IMS Name": return MoleculeSaltName;
                 case "Molecule ID": return MoleculeID;
-                default: return string.Format(NO_SUCH_CAT, cat);
+                default: return NO_CAT;
             }
 
          
@@ -171,11 +172,13 @@ namespace Tapi.Bot.SophiBot.DataTypes
 
         public Attachment GetProductCat(string category)
         {
-
+            string textValue = GetCategory(category);
+            // verify it is a valid topic
+            if (NO_CAT.Equals(textValue)) return AttachmentsUtil.GetErrorCard(string.Format(NO_SUCH_CAT, category));
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.40"), category),
-                Text = GetCategory(category),
+                Text = textValue,
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
