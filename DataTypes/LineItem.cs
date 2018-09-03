@@ -25,7 +25,9 @@ namespace Tapi.Bot.SophiBot.DataTypes
         public const string EMAIL = "email";
         public const string TEXT = "text";
 
-        private readonly string [] NON_VALID_SUFF = {"gmail", "yahoo", "walla"};
+        private readonly string [] NON_VALID_SUFF = {"gmail", "yahoo", "walla", "Hotmail", "outlook", "mail.com", "Zoho", "Yandex", "AOL"};
+        
+
 
         //private const string 
         public string Type { get; set; }
