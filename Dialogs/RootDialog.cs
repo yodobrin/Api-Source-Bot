@@ -435,8 +435,7 @@ namespace SourceBot.Dialogs
             var tempMess = await result;
             // just for test - would remove >>
             if (tempMess == null)
-            {
-                await context.PostAsync($"lead form is empty");
+            {                
                 return;
             }
             MyLead = JsonConvert.DeserializeObject<Lead>(tempMess.ToString());
