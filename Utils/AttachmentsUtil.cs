@@ -170,8 +170,8 @@ namespace Tapi.Bot.SophiBot.Utils
             var openCard = new HeroCard
             {
                 Title = Utilities.GetSentence("950"),
-                Subtitle = string.Format(Utilities.GetSentence("951"), code),
-                Text = Utilities.GetSentence("952"),
+                //Subtitle = string.Format(Utilities.GetSentence("951"), code),
+                Text =  code,
                 Images = new List<CardImage> { new CardImage("https://cdn.dribbble.com/users/7770/screenshots/3935947/oh_snap_404_1x.jpg") }                
             };
 
