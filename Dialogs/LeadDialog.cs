@@ -89,7 +89,7 @@ namespace SourceBot.Dialogs
                     //await context.PostAsync($"got exception::{ex.ToString()}");
                 }
             }
-            else await context.PostAsync("something is wrong - message value is null");
+            else await context.PostAsync("You have selected to opt out from providing details");
             // pass control back to the calling dialog (root)
             context.Done<object>(output);
         }

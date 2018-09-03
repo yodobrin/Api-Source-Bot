@@ -435,7 +435,7 @@ namespace SourceBot.Utils
                                new TextBlock  {  Text = "Your name", Wrap = true, Color = nameColor},
                                new TextInput  {  Id = "Name", Value = lead.Name, Placeholder = "Last, First" },
 
-                               new TextBlock  {  Text = "Your email", Wrap = true, Color = emailColor},
+                               new TextBlock  {  Text = "Please enter a valid corporate email", Wrap = true, Color = emailColor},
                                new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, Placeholder = "Please enter valid corporate email" },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = companyColor },
