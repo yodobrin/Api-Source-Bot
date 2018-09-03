@@ -42,7 +42,9 @@ namespace SourceBot.DataTypes
         public const int ALL = 0;
         public const int UNFILLED = 1;
 
-      
+       
+
+
         private string Action = SEARCH;
         public void SetAction(string action)
         {
@@ -115,7 +117,7 @@ namespace SourceBot.DataTypes
             string result = "";
             foreach (KeyValuePair<string, LineItem> itm in validation)
             {
-                result += $"item:{itm.Key} is {itm.Value.Value} and isValid? {itm.Value.IsValid()} \n";
+                result += $"For the field:{itm.Key} you entered:{itm.Value.Value} and isValid? {itm.Value.IsValid()} \n";
             }
             return result;
         }
@@ -195,6 +197,21 @@ namespace SourceBot.DataTypes
 
             return leadCard.ToAttachment();
         }
+
+        public Attachment GetInvalidLeadCard()
+        {
+            var leadCard = new ThumbnailCard
+            {
+                Title = $"Hello, there is an issue with the details provided",
+
+                Text = "Please revisit the details",
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Revisit my details", value: REVISIT_DETAILS) }
+            };
+
+            return leadCard.ToAttachment();
+        }
+
         private void SetSubject(IList<ProductDocument> tproducts)
         {
             Subject = GetSubject(tproducts);

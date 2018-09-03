@@ -238,9 +238,19 @@ namespace SourceBot.Utils
             return resultCard.ToAttachment();
         }
 
-       
+        public static Attachment CreateRevisitLeadFormCard(Lead lead, string formType)
+        {
+            switch(formType)
+            {
+                case FULL:
+                    return CreateFullLeadFormCard(lead);
+                case MINIMAL:
+                    return CreateMinimalLeadFormCard(lead);
+                default: return CreateFullLeadFormCard(lead);
+            }
+        }
 
-        public static Attachment CreateFullLeadFormCard(Lead lead)
+        private static Attachment CreateFullLeadFormCard(Lead lead)
         {
             Dictionary<string, LineItem> validation = lead.Validate();
             TextColor nameColor = (validation["Name"].IsValid()) ? TextColor.Good : TextColor.Warning;
@@ -258,7 +268,7 @@ namespace SourceBot.Utils
                         {
                             Size = "2",
                             Items = new List<CardElement>
-                            {  new TextBlock  {  Text = "Please revisit details...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
+                            {  new TextBlock  {  Text = "Please revisit details...", Weight = TextWeight.Bolder,  Size = TextSize.Large, Color = TextColor.Default, },
                                
                                new TextBlock  {  Text = "Your name", Wrap = true, Color = nameColor},
                                new TextInput  {  Id = "Name", Value = lead.Name, Style = TextInputStyle.Text, Placeholder = "Please enter your name"},
@@ -266,19 +276,19 @@ namespace SourceBot.Utils
                                new TextBlock  {  Text = "Please enter a valid corporate email", Wrap = true, Color = emailColor},
                                new TextInput  {  Id = "Email", Value = lead.Email, Style = TextInputStyle.Email, Placeholder = "Please enter a valid corporate email" },
 
-                               new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Attention },
+                               new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Default },
                                new TextInput  {  Id = "Phone", Value = lead.Phone, Style = TextInputStyle.Tel, },
 
-                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Attention },                               
+                               new TextBlock  {  Text = "Country", Wrap = true, Color = TextColor.Default },                               
                                new ChoiceSet(){  Id = "Country",  Style = ChoiceInputStyle.Compact, Choices = GetCountries(),  },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = companyColor },
                                new TextInput  {  Id = "Company",   Value = lead.Company, Style = TextInputStyle.Text, Placeholder = "Please provide your Company" },
 
-                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Attention },
+                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Default },
                                new TextInput  {  Id = "Comments",  Value = lead.Comments, Style = TextInputStyle.Text, IsMultiline = true, },
 
-                               new TextBlock  {  Text = $"Subject:{subject}", Wrap = true, Color = TextColor.Attention },                               
+                               new TextBlock  {  Text = $"Subject:{subject}", Wrap = true, Color = TextColor.Default },                               
 
                                
                             },
@@ -315,13 +325,13 @@ namespace SourceBot.Utils
                         {
                             Size = "2",
                             Items = new List<CardElement>
-                            {  new TextBlock  {  Text = "Tell us about yourself...", Weight = TextWeight.Bolder,  Size = TextSize.Large, },
+                            {  new TextBlock  {  Text = "Tell us about yourself...", Weight = TextWeight.Bolder,  Size = TextSize.Large, Color = TextColor.Default },
                                new TextBlock  {  Text = "We just need a few more details to get you TAPI's Information", IsSubtle = false,  Wrap = true, },
 
-                               new TextBlock  {  Text = "Your name", Wrap = true, },
+                               new TextBlock  {  Text = "Your name", Wrap = true, Color = TextColor.Default},
                                new TextInput  {  Id = "Name", Placeholder = "Last, First", IsRequired = true },
 
-                               new TextBlock  {  Text = "Your email", Wrap = true, },
+                               new TextBlock  {  Text = "Your email", Wrap = true, Color = TextColor.Default},
                                new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, IsRequired = true },
 
                                new TextBlock  {  Text = "Phone Number", Wrap = true, Color = TextColor.Default },
@@ -373,10 +383,10 @@ namespace SourceBot.Utils
                             {  
                                new TextBlock  {  Text = "We just need an email address to get you TAPI's Catalog", IsSubtle = false,  Wrap = true, },
 
-                               new TextBlock  {  Text = "Your name", Wrap = true, },
+                               new TextBlock  {  Text = "Your name", Wrap = true, Color = TextColor.Default},
                                new TextInput  {  Id = "Name", Placeholder = "Last, First",  },
 
-                               new TextBlock  {  Text = "Your email", Wrap = true, },
+                               new TextBlock  {  Text = "Your email", Wrap = true, Color = TextColor.Default},
                                new TextInput  {  Id = "Email", Placeholder = "youremail@example.com", Style = TextInputStyle.Email, IsRequired = true },
 
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
@@ -403,7 +413,7 @@ namespace SourceBot.Utils
 
         }
 
-        public static Attachment CreateMinimalLeadFormCard(Lead lead)
+        private static Attachment CreateMinimalLeadFormCard(Lead lead)
         {
             var card = new AdaptiveCard();
             Dictionary<string, LineItem> validation = lead.Validate();

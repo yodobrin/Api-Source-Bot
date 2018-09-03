@@ -33,6 +33,7 @@ namespace SourceBot.Dialogs
         public string LeadType;
 
         public Lead Temporary;
+        public const string LEAD_FORM_TYPE = "leadform";
 
        
         public async Task StartAsync(IDialogContext context)
@@ -40,17 +41,21 @@ namespace SourceBot.Dialogs
             var message = context.MakeMessage();
             Attachment attachment = null;
             // in case it is a revisit of the details
+            string formType;
             
             switch (LeadType)
             {
                 case AttachmentsUtil.FULL:
                     attachment = AttachmentsUtil.CreateFullLeadFormCard();
+                    context.ConversationData.SetValue(LEAD_FORM_TYPE, AttachmentsUtil.FULL);
                     break;
                 case AttachmentsUtil.MINIMAL:
                     attachment = AttachmentsUtil.CreateMinimalLeadFormCard();
+                    context.ConversationData.SetValue(LEAD_FORM_TYPE, AttachmentsUtil.MINIMAL);
                     break;
                 case AttachmentsUtil.REVISIT:
-                    attachment = AttachmentsUtil.CreateFullLeadFormCard(Temporary);
+                    context.ConversationData.TryGetValue(LEAD_FORM_TYPE, out formType);
+                    attachment = AttachmentsUtil.CreateRevisitLeadFormCard(Temporary,formType);
                     break;
                 default:
                     attachment = AttachmentsUtil.CreateFullLeadFormCard();

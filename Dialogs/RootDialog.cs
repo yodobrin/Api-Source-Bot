@@ -441,8 +441,14 @@ namespace SourceBot.Dialogs
                 Dictionary<string, LineItem> validation = MyLead.Validate();
                 MyLead.SetAction(Action);
                 var message = context.MakeMessage();
-                message.Text = $"oh we are getting there: the lead is valid? {MyLead.GetValidationResult(validation)}";
-                message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+                if (MyLead.IsValid(validation))
+                {                                  
+                    message.Attachments.Add(MyLead.GetLeadCard(tproducts));                    
+                }
+                else
+                {
+                    message.Attachments.Add(MyLead.GetInvalidLeadCard());
+                }
                 await context.PostAsync(message);
             }
            
