@@ -274,8 +274,8 @@ namespace Tapi.Bot.SophiBot.Utils
                                new TextBlock  {  Text = "Company", Wrap = true, Color = companyColor },
                                new TextInput  {  Id = "Company",   Value = lead.Company, Style = TextInputStyle.Text, Placeholder = "Please provide your Company" },
 
-                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Default },
-                               new TextInput  {  Id = "Comments",  Value = lead.Comments, Style = TextInputStyle.Text, IsMultiline = true, },
+                               new TextBlock  {  Text = "Inquiry Details", Wrap = true, Color = TextColor.Default },
+                               new TextInput  {  Id = "Comments",  Value = lead.Comments, Placeholder = "detailed information will help us to give a focused reply", Style = TextInputStyle.Text, IsMultiline = true, },
 
                                new TextBlock  {  Text = $"Subject:{subject}", Wrap = true, Color = TextColor.Default },                               
 
@@ -332,8 +332,8 @@ namespace Tapi.Bot.SophiBot.Utils
                                new TextBlock  {  Text = "Company", Wrap = true, Color = TextColor.Default },
                                new TextInput  {  Id = "Company",  Style = TextInputStyle.Text, IsRequired = true},
 
-                               new TextBlock  {  Text = "Commments?", Wrap = true, Color = TextColor.Default },
-                               new TextInput  {  Id = "Comments",  Style = TextInputStyle.Tel, IsMultiline = true, },
+                               new TextBlock  {  Text = "Inquiry Details", Wrap = true, Color = TextColor.Default },
+                               new TextInput  {  Id = "Comments", Placeholder = "detailed information will help us to give a focused reply", Style = TextInputStyle.Tel, IsMultiline = true, },
                             },
                         }
                 }

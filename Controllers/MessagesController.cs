@@ -71,7 +71,16 @@ namespace Tapi.Bot.SophiBot
                 {
                     ConnectorClient client = new ConnectorClient(new Uri(message.ServiceUrl));
                     var reply = message.CreateReply();
-                    reply.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
+                    //reply.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
+                    reply.Text = Utilities.GetSentence("0");
+                    await client.Conversations.ReplyToActivityAsync(reply);
+
+                    reply = message.CreateReply();                    
+                    reply.Text = Utilities.GetSentence("0.01");
+                    await client.Conversations.ReplyToActivityAsync(reply);
+
+                    reply = message.CreateReply();
+                    reply.Text = Utilities.GetSentence("0.02");
                     await client.Conversations.ReplyToActivityAsync(reply);
                 }
             }
