@@ -201,7 +201,7 @@ namespace Tapi.Bot.SophiBot.Utils
         {
             string suffix = "";
             int count = 0;
-            if (tproducts.Count == 1) return tproducts[0].GetProductCard(ProductDocument.CONFIRM);
+            if (tproducts.Count == 1) return tproducts[0].GetProductCard(ProductDocument.HIGHLIGHT);
             List<CardAction> buttons = new List<CardAction>();
             if (tproducts.Count > 0)
             {

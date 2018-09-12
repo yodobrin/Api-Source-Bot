@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using Tapi.Bot.SophiBot.Utils;
 using System.Configuration;
 using Microsoft.Bot.Connector;
+using AdaptiveCards;
 using Newtonsoft.Json;
 
 namespace Tapi.Bot.SophiBot.DataTypes
@@ -108,11 +109,17 @@ namespace Tapi.Bot.SophiBot.DataTypes
                 case "COA": return COAInd;
                 case "Storage Condition": return StorageCondition;
                 case "Packaging PIC": return PackagingPIC;
+                case "Packaging": return PackagingPIC;
                 case "ATC 1": return ATC1;
                 case "Dosage Form": return GetFormated(DosageForm,';');
                 case "DMF Availability": return GetFormated(DMFAvailability, ';');
+                case "DMF": return GetFormated(DMFAvailability, ';');
+                case "DMF Files": return GetFormated(DMFAvailability, ';');
+                case "US DMF": return GetFormated(DMFAvailability, ';');
+                case "EU DMF": return GetFormated(DMFAvailability, ';');
                 case "Tech File": return TechFile;
                 case "CAS Number": return CASNumber;
+                case "CAS": return CASNumber;
                 case "Innovator/Marketer": return InnovatorMarketer;
                 case "Product Name": return TapiProductName;
                 case "Molecule + Salt IMS Name": return MoleculeSaltName;
@@ -188,7 +195,33 @@ namespace Tapi.Bot.SophiBot.DataTypes
 
         }
 
-    
+        public Attachment GetProductCat1(string category)
+        {
+            string textValue = GetCategory(category);
+            // verify it is a valid topic
+            if (NO_CAT.Equals(textValue)) return AttachmentsUtil.GetErrorCard(string.Format(NO_SUCH_CAT, category));
+            AdaptiveCard card = new AdaptiveCard()
+            {
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image()  { Size = ImageSize.Large,  Url = "https://www.tapi.com/globalassets/1-png.png" },
+                            new TextBlock  { Text = string.Format(Utilities.GetSentence("12.40"), category), Wrap = true, Size = TextSize.Large  },
+                            new TextBlock  { Text = textValue, Wrap = true, Size = TextSize.Large  }
+                        }
+                    }
+                }
+            };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+        }
+
 
         public IList<Attachment> GetProductPicCarousel()
         {
@@ -264,25 +297,29 @@ namespace Tapi.Bot.SophiBot.DataTypes
             List<CardAction> buttons = new List<CardAction>();
 
             //12.20 = Innovator / Marketer
-            if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.20"), value: Utilities.GetSentence("12.20")));
+            if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.201"), value: Utilities.GetSentence("12.20")));
             //12.21 = CAS Number
             if (!IsNullOrNA(CASNumber)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")));
             //12.22 = DMF Availability
-            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.22"), value: Utilities.GetSentence("12.22")));
+            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.221"), value: Utilities.GetSentence("12.22")));
             //12.23 = Dosage Form
             if (!IsNullOrNA(DosageForm)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")));
             //12.25 = Packaging PIC
-            if (!IsNullOrNA(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.25"), value: Utilities.GetSentence("12.25")));
+            if (!IsNullOrNA(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.251"), value: Utilities.GetSentence("12.25")));
             //12.26 = Storage Condition
             if (!IsNullOrNA(StorageCondition)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")));
             //12.27 = COA
             if (!IsNullOrNA(COAInd)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")));
 
             //12.28 = ATC1
-            if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.28"), value: Utilities.GetSentence("12.28")));
+            if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.281"), value: Utilities.GetSentence("12.28")));
 
             //12.29 = Tech File
             if (!IsNullOrNA(TechFile)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.29"), value: Utilities.GetSentence("12.29")));
+
+            // send me info by mail
+            buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL));
+            
 
             return buttons;
         }

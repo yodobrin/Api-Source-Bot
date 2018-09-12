@@ -18,7 +18,7 @@
 ##################################################
 0 = Hi, My name is Sophi and I will help you source for the API you need. 
 0.01 = To start, please type in the name of the API you are looking for. 
-0.02 = (at any stage you can start over by typing restart)
+0.02 = (at any stage you can start over by typing **restart**)
 #0.1 = To start, please type in the name of the **API** you are looking for.
 0.1 = HI there, I would like to help you source for the **API** you need, type in its name and I'll take you through it
 0.2 = Thanks for that, how can I help with sourcing for the API you are looking for?
@@ -51,14 +51,18 @@
 12.11 = The information is broken to specific topics
 12.12 = You can click on the topics below to see more information
 12.20 = Innovator/Marketer
+12.201 = Marketer
 12.21 = CAS Number
 12.22 = DMF Availability
+12.221 = Regulatory Files (DMF, CEP)
 12.23 = Dosage Form
 12.24 = Number of available samples 
 12.25 = Packaging PIC
+12.251 = Packaging Information
 12.26 = Storage Condition 
 12.27 = COA
 12.28 = ATC 1
+12.281 = Therapeutic Category
 12.29 = Tech File
 
 #12.28 = Full Pack
