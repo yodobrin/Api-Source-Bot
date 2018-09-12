@@ -432,13 +432,19 @@ namespace Tapi.Bot.SophiBot.Dialogs
                 var message = context.MakeMessage();
                 if (MyLead.IsValid(validation))
                 {                                  
-                    message.Attachments.Add(MyLead.GetLeadCard(tproducts));                    
+                    message.Attachments.Add(MyLead.GetLeadCard(tproducts));
+                    await context.PostAsync(message);
                 }
                 else
                 {
-                    message.Attachments.Add(MyLead.GetInvalidLeadCard());
+                    // need to show the lead form and not the invalid dialog
+                    LeadDialog diag = new LeadDialog();
+                    diag.Temporary = MyLead;
+                    diag.LeadType = AttachmentsUtil.REVISIT;
+                    context.Call(diag, this.ResumeAfterLeadForm);
+                    //message.Attachments.Add(MyLead.GetInvalidLeadCard());
                 }
-                await context.PostAsync(message);
+                //await context.PostAsync(message);
             }
            
         }

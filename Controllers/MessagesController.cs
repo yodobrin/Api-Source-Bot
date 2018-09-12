@@ -75,11 +75,11 @@ namespace Tapi.Bot.SophiBot
                     //reply.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
                     reply.Text = Utilities.GetSentence("0");
                     await client.Conversations.ReplyToActivityAsync(reply);
-                    Thread.Sleep(500);
+                    Thread.Sleep(750);
                     reply = message.CreateReply();                    
                     reply.Text = Utilities.GetSentence("0.01");
                     await client.Conversations.ReplyToActivityAsync(reply);
-                    Thread.Sleep(500);
+                    Thread.Sleep(750);
                     reply = message.CreateReply();
                     reply.Text = Utilities.GetSentence("0.02");
                     await client.Conversations.ReplyToActivityAsync(reply);
