@@ -153,12 +153,11 @@ namespace Tapi.Bot.SophiBot.Utils
         {
             var spellCard = new HeroCard
             {
-                Title = $"Spell Suggestion",                
+                Title = $"Spell Suggestion",
+                Text = $"You typed : {original}",
                 Images = new List<CardImage> { new CardImage("https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Original-"+original, value: original),
-                    new CardAction(ActionTypes.PostBack, "Suggested-"+altered, value: altered) }
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Suggested-"+altered, value: altered) }
             };
-
             return spellCard.ToAttachment();
         }
 
