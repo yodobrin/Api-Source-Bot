@@ -41,7 +41,7 @@
 12.02 = What would you like to do next?
 12.1 = We have more information for it.
 12.2 = Is this the API you are interested in? 
-12.3 = Send me all information by mail
+12.3 = Send me all information\n\n by mail
 12.4 = Show me avilable topics
 12.41 = Show me other topics again
 12.42 = I'm OK. Send me the information by email.

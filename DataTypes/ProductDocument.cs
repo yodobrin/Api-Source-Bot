@@ -185,7 +185,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("12.40"), category),
-                Text = textValue,
+                Text = textValue,                
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
@@ -208,7 +208,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
                     {
                         Items = new List<CardElement>
                         {
-                            new Image()  { Size = ImageSize.Large,  Url = "https://www.tapi.com/globalassets/1-png.png" },
+                            new Image()  { Size = ImageSize.Stretch,  Url = "https://www.tapi.com/globalassets/1-png.png" },
                             new TextBlock  { Text = string.Format(Utilities.GetSentence("12.40"), category), Wrap = true, Size = TextSize.Large  },
                             new TextBlock  { Text = textValue, Wrap = true, Size = TextSize.Large  }
                         }
