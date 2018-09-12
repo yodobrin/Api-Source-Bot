@@ -25,6 +25,7 @@ using System.Net.Http;
 using Tapi.Bot.SophiBot.Dialogs;
 using System;
 using System.Linq;
+using System.Threading;
 
 using Tapi.Bot.SophiBot.Utils;
 namespace Tapi.Bot.SophiBot
@@ -74,11 +75,11 @@ namespace Tapi.Bot.SophiBot
                     //reply.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
                     reply.Text = Utilities.GetSentence("0");
                     await client.Conversations.ReplyToActivityAsync(reply);
-
+                    Thread.Sleep(500);
                     reply = message.CreateReply();                    
                     reply.Text = Utilities.GetSentence("0.01");
                     await client.Conversations.ReplyToActivityAsync(reply);
-
+                    Thread.Sleep(500);
                     reply = message.CreateReply();
                     reply.Text = Utilities.GetSentence("0.02");
                     await client.Conversations.ReplyToActivityAsync(reply);
