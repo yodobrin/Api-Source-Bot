@@ -56,6 +56,15 @@ namespace Tapi.Bot.SophiBot
             return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
         }
 
+        private async Task Typing(Microsoft.Bot.Connector.Activity message, ConnectorClient client)
+        {
+            // typing
+            var reply = message.CreateReply(String.Empty);
+            reply.Type = ActivityTypes.Typing;
+            client.Conversations.ReplyToActivityAsync(reply);
+            //
+        }
+
         private async Task  HandleSystemMessage(Microsoft.Bot.Connector.Activity message)
         {
             if (message.Type == ActivityTypes.DeleteUserData)
@@ -75,10 +84,17 @@ namespace Tapi.Bot.SophiBot
                     //reply.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
                     reply.Text = Utilities.GetSentence("0");
                     await client.Conversations.ReplyToActivityAsync(reply);
+
+                    await Typing(message, client);
+
+
                     Thread.Sleep(750);
                     reply = message.CreateReply();                    
                     reply.Text = Utilities.GetSentence("0.01");
                     await client.Conversations.ReplyToActivityAsync(reply);
+
+                    await Typing(message, client);
+
                     Thread.Sleep(750);
                     reply = message.CreateReply();
                     reply.Text = Utilities.GetSentence("0.02");

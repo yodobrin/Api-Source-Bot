@@ -36,6 +36,12 @@ namespace SimpleEchoBot
                         .AsSelf()
                         .SingleInstance();
 
+                    builder.Register(c => new CachingBotDataStore(store, CachingBotDataStoreConsistencyPolicy
+                        .ETagBasedConsistency))
+                        .As<IBotDataStore<BotData>>()
+                        .AsSelf()
+                        .InstancePerLifetimeScope();
+
                 });
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
