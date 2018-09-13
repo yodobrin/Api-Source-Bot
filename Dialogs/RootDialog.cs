@@ -224,6 +224,17 @@ namespace Tapi.Bot.SophiBot.Dialogs
            await context.PostAsync(Utilities.GetSentence("911.0"));
         }
 
+        [LuisIntent("CRM.Share")]
+        public async Task CRMShareIntent(IDialogContext context, LuisResult result)
+        {
+
+            string dispName = (MyLead!=null && !string.IsNullOrEmpty(MyLead.Name)) ? MyLead.Name : MyLead.Email;
+            var message = context.MakeMessage();
+            message.Attachments.Add(AttachmentsUtil.GetShareCard(dispName));
+            await context.PostAsync(message);
+            
+        }
+
         /**
          * 
          * In case of a find item intent, the context is forwaded to the search dialog. 

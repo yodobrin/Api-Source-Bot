@@ -35,7 +35,18 @@ namespace Tapi.Bot.SophiBot.Utils
         
         private static string shareurl = string.Format(Utilities.GetSentence("1000"), SHARE_URL);
 
-        
+        public static Attachment GetShareCard(string locName)
+        {
+
+            var leadCard = new HeroCard
+            {
+                Title = string.Format(Utilities.GetSentence("19.50"), locName),
+                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/our-commitment_1900x372.jpg") },                
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
+            };
+
+            return leadCard.ToAttachment();
+        }
 
 
         public static Attachment GetHoreyCard(string locName)
@@ -83,7 +94,7 @@ namespace Tapi.Bot.SophiBot.Utils
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey"),
                    // new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value:shareurl ),
-                    new CardAction(ActionTypes.PostBack, "No", value: "bye") }
+                    new CardAction(ActionTypes.PostBack, "No", value: "positive-share") }
             };
 
             return endCard.ToAttachment();

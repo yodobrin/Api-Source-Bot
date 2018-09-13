@@ -56,12 +56,12 @@ namespace Tapi.Bot.SophiBot
             return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
         }
 
-        private async Task Typing(Microsoft.Bot.Connector.Activity message, ConnectorClient client)
+        private Task<ResourceResponse> Typing(Microsoft.Bot.Connector.Activity message, ConnectorClient client)
         {
             // typing
             var reply = message.CreateReply(String.Empty);
             reply.Type = ActivityTypes.Typing;
-            client.Conversations.ReplyToActivityAsync(reply);
+            return client.Conversations.ReplyToActivityAsync(reply);
             //
         }
 
