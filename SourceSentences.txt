@@ -54,7 +54,7 @@
 12.201 = Marketer
 12.21 = CAS Number
 12.22 = DMF Availability
-12.221 = Regulatory Files (DMF, CEP)
+12.221 = Regulatory Files\n\n (DMF, CEP)
 12.23 = Dosage Form
 12.24 = Number of available samples 
 12.25 = Packaging PIC
