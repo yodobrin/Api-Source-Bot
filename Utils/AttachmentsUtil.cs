@@ -221,8 +221,8 @@ namespace Tapi.Bot.SophiBot.Utils
                 foreach (ProductDocument prd in tproducts)
                 {
                     if (count == ProductDocument.MAX_PROD_IN_RESULT) break;
-                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.TapiProductName}", value: $"{prd.MoleculeID}"));
-                    //buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.TapiProductName}", value: $"{prd.TapiProductName}"));
+                    //buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.TapiProductName}", value: $"{prd.MoleculeID}"));
+                    buttons.Add(new CardAction(ActionTypes.PostBack, $"{prd.TapiProductName}", value: $"{prd.TapiProductName}"));
                     count++;
                 }
             }
