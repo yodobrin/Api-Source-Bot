@@ -307,7 +307,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
             //12.21 = CAS Number
             if (!IsNullOrNA(CASNumber)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")));
             //12.22 = DMF Availability
-            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.221"), value: Utilities.GetSentence("12.222")));
+            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.221"), value: Utilities.GetSentence("12.221")));
             //12.23 = Dosage Form
             if (!IsNullOrNA(DosageForm)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")));
             //12.25 = Packaging PIC
