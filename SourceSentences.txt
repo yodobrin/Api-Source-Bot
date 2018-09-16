@@ -43,8 +43,9 @@
 12.2 = Is this the API you are interested in? 
 12.3 = Send me all information by mail
 12.4 = Show me avilable topics
+12.40 = {0}
 12.41 = Show me other topics again
-12.42 = I'm OK. Send me the information by email.
+12.42 = Send me the information by email.
 12.5 = Yes
 12.6 = No, this is not the API I was looking for
 12.10 = Great, here is what I found. 
@@ -64,10 +65,7 @@
 12.28 = ATC 1
 12.281 = Therapeutic Category
 12.29 = Tech File
-
 #12.28 = Full Pack
-12.40 = {0}
-12.41 = Has the following information
 16 = Matching your search criteria
 16.1 = Showing up to 5 first results
 # share and feedback can be done after email is sent

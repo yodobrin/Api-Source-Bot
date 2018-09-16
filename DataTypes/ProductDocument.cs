@@ -297,22 +297,22 @@ namespace Tapi.Bot.SophiBot.DataTypes
             List<CardAction> buttons = new List<CardAction>();
 
             //12.20 = Innovator / Marketer
-            if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.201"), value: Utilities.GetSentence("12.20")));
+            if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.201"), value: Utilities.GetSentence("12.201")));
             //12.21 = CAS Number
             if (!IsNullOrNA(CASNumber)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")));
             //12.22 = DMF Availability
-            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.221"), value: Utilities.GetSentence("12.22")));
+            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.221"), value: Utilities.GetSentence("12.222")));
             //12.23 = Dosage Form
             if (!IsNullOrNA(DosageForm)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")));
             //12.25 = Packaging PIC
-            if (!IsNullOrNA(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.251"), value: Utilities.GetSentence("12.25")));
+            if (!IsNullOrNA(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.251"), value: Utilities.GetSentence("12.251")));
             //12.26 = Storage Condition
             if (!IsNullOrNA(StorageCondition)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")));
             //12.27 = COA
             if (!IsNullOrNA(COAInd)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")));
 
             //12.28 = ATC1
-            if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.281"), value: Utilities.GetSentence("12.28")));
+            if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.281"), value: Utilities.GetSentence("12.281")));
 
             //12.29 = Tech File
             if (!IsNullOrNA(TechFile)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.29"), value: Utilities.GetSentence("12.29")));
