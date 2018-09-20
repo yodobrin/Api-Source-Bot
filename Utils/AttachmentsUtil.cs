@@ -42,7 +42,7 @@ namespace Tapi.Bot.SophiBot.Utils
             {
                 Title = string.Format(Utilities.GetSentence("19.50"), locName),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/our-commitment_1900x372.jpg") },                
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
+               // Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
             };
 
             return leadCard.ToAttachment();
@@ -54,10 +54,10 @@ namespace Tapi.Bot.SophiBot.Utils
 
             var leadCard = new HeroCard
             {
-                Title = string.Format(Utilities.GetSentence("19.50"), locName),
+                Text = string.Format(Utilities.GetSentence("19.50"), locName),
                 Images = new List<CardImage> { new CardImage("http://static.flickr.com/41/124082976_4c0da6dc61_o.jpg") },
                 //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
+                //Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
             };
 
             return leadCard.ToAttachment();
@@ -69,9 +69,9 @@ namespace Tapi.Bot.SophiBot.Utils
 
             var leadCard = new HeroCard
             {
-                Title = string.Format(Utilities.GetSentence("19"), locName),
-                Subtitle = "Thank you for using TAPIs sourcing tool. Please rate your experience",
-                Text = "Thank you for using TAPIs sourcing tool. Please rate your experience",
+                //Title = string.Format(Utilities.GetSentence("19"), locName),
+                //Subtitle = "Thank you for using TAPIs sourcing tool. Please rate your experience",
+                Text = string.Format(Utilities.GetSentence("19"), locName),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.EXT_SAT)), 
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.VER_SAT)), 
@@ -90,12 +90,13 @@ namespace Tapi.Bot.SophiBot.Utils
             
             var endCard = new HeroCard
             {
-                Title = $"{name}  - Thank you!",
-                Text = Utilities.GetSentence("19.60"),
+                //Title = $"{name}  - Thank you!",
+                Text = $"{name}  - Thank you! " + Utilities.GetSentence("19.60"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey"),
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey") //,
                    // new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value:shareurl ),
-                    new CardAction(ActionTypes.PostBack, "No", value: "positive-share") }
+                //    new CardAction(ActionTypes.PostBack, "No", value: "positive-share")
+                }
             };
 
             return endCard.ToAttachment();
@@ -105,8 +106,8 @@ namespace Tapi.Bot.SophiBot.Utils
         {
             var endCard = new HeroCard
             {
-                Title = string.Format(Utilities.GetSentence("1.1"), safeword),
-                Text = Utilities.GetSentence("1.11"),               
+                //Title = string.Format(Utilities.GetSentence("1.1"), safeword),
+                Text = string.Format(Utilities.GetSentence("1.1"), safeword) + " "+ Utilities.GetSentence("1.11"),               
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure, I'm done", value: "wipe-clean") }
             };
 

@@ -91,7 +91,16 @@ namespace Tapi.Bot.SophiBot.DataTypes
            return JsonConvert.SerializeObject(this,Formatting.None);
         }
 
-    
+    public static bool IsPackingPic(string query)
+        {
+            switch(query)
+            {
+                case "Packaging PIC": return true;
+                case "Packaging": return true;
+                case "Packaging Information": return true;
+            }
+            return false;
+        }
 
     public string ToMessage()
         {

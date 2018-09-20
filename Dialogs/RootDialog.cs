@@ -130,7 +130,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
             var message = context.MakeMessage();
             if (tproducts!=null && tproducts.Count>0 && tproducts[0]!=null)
             {
-                if ("Packaging PIC".Equals(result.Query) && !"N/A".Equals(tproducts[0].PackagingPIC))
+                if (ProductDocument.IsPackingPic(result.Query) && !"N/A".Equals(tproducts[0].PackagingPIC))
                 {                    
                     message.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                     message.Attachments = tproducts[0].GetProductPicCarousel();
