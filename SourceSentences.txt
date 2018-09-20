@@ -69,7 +69,7 @@
 16 = Matching your search criteria
 16.1 = Showing up to 5 first results
 # share and feedback can be done after email is sent
-19 = Dear {0} -  thank you for using TAPIs sourcing tool, please rate your experience 
+19 = Dear {0} \n\n  thank you for using TAPIs sourcing tool. \n\nPlease rate your experience 
 19.1 = Extremely Satisfied
 19.2 = Very Satisfied
 19.3 = Satisfied

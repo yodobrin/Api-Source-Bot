@@ -70,7 +70,8 @@ namespace Tapi.Bot.SophiBot.Utils
             var leadCard = new HeroCard
             {
                 Title = string.Format(Utilities.GetSentence("19"), locName),
-
+                Subtitle = "Thank you for using TAPIs sourcing tool. Please rate your experience",
+                Text = "Thank you for using TAPIs sourcing tool. Please rate your experience",
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.EXT_SAT)), 
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.VER_SAT)), 
