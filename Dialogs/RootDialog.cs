@@ -137,9 +137,9 @@ namespace Tapi.Bot.SophiBot.Dialogs
                 }else 
                     message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
             }else message.Attachments.Add(AttachmentsUtil.GetErrorCard("No products in search results"));
-
-
+            //context.
             await context.PostAsync(message);
+            await context.PostAsync("what about it?");
         }
 
         [LuisIntent("Catalog.Fetch")]
