@@ -55,7 +55,8 @@ namespace Tapi.Bot.SophiBot.Utils
             var leadCard = new HeroCard
             {
                 Text = string.Format(Utilities.GetSentence("19.50"), locName),
-                Images = new List<CardImage> { new CardImage("http://static.flickr.com/41/124082976_4c0da6dc61_o.jpg") },
+                
+                Images = new List<CardImage> { new CardImage("https://tapiblobstore.blob.core.windows.net/sharefiles/Thank%20You.jpg") },
                 //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
                 //Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
             };

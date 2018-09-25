@@ -1,21 +1,93 @@
 ﻿<!DOCTYPE html>
 
+<style>
+    .wc-header {
+        background-color: #0078d7;
+        box-shadow: 0 1px rgba(0, 0, 0, 0.2);
+        box-sizing: content-box;
+        color: #ffffff;
+        font-weight: 300;
+        font-size: 10px;
+        height: 150px;
+        left: 0;
+        letter-spacing: 0.5px;
+        padding: 8px 8px 0 8px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 1;
+    }
 
+    Style Attribute {
+        overflow: hidden;
+        font-family: "Segoe UI", sans-serif;
+        text-align: left;
+        font-size: 20px;
+        line-height: 17.29px;
+        color: rgb(0, 0, 0);
+        font-weight: 400;
+        word-wrap: break-word;
+        box-sizing: border-box;
+        flex: 0 0 auto;
+    }
+
+    moreMessages {
+        color: #FF0000;
+    }
+
+    topcorner {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+</style>
 <html>
+
 <head>
-    <title>Sophi</title>
-    <meta charset="utf-8" />
+    <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
 </head>
+<body>
+    <header id="messages" class="moreMessages">3</header>
+    <div id="bot" />
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+    <script>
+        BotChat.App({
+            directLine: { secret: 'xcBwSd2aeaA.cwA.s9A.yB_PKkHMAQp5kRtwweps13e7qEYFtUN6YUUj0UnVMZM' },
+            user: { id: 'userid' },
+            bot: { id: 'botid' },
+            resize: 'detect'
+        }, document.getElementById("bot"));
+
+        window.onload = function () {
+            document.getElementsByClassName("wc-header")[0].lastChild.innerText = "The information detailed herein, including that with regard to active pharmaceutical ingredients , their use in treatments and possible mechanism(s) of action, was all obtained from public sources. For more information on our services and products – including product suitability, intended uses and current availability – please contact TAPI Customer Service. CAS Registry Number is a Registered Trademark of the American Chemical Society. This webpage and any reference to the above product is to be read within the meaning and terms of the Legal Notes";
+
+        };
+
+       //window.addEventListener('click', function () { scrl() });
+        window.addEventListener('click', function () { gotoBottom('moreMessages') });
+
+        var pic = 'https://www.tapi.com/globalassets/dissolution-article-2.jpg';
+
+        function scrl() {            
+            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);            
+        }
+
+        function gotoBottom(id) {
+            var element = document.getElementsByClassName(id)[0];
+            element.lastChild.innerText = "New messages Exist !! Scroll to view";
+            element.className = 'topcorner';
+
+        }
+    </script>
 
 
 
-<body style="margin:0px;padding:0px;overflow:hidden">
-    <h1>LuisBot Template</h1>
-    <p>A  bot that shows how to handle natural language using the Cognitive Services LUIS API. </p>
-    <p>Here are some handy links to get started:</p>
-    <iframe src="https://webchat.botframework.com/embed/SophiBot?s=a3-UH8_6QFw.cwA.fVg.YrODeb9326D9xIC_EXVUpFsJ47n81tcoqTlT_EcJmRs" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:0px;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe>
+
+
+
+
+
+
+
 </body>
-
-
-
 </html>

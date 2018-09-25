@@ -48,7 +48,7 @@
 12.42 = Send me the information by email.
 12.5 = Yes
 12.6 = No, this is not the API I was looking for
-12.10 = Great, here is what I found. 
+12.10 = Great, here is what I found
 12.11 = The information is broken to specific topics
 12.12 = You can click on the topics below to see more information
 12.20 = Innovator/Marketer
@@ -79,7 +79,7 @@
 19.20 = survey-answer {0}
 19.30 = Thanks for the feedback! 
 19.31 = Thanks for the feedback!
-19.50 = {0} - Thank you for using TAPI's sourcing tool.
+19.50 = {0} - See you next time you are sourcing for an API
 #\n Go méadaí Dia thú!
 19.60 = Care to provide us with feedback?
 19.70 = API Source Bot tailored for {0} @ {1}
