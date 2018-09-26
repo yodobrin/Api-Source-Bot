@@ -43,12 +43,12 @@
 12.2 = Is this the API you are interested in? 
 12.3 = Send me all information by mail
 12.4 = Show me avilable topics
-12.40 = {0}
+12.40 = {0}: \n\n{1}
 12.41 = Show me other topics again
 12.42 = Send me the information by email.
 12.5 = Yes
 12.6 = No, this is not the API I was looking for
-12.10 = Great, here is what I found
+12.10 = Great, here is what I found for {0}. You can click on the topics below to see more information
 12.11 = The information is broken to specific topics
 12.12 = You can click on the topics below to see more information
 12.20 = Innovator/Marketer
