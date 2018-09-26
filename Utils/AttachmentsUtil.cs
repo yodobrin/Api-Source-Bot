@@ -40,7 +40,8 @@ namespace Tapi.Bot.SophiBot.Utils
 
             var leadCard = new HeroCard
             {
-                Title = string.Format(Utilities.GetSentence("19.50"), locName),
+                //Title = string.Format(Utilities.GetSentence("19.50"), locName),
+                Text = string.Format(Utilities.GetSentence("19.50"), locName),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/our-commitment_1900x372.jpg") },                
                // Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
             };

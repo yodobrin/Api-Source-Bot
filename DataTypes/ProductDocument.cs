@@ -199,8 +199,8 @@ namespace Tapi.Bot.SophiBot.DataTypes
             if (NO_CAT.Equals(textValue)) return AttachmentsUtil.GetErrorCard(string.Format(NO_SUCH_CAT, category));
             var productCard = new HeroCard
             {
-                Title = string.Format(Utilities.GetSentence("12.40"), category),
-                Text = textValue,                
+                //Title = string.Format(Utilities.GetSentence("12.40"), category),
+                Text = string.Format(Utilities.GetSentence("12.40"), category) +"\n\n"+ textValue,                
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
@@ -210,32 +210,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
 
         }
 
-        public Attachment GetProductCat1(string category)
-        {
-            string textValue = GetCategory(category);
-            // verify it is a valid topic
-            if (NO_CAT.Equals(textValue)) return AttachmentsUtil.GetErrorCard(string.Format(NO_SUCH_CAT, category));
-            AdaptiveCard card = new AdaptiveCard()
-            {
-                Body = new List<CardElement>()
-                {
-                    new Container()
-                    {
-                        Items = new List<CardElement>
-                        {
-                            new Image()  { Size = ImageSize.Stretch,  Url = "https://www.tapi.com/globalassets/1-png.png" },
-                            new TextBlock  { Text = string.Format(Utilities.GetSentence("12.40"), category), Wrap = true, Size = TextSize.Large  },
-                            new TextBlock  { Text = textValue, Wrap = true, Size = TextSize.Large  }
-                        }
-                    }
-                }
-            };
-
-            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
-
-            return attachment;
-
-        }
+       
 
 
         public IList<Attachment> GetProductPicCarousel()
@@ -270,8 +245,8 @@ namespace Tapi.Bot.SophiBot.DataTypes
         {
             var productCard = new HeroCard
             {
-                Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
-                Text = Utilities.GetSentence("12.2"),
+                //Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
+                Text = TapiProductName +"\n\n"+ Utilities.GetSentence("12.2"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.5"), value: HIGHLIGHT), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.6"), value: HELP) }
             };
@@ -283,8 +258,8 @@ namespace Tapi.Bot.SophiBot.DataTypes
         {
             var productCard = new HeroCard
             {
-                Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
-                Text = Utilities.GetSentence("12.02"),
+                //Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
+                Text = TapiProductName+ "\n\n"+ Utilities.GetSentence("12.02"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/laszlo-article-for-hp-june-2018.jpg") },
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
             };
@@ -299,7 +274,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
             var productCard = new HeroCard
             {
                 Title = Utilities.GetSentence("12.10") +$" :\n\n{TapiProductName} " ,
-                Text = Utilities.GetSentence("12.12"),
+                Text = Utilities.GetSentence("12.10") +" "+ TapiProductName + "\n\n" + Utilities.GetSentence("12.12"),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },
                 Buttons = GetFilledButtons()                       
             };
