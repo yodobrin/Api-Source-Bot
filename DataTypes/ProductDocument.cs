@@ -200,7 +200,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
             var productCard = new HeroCard
             {
                 //Title = string.Format(Utilities.GetSentence("12.40"), category),
-                Text = string.Format(Utilities.GetSentence("12.40"), category,textValue),// +"\n\n"+ textValue,                
+                Text = string.Format(Utilities.GetSentence("12.40"), category) +"\n\n"+ textValue,                
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
                                                  new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }

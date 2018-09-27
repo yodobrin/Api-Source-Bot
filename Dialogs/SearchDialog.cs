@@ -65,6 +65,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     if (Utilities.PRODUCT.Equals(inst.Type))
                     {                        
                         count = SearchProduct(context, inst, searchClient);
+                        context.ConversationData.SetValue("search-product", inst.Entity);
                         // break in case something was found
                         if (count!=0) break;
                     }

@@ -8,7 +8,7 @@
         color: #ffffff;
         font-weight: 300;
         font-size: 10px;
-        height: 150px;
+        height: 170px;
         left: 0;
         letter-spacing: 0.5px;
         padding: 8px 8px 0 8px;
@@ -67,7 +67,7 @@
         };
 
        //window.addEventListener('click', function () { scrl() });
-        window.addEventListener('click', function () { gotoBottom('moreMessages') });
+        window.addEventListener('click', function () { gotoBottom('wc-shellinput') });
 
         var pic = 'https://www.tapi.com/globalassets/dissolution-article-2.jpg';
 
@@ -77,8 +77,10 @@
 
         function gotoBottom(id) {
             var element = document.getElementsByClassName(id)[0];
-            element.lastChild.innerText = "New messages Exist !! Scroll to view";
-            element.className = 'topcorner';
+            element.placeholder = "New messages Exist !! Scroll to view";
+
+            //element.lastChild.innerText = "New messages Exist !! Scroll to view";
+            //element.className = 'topcorner';
 
         }
     </script>

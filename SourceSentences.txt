@@ -43,7 +43,7 @@
 12.2 = Is this the API you are interested in? 
 12.3 = Send me all information by mail
 12.4 = Show me avilable topics
-12.40 = {0}: \n\n{1}
+12.40 = {0}: 
 12.41 = Show me other topics again
 12.42 = Send me the information by email.
 12.5 = Yes

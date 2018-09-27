@@ -28,23 +28,23 @@
             overflow: hidden;
             padding: 0;
         }
+        element.style {
+            height: 500px;
+            width:500px;
+        }
     </style>
-</head>
-<body>
-    <div id="BotChatGoesHere"></div>
-    <script src="../../botchat.js"></script>
     <script>
-        BotChat.App({
-            directLine: { secret: 'xcBwSd2aeaA.cwA.s9A.yB_PKkHMAQp5kRtwweps13e7qEYFtUN6YUUj0UnVMZM' },
-            user: { id: 'userid' },
-            bot: { id: 'botid' },
-            resize: 'detect'
-        }, document.getElementById("bot"));
 
         window.onload = function () {
             document.getElementsByClassName("wc-header")[0].lastChild.innerText = "what else";
             this.document.getElementById("cookieConsent").fadeIn(100);
         };
     </script>
+</head>
+<body>
+   
+    <iframe src='https://webchat.botframework.com/embed/SophiBot?s=a3-UH8_6QFw.cwA.fVg.YrODeb9326D9xIC_EXVUpFsJ47n81tcoqTlT_EcJmRs'></iframe>
+    
+
 </body>
 </html>
