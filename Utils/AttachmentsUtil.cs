@@ -176,7 +176,37 @@ namespace Tapi.Bot.SophiBot.Utils
             return spellCard.ToAttachment();
         }
 
+        public static Attachment GetSpellSuggestCard1(string original, string altered)
+        {
+            AdaptiveCard card = new AdaptiveCard()
+            {
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png"},
+                            new TextBlock  { Text = $"Spell Suggestion: {altered}", Wrap = true, Size = TextSize.Large  },
+                            new TextBlock  { Text = $"You typed : {original}", Wrap = true, Size = TextSize.Large  }
+                        }
+                    }
+                }
+            };
 
+            card.Actions = new List<ActionBase>()
+                {
+                    new SubmitAction
+                    {
+                        Title = "Submit",
+                        DataJson = altered,
+                    }
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+        }
 
 
         public static Attachment GetErrorCard(string code)
