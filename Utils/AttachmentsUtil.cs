@@ -194,12 +194,13 @@ namespace Tapi.Bot.SophiBot.Utils
                 }
             };
 
+            string datajson = "{ \"value\": \""+ altered+"\" }";
             card.Actions = new List<ActionBase>()
                 {
                     new SubmitAction
                     {
                         Title = "Submit",
-                        DataJson = altered,
+                        DataJson = datajson,
                     }
                 };
 
