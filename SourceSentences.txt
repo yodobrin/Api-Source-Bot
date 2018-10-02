@@ -38,7 +38,7 @@
 12 = I found {0} in TAPI's catalog. 
 12.0 = {0}
 12.01 = Addtional information exist
-12.02 = What would you like to do next?
+12.02 = {0} - What would you like to do next?
 12.1 = We have more information for it.
 12.2 = {0} Is this the API you are interested in? 
 12.3 = Send me all information by mail

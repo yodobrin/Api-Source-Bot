@@ -347,7 +347,7 @@ namespace Tapi.Bot.SophiBot.DataTypes
                         Items = new List<CardElement>
                         {
                             new Image  { Url = "https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg"},
-                            new TextBlock  { Text =TapiProductName + Utilities.GetSentence("12.02"), Wrap = true, Size = TextSize.Large  },
+                            new TextBlock  { Text =string.Format(Utilities.GetSentence("12.02"),TapiProductName), Wrap = true, Size = TextSize.Large  },
                         }
                     }
                 }
