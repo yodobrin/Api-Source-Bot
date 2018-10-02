@@ -151,7 +151,8 @@ namespace Tapi.Bot.SophiBot.Dialogs
             {
                 case ProductDocument.SHOW_ME_MORE:
                     var message = context.MakeMessage();
-                    message.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.FULL));
+                    message.AsTypingActivity();
+                    message.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.FULL));                    
                     await context.PostAsync(message);
                     break;
                 case ProductDocument.FLUSH:
@@ -180,6 +181,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     break;
                 case ProductDocument.HIGHLIGHT:
                     var message1 = context.MakeMessage();
+                    message1.AsTypingActivity();
                     message1.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.HIGHLIGHT));
                     await context.PostAsync(message1);
                     break;
@@ -196,6 +198,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         {
             // this intent, remove any and all conversation left overs. similar to closing the browser.
             var message = context.MakeMessage();
+            message.AsTypingActivity();
             message.Attachments.Add(AttachmentsUtil.GetConversationEndCard(result.Query));
             await context.PostAsync(message);            
             
@@ -208,6 +211,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
             context.EndConversation(ActivityTypes.EndOfConversation);
             // show the start conversation message again
             var message = context.MakeMessage();
+            message.AsTypingActivity();
             message.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
             await context.PostAsync(message);
         }
@@ -230,6 +234,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
 
             string dispName = (MyLead!=null && !string.IsNullOrEmpty(MyLead.Name)) ? MyLead.Name : MyLead.Email;
             var message = context.MakeMessage();
+            message.AsTypingActivity();
             message.Attachments.Add(AttachmentsUtil.GetShareCard(dispName));
             await context.PostAsync(message);
             
@@ -256,7 +261,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         {
             // need to check the entities, if exist act according to them (send a message to a q)
             var message = context.MakeMessage();
-            
+            message.AsTypingActivity();
             string locName = (MyLead != null && MyLead.Name != null) ? MyLead.Name : "Guest";
             IList<EntityRecommendation> entities = result.Entities;
             if (entities != null && entities.Count > 0)
@@ -335,6 +340,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
             MyLead.SetMessageType(Action);
             string dispName = (!string.IsNullOrEmpty(alead.Name)) ? alead.Name : alead.Email;
             var message = context.MakeMessage();
+            message.AsTypingActivity();
             switch (result.Query)
             {
                 case "confirm-lead-send-catalog":
@@ -408,6 +414,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         {
             tproducts = (IList<ProductDocument>)await result;
             var message = context.MakeMessage();
+            message.AsTypingActivity();
             if (tproducts != null && tproducts.Count > 0)
             {               
                 message.Attachments.Add(AttachmentsUtil.GetResultCard(tproducts));
@@ -441,6 +448,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                 Dictionary<string, LineItem> validation = MyLead.Validate();
                 MyLead.SetAction(Action);
                 var message = context.MakeMessage();
+                message.AsTypingActivity();
                 if (MyLead.IsValid(validation))
                 {                                  
                     message.Attachments.Add(MyLead.GetLeadCard(tproducts));
