@@ -88,7 +88,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
             else
             {
                 var message = context.MakeMessage();
-                message.Attachments.Add(AttachmentsUtil.GetSpellSuggestCard1(result.Query, altered));
+                message.Attachments.Add(AttachmentsUtil.GetSpellSuggestCard(result.Query, altered));
                 await context.PostAsync(message);
             }
 

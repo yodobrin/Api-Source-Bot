@@ -37,13 +37,11 @@ namespace Tapi.Bot.SophiBot.Utils
 
         public static Attachment GetShareCard(string locName)
         {
-
+            // not used - left as hero card intentionally
             var leadCard = new HeroCard
             {
-                //Title = string.Format(Utilities.GetSentence("19.50"), locName),
                 Text = string.Format(Utilities.GetSentence("19.50"), locName),
                 Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/our-commitment_1900x372.jpg") },                
-               // Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
             };
 
             return leadCard.ToAttachment();
@@ -53,56 +51,128 @@ namespace Tapi.Bot.SophiBot.Utils
         public static Attachment GetHoreyCard(string locName)
         {
 
-            var leadCard = new HeroCard
+            AdaptiveCard card = new AdaptiveCard()
             {
-                Text = string.Format(Utilities.GetSentence("19.50"), locName),
-                
-                Images = new List<CardImage> { new CardImage("https://tapiblobstore.blob.core.windows.net/sharefiles/Thank%20You.jpg") },
-                //Media = new List<MediaUrl>  {new MediaUrl() { Url = "https://tenor.com/search/irish-gifs" } }
-                //Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value: shareurl) }
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://tapiblobstore.blob.core.windows.net/sharefiles/Thank%20You.jpg"},
+                            new TextBlock  { Text =string.Format(Utilities.GetSentence("19.50"), locName), Wrap = true, Size = TextSize.Large  }
+                        }
+                    }
+                }
             };
 
-            return leadCard.ToAttachment();
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+            //var leadCard = new HeroCard
+            //{
+            //    Text = string.Format(Utilities.GetSentence("19.50"), locName),           
+            //    Images = new List<CardImage> { new CardImage("https://tapiblobstore.blob.core.windows.net/sharefiles/Thank%20You.jpg") },
+            //};
+            //return leadCard.ToAttachment();
         }
 
 
         public static Attachment GetSurveyCard(string locName)
         {
 
-            var leadCard = new HeroCard
+            AdaptiveCard card = new AdaptiveCard()
             {
-                //Title = string.Format(Utilities.GetSentence("19"), locName),
-                //Subtitle = "Thank you for using TAPIs sourcing tool. Please rate your experience",
-                Text = string.Format(Utilities.GetSentence("19"), locName),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.EXT_SAT)), 
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.VER_SAT)), 
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.SAT)), 
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_SAT)), 
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_AT_SAT)), 
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg"},
+                            new TextBlock  { Text =string.Format(Utilities.GetSentence("19"), locName), Wrap = true, Size = TextSize.Large  }
+                        }
+                    }
                 }
-
             };
 
-            return leadCard.ToAttachment();
+            card.Actions = new List<ActionBase>()
+                {
+                    GetSubmitAction(Utilities.GetSentence("19.1"),string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.EXT_SAT)),
+                    GetSubmitAction(Utilities.GetSentence("19.2"),string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.VER_SAT)),
+                    GetSubmitAction(Utilities.GetSentence("19.3"),string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.SAT)),
+                    GetSubmitAction(Utilities.GetSentence("19.4"),string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_SAT)),
+                    GetSubmitAction(Utilities.GetSentence("19.5"),string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_AT_SAT)),
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+
+            //var leadCard = new HeroCard
+            //{
+
+            //    Text = string.Format(Utilities.GetSentence("19"), locName),
+            //    Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0001_wearetapi.jpg") },
+            //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.1"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.EXT_SAT)), 
+            //                                     new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.2"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.VER_SAT)), 
+            //                                     new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.3"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.SAT)), 
+            //                                     new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.4"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_SAT)), 
+            //                                     new CardAction(ActionTypes.PostBack, Utilities.GetSentence("19.5"), value: string.Format(Utilities.GetSentence("19.20"), SurveyAnswer.NOT_AT_SAT)), 
+            //    }
+
+            //};
+
+            //return leadCard.ToAttachment();
         }
 
         public static Attachment GetEndCard(string name)
         {
-            
-            var endCard = new HeroCard
+
+            AdaptiveCard card = new AdaptiveCard()
             {
-                //Title = $"{name}  - Thank you!",
-                Text = $"{name}  - Thank you! " + Utilities.GetSentence("19.60"),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey") //,
-                   // new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value:shareurl ),
-                //    new CardAction(ActionTypes.PostBack, "No", value: "positive-share")
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://www.tapi.com/globalassets/about-us-new.jpg"},
+                            new TextBlock  { Text = $"{name}  - Thank you! " + Utilities.GetSentence("19.60"), Wrap = true, Size = TextSize.Large  }
+                        }
+                    }
                 }
             };
 
-            return endCard.ToAttachment();
+            card.Actions = new List<ActionBase>()
+                {
+                    GetSubmitAction("Sure!","survey")
+
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
         }
+
+
+        //public static Attachment GetEndCard1(string name)
+        //{
+
+        //    var endCard = new HeroCard
+        //    {
+        //        //Title = $"{name}  - Thank you!",
+        //        Text = $"{name}  - Thank you! " + Utilities.GetSentence("19.60"),
+        //        Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/about-us-new.jpg") },
+        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure", value: "survey") //,
+        //           // new CardAction(ActionTypes.OpenUrl, "Share on LinkedIn", value:shareurl ),
+        //        //    new CardAction(ActionTypes.PostBack, "No", value: "positive-share")
+        //        }
+        //    };
+
+        //    return endCard.ToAttachment();
+        //}
 
         public static Attachment GetConversationEndCard(string safeword)
         {
@@ -120,14 +190,9 @@ namespace Tapi.Bot.SophiBot.Utils
                 }
             };
 
-            string datajson = "{ \"MyVal\": \"wipe-clean\" }";
             card.Actions = new List<ActionBase>()
                 {
-                    new SubmitAction
-                    {
-                        Title = "Sure, I'm done",
-                        DataJson = datajson,
-                    }
+                    GetSubmitAction("Sure, I'm done","wipe-clean")
                 };
 
             Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
@@ -136,17 +201,17 @@ namespace Tapi.Bot.SophiBot.Utils
           
         }
 
-        public static Attachment GetConversationEndCard1(string safeword)
-        {
-            var endCard = new HeroCard
-            {
-                //Title = string.Format(Utilities.GetSentence("1.1"), safeword),
-                Text = string.Format(Utilities.GetSentence("1.1"), safeword) + " " + Utilities.GetSentence("1.11"),
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure, I'm done", value: "wipe-clean") }
-            };
+        //public static Attachment GetConversationEndCard1(string safeword)
+        //{
+        //    var endCard = new HeroCard
+        //    {
+        //        //Title = string.Format(Utilities.GetSentence("1.1"), safeword),
+        //        Text = string.Format(Utilities.GetSentence("1.1"), safeword) + " " + Utilities.GetSentence("1.11"),
+        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Sure, I'm done", value: "wipe-clean") }
+        //    };
 
-            return endCard.ToAttachment();
-        }
+        //    return endCard.ToAttachment();
+        //}
 
         public static Attachment GetNoneConversationCard()
         {
@@ -196,19 +261,19 @@ namespace Tapi.Bot.SophiBot.Utils
 
         }
 
-        public static Attachment GetSpellSuggestCard(string original, string altered)
-        {
-            var spellCard = new HeroCard
-            {
-                Title = $"Spell Suggestion",
-                Text = $"You typed : {original}",
-                Images = new List<CardImage> { new CardImage("https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Suggested-"+altered, value: altered) }
-            };
-            return spellCard.ToAttachment();
-        }
+        //public static Attachment GetSpellSuggestCard(string original, string altered)
+        //{
+        //    var spellCard = new HeroCard
+        //    {
+        //        Title = $"Spell Suggestion",
+        //        Text = $"You typed : {original}",
+        //        Images = new List<CardImage> { new CardImage("https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png") },
+        //        Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, "Suggested-"+altered, value: altered) }
+        //    };
+        //    return spellCard.ToAttachment();
+        //}
 
-        public static Attachment GetSpellSuggestCard1(string original, string altered)
+        public static Attachment GetSpellSuggestCard(string original, string altered)
         {
             AdaptiveCard card = new AdaptiveCard()
             {
@@ -218,8 +283,7 @@ namespace Tapi.Bot.SophiBot.Utils
                     {
                         Items = new List<CardElement>
                         {
-                            new Image  { Url = "https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png"},
-                            //new TextBlock  { Text = $"Spell Suggestion: {altered}", Wrap = true, Size = TextSize.Large  },
+                            new Image  { Url = "https://www.webdevelopersnotes.com/wp-content/uploads/change-spell-check-dictionary-french-english-outlook-express.png"},                            
                             new TextBlock  { Text = $"You typed : {original}", Wrap = true, Size = TextSize.Large  }
                         }
                     }
@@ -229,48 +293,99 @@ namespace Tapi.Bot.SophiBot.Utils
             string datajson = "{ \"MyVal\": \""+ altered+"\" }";
             card.Actions = new List<ActionBase>()
                 {
-                    new SubmitAction
-                    {
-                        Title = $"Spell Suggestion: {altered}",
-                        DataJson = datajson,
-                    }
-                };
+                GetSubmitAction($"Spell Suggestion: {altered}", altered)
+            };
 
             Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
 
             return attachment;
         }
 
+        public static SubmitAction GetSubmitAction(string postbackTitle, string postbackVal)
+        {
+            string datajson = "{ \"MyVal\": \"" + postbackVal + "\" }";
+            return new SubmitAction {Title = postbackTitle,  DataJson = datajson };
+        }
 
         public static Attachment GetErrorCard(string code)
         {
-            var openCard = new HeroCard
+            AdaptiveCard card = new AdaptiveCard()
             {
-                Title = Utilities.GetSentence("950"),
-                //Subtitle = string.Format(Utilities.GetSentence("951"), code),
-                Text =  code,
-                Images = new List<CardImage> { new CardImage("https://cdn.dribbble.com/users/7770/screenshots/3935947/oh_snap_404_1x.jpg") }                
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://cdn.dribbble.com/users/7770/screenshots/3935947/oh_snap_404_1x.jpg"},                            
+                            new TextBlock  { Text = Utilities.GetSentence("950") + code, Wrap = true, Size = TextSize.Large  }
+                        }
+                    }
+                }
             };
+                     
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
 
-            return openCard.ToAttachment();
+            return attachment;
+
+            //var openCard = new HeroCard
+            //{
+            //    Title = Utilities.GetSentence("950"),
+            //    //Subtitle = string.Format(Utilities.GetSentence("951"), code),
+            //    Text =  code,
+            //    Images = new List<CardImage> { new CardImage("https://cdn.dribbble.com/users/7770/screenshots/3935947/oh_snap_404_1x.jpg") }                
+            //};
+
+            //return openCard.ToAttachment();
         }
 
 
         public static Attachment GetNoResults(string query)
         {
-            var productCard = new ThumbnailCard
+
+            AdaptiveCard card = new AdaptiveCard()
             {
-                Title = Utilities.GetSentence("5"),
-                Subtitle = string.Format(Utilities.GetSentence("5.1"), query),
-                Text = Utilities.GetSentence("5.2"),
-                Images = new List<CardImage> { new CardImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHEl-j7JobwiGjkbpCBVemqrUKp9EQFtPQOyOLXIBsAvycS8Kx") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("6"), value: Lead.CONTACT_TAPI),
-                new CardAction(ActionTypes.PostBack, Utilities.GetSentence("7"), value: Lead.SEND_PDF)
-                //new CardAction(ActionTypes.PostBack, Utilities.GetSentence("8"), value: Lead.UPDATE_ONCE_EXIST)
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHEl-j7JobwiGjkbpCBVemqrUKp9EQFtPQOyOLXIBsAvycS8Kx"},
+                            new TextBlock  { Text =Utilities.GetSentence("5"), Wrap = true, Size = TextSize.Large  },
+                            new TextBlock  { Text =string.Format(Utilities.GetSentence("5.1"), query), Wrap = true, Size = TextSize.Medium  },
+                            new TextBlock  { Text =Utilities.GetSentence("5.2"), Wrap = true, Size = TextSize.Medium  },
+                        }
+                    }
                 }
             };
 
-            return productCard.ToAttachment();
+            card.Actions = new List<ActionBase>()
+                {
+                    GetSubmitAction(Utilities.GetSentence("6"),Lead.CONTACT_TAPI),
+                    GetSubmitAction(Utilities.GetSentence("7"),Lead.SEND_PDF)
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+
+
+
+            //var productCard = new ThumbnailCard
+            //{
+            //    Title = Utilities.GetSentence("5"),
+            //    Subtitle = string.Format(Utilities.GetSentence("5.1"), query),
+            //    Text = Utilities.GetSentence("5.2"),
+            //    Images = new List<CardImage> { new CardImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHEl-j7JobwiGjkbpCBVemqrUKp9EQFtPQOyOLXIBsAvycS8Kx") },
+            //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("6"), value: Lead.CONTACT_TAPI),
+            //    new CardAction(ActionTypes.PostBack, Utilities.GetSentence("7"), value: Lead.SEND_PDF)
+            //    //new CardAction(ActionTypes.PostBack, Utilities.GetSentence("8"), value: Lead.UPDATE_ONCE_EXIST)
+            //    }
+            //};
+
+            //return productCard.ToAttachment();
 
         }
 

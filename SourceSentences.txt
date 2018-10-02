@@ -89,7 +89,7 @@
 19.80 = Thank you for your inquiry, an email with the details will be sent to ***{0}***
 22 = Thank you for your inquiry, an email with the details will be sent to ***{0}***
 911.0 = Please type the API you are looking for ... 
-950 = An Error has occured
+950 = An Error has occured - 
 951 = Please try your operation again {0}
 952 = Try re-entering your search keywords
 1000 = https://www.linkedin.com/shareArticle?mini=true&url={0}&title=Sophi&summary=My%20Pharmaceutical%20Asistant&source=LinkedIn

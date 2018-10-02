@@ -21,6 +21,7 @@ using Microsoft.Bot.Connector;
 using AdaptiveCards;
 using Newtonsoft.Json;
 
+
 namespace Tapi.Bot.SophiBot.DataTypes
 {
     [Serializable]
@@ -195,18 +196,46 @@ namespace Tapi.Bot.SophiBot.DataTypes
         public Attachment GetProductCat(string category)
         {
             string textValue = GetCategory(category);
-            // verify it is a valid topic
             if (NO_CAT.Equals(textValue)) return AttachmentsUtil.GetErrorCard(string.Format(NO_SUCH_CAT, category));
-            var productCard = new HeroCard
+            AdaptiveCard card = new AdaptiveCard()
             {
-                //Title = string.Format(Utilities.GetSentence("12.40"), category),
-                Text = string.Format(Utilities.GetSentence("12.40"), category) +"\n\n"+ textValue,                
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://www.tapi.com/globalassets/1-png.png"},
+                            new TextBlock  { Text =string.Format(Utilities.GetSentence("12.40"), category) + textValue, Wrap = true, Size = TextSize.Large  },
+                        }
+                    }
+                }
             };
 
-            return productCard.ToAttachment();
+            card.Actions = new List<ActionBase>()
+                {
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.41"),SHOW_ME_MORE),
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.42"), FETCH_BY_MAIL)
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+
+            //string textValue = GetCategory(category);
+            //// verify it is a valid topic
+            //if (NO_CAT.Equals(textValue)) return AttachmentsUtil.GetErrorCard(string.Format(NO_SUCH_CAT, category));
+            //var productCard = new HeroCard
+            //{
+            //    //Title = string.Format(Utilities.GetSentence("12.40"), category),
+            //    Text = string.Format(Utilities.GetSentence("12.40"), category) +"\n\n"+ textValue,                
+            //    Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/1-png.png") } ,
+            //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
+            //                                     new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
+            //};
+
+            //return productCard.ToAttachment();
 
         }
 
@@ -222,15 +251,42 @@ namespace Tapi.Bot.SophiBot.DataTypes
             foreach(string pic in pics)
             {
                 string picURI = $"{PIC_URI}{pic}{suffix}";
-                var productCard = new HeroCard
-                {
-                    Title = $"Packing pic for {TapiProductName}",
 
-                    Images = new List<CardImage> { new CardImage(picURI) },
-                    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
-                                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
+                AdaptiveCard card = new AdaptiveCard()
+                {
+                    Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = picURI},
+                            new TextBlock  { Text =$"Packing pic for {TapiProductName}", Wrap = true, Size = TextSize.Large  },
+                        }
+                    }
+                }
                 };
-                attchments.Add(productCard.ToAttachment());
+
+                card.Actions = new List<ActionBase>()
+                {
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.41"),SHOW_ME_MORE),
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.42"), FETCH_BY_MAIL)
+                };
+              
+                attchments.Add(new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card });
+
+
+                //var productCard = new HeroCard
+                //{
+                //    Title = $"Packing pic for {TapiProductName}",
+
+                //    Images = new List<CardImage> { new CardImage(picURI) },
+                //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.41"), value: SHOW_ME_MORE),
+                //                                 new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.42"), value: FETCH_BY_MAIL) }
+                //};
+
+                //attchments.Add(productCard.ToAttachment());
+
 
             }
             
@@ -243,76 +299,184 @@ namespace Tapi.Bot.SophiBot.DataTypes
 
         private Attachment GetProductConfirm()
         {
-            var productCard = new HeroCard
+            AdaptiveCard card = new AdaptiveCard()
             {
-                //Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
-                Text = TapiProductName +"\n\n"+ Utilities.GetSentence("12.2"),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.5"), value: HIGHLIGHT), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.6"), value: HELP) }
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg"},
+                            new TextBlock  { Text =TapiProductName + Utilities.GetSentence("12.2"), Wrap = true, Size = TextSize.Large  },
+                        }
+                    }
+                }
             };
 
-            return productCard.ToAttachment();
+            card.Actions = new List<ActionBase>()
+                {
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.5"),HIGHLIGHT),
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.6"), HELP)
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+
+            //var productCard = new HeroCard
+            //{
+            //    //Title = string.Format(Utilities.GetSentence("12"), TapiProductName),
+            //    Text = TapiProductName +"\n\n"+ Utilities.GetSentence("12.2"),
+            //    Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg") },
+            //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.5"), value: HIGHLIGHT), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.6"), value: HELP) }
+            //};
+
+            //return productCard.ToAttachment();
         }
 
         private Attachment GetHighligh()
         {
-            var productCard = new HeroCard
+            AdaptiveCard card = new AdaptiveCard()
             {
-                //Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
-                Text = TapiProductName+ "\n\n"+ Utilities.GetSentence("12.02"),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/laszlo-article-for-hp-june-2018.jpg") },
-                Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://www.tapi.com/globalassets/hp-banner_0004_catalog.jpg"},
+                            new TextBlock  { Text =TapiProductName + Utilities.GetSentence("12.02"), Wrap = true, Size = TextSize.Large  },
+                        }
+                    }
+                }
             };
 
-            return productCard.ToAttachment();
+            card.Actions = new List<ActionBase>()
+                {
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.3"),FETCH_BY_MAIL),
+                    AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.4"), SHOW_ME_MORE)
+                };
+
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+
+
+
+
+            //var productCard = new HeroCard
+            //{
+            //    //Title = string.Format(Utilities.GetSentence("12.0"), TapiProductName) ,
+            //    Text = TapiProductName+ "\n\n"+ Utilities.GetSentence("12.02"),
+            //    Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/laszlo-article-for-hp-june-2018.jpg") },
+            //    Buttons = new List<CardAction> { new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL), new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.4"), value: SHOW_ME_MORE) }
+            //};
+
+            //return productCard.ToAttachment();
         }
 
 
         
         private Attachment GetFull()
         {
-            var productCard = new HeroCard
+
+            AdaptiveCard card = new AdaptiveCard()
             {
-                //Title = Utilities.GetSentence("12.10") +$" :\n\n{TapiProductName} " ,
-                Text = string.Format(Utilities.GetSentence("12.10"), TapiProductName),// + "\n\n" + Utilities.GetSentence("12.12"),
-                Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },
-                Buttons = GetFilledButtons()                       
+                Body = new List<CardElement>()
+                {
+                    new Container()
+                    {
+                        Items = new List<CardElement>
+                        {
+                            new Image  { Url = "https://www.tapi.com/globalassets/safety-by-design-1.jpg"},
+                            new TextBlock  { Text =string.Format(Utilities.GetSentence("12.10"), TapiProductName), Wrap = true, Size = TextSize.Large  },
+                        }
+                    }
+                }
             };
 
-            return productCard.ToAttachment();
-        }
+            card.Actions = GetFilledButtons();
 
-        private List<CardAction> GetFilledButtons()
+            Attachment attachment = new Attachment() { ContentType = AdaptiveCard.ContentType, Content = card };
+
+            return attachment;
+            //var productCard = new HeroCard
+            //{
+            //    //Title = Utilities.GetSentence("12.10") +$" :\n\n{TapiProductName} " ,
+            //    Text = string.Format(Utilities.GetSentence("12.10"), TapiProductName),// + "\n\n" + Utilities.GetSentence("12.12"),
+            //    Images = new List<CardImage> { new CardImage("https://www.tapi.com/globalassets/safety-by-design-1.jpg") },
+            //    Buttons = GetFilledButtons()                       
+            //};
+
+            //return productCard.ToAttachment();
+        }
+        
+        private List<ActionBase> GetFilledButtons()
         {
-            List<CardAction> buttons = new List<CardAction>();
+            List<ActionBase> buttons = new List<ActionBase>();
 
             //12.20 = Innovator / Marketer
-            if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.201"), value: Utilities.GetSentence("12.201")));
+            if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.201"), Utilities.GetSentence("12.201")));
             //12.21 = CAS Number
-            if (!IsNullOrNA(CASNumber)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")));
+            if (!IsNullOrNA(CASNumber)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.21"), Utilities.GetSentence("12.21")));
             //12.22 = DMF Availability
-            if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.221"), value: Utilities.GetSentence("12.221")));
+            if (!IsNullOrNA(DMFAvailability)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.221"),Utilities.GetSentence("12.221")));
             //12.23 = Dosage Form
-            if (!IsNullOrNA(DosageForm)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")));
+            if (!IsNullOrNA(DosageForm)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.23"), Utilities.GetSentence("12.23")));
             //12.25 = Packaging PIC
-            if (!IsNullOrNA(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.251"), value: Utilities.GetSentence("12.251")));
+            if (!IsNullOrNA(PackagingPIC)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.251"),  Utilities.GetSentence("12.251")));
             //12.26 = Storage Condition
-            if (!IsNullOrNA(StorageCondition)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")));
+            if (!IsNullOrNA(StorageCondition)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.26"),Utilities.GetSentence("12.26")));
             //12.27 = COA
-            if (!IsNullOrNA(COAInd)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")));
+            if (!IsNullOrNA(COAInd)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.27"),Utilities.GetSentence("12.27")));
 
             //12.28 = ATC1
-            if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.281"), value: Utilities.GetSentence("12.281")));
+            if (!IsNullOrNA(ATC1)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.281"), Utilities.GetSentence("12.281")));
 
             //12.29 = Tech File
-            if (!IsNullOrNA(TechFile)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.29"), value: Utilities.GetSentence("12.29")));
+            if (!IsNullOrNA(TechFile)) buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.29"), Utilities.GetSentence("12.29")));
 
             // send me info by mail
-            buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL));
+            buttons.Add(AttachmentsUtil.GetSubmitAction(Utilities.GetSentence("12.3"), FETCH_BY_MAIL));
             
 
             return buttons;
         }
+
+
+        //private List<CardAction> GetFilledButtons()
+        //{
+        //    List<CardAction> buttons = new List<CardAction>();
+
+        //    //12.20 = Innovator / Marketer
+        //    if (!IsNullOrNA(InnovatorMarketer)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.201"), value: Utilities.GetSentence("12.201")));
+        //    //12.21 = CAS Number
+        //    if (!IsNullOrNA(CASNumber)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.21"), value: Utilities.GetSentence("12.21")));
+        //    //12.22 = DMF Availability
+        //    if (!IsNullOrNA(DMFAvailability)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.221"), value: Utilities.GetSentence("12.221")));
+        //    //12.23 = Dosage Form
+        //    if (!IsNullOrNA(DosageForm)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.23"), value: Utilities.GetSentence("12.23")));
+        //    //12.25 = Packaging PIC
+        //    if (!IsNullOrNA(PackagingPIC)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.251"), value: Utilities.GetSentence("12.251")));
+        //    //12.26 = Storage Condition
+        //    if (!IsNullOrNA(StorageCondition)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.26"), value: Utilities.GetSentence("12.26")));
+        //    //12.27 = COA
+        //    if (!IsNullOrNA(COAInd)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.27"), value: Utilities.GetSentence("12.27")));
+
+        //    //12.28 = ATC1
+        //    if (!IsNullOrNA(ATC1)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.281"), value: Utilities.GetSentence("12.281")));
+
+        //    //12.29 = Tech File
+        //    if (!IsNullOrNA(TechFile)) buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.29"), value: Utilities.GetSentence("12.29")));
+
+        //    // send me info by mail
+        //    buttons.Add(new CardAction(ActionTypes.PostBack, Utilities.GetSentence("12.3"), value: FETCH_BY_MAIL));
+
+
+        //    return buttons;
+        //}
 
         private bool IsNullOrNA(string tobechecked)
         {
