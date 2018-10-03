@@ -225,10 +225,15 @@ namespace Tapi.Bot.SophiBot.Dialogs
             // this intent, remove any and all conversation left overs. similar to closing the browser.
             context.EndConversation(ActivityTypes.EndOfConversation);
             // show the start conversation message again
-            var message = context.MakeMessage();
-            message.AsTypingActivity();
-            message.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
-            await context.PostAsync(message);
+            //var message = context.MakeMessage();
+            //message.AsTypingActivity();
+            //message.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
+            //await context.PostAsync(message);
+            await context.PostAsync(Utilities.GetSentence("0"));                 
+            Thread.Sleep(750);
+            await context.PostAsync(Utilities.GetSentence("0.1"));
+            Thread.Sleep(750);
+            await context.PostAsync(Utilities.GetSentence("0.2"));
         }
 
         [LuisIntent("Cancel")]

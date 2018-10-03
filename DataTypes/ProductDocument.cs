@@ -205,8 +205,9 @@ namespace Tapi.Bot.SophiBot.DataTypes
                     {
                         Items = new List<CardElement>
                         {
-                            new Image  { Url = "https://www.tapi.com/globalassets/1-png.png"},
-                            new TextBlock  { Text =string.Format(Utilities.GetSentence("12.40"), category) + textValue, Wrap = true, Size = TextSize.Large  },
+                            new Image  { Url = "https://www.tapi.com/globalassets/1-png.png" },
+                            new TextBlock  { Text =string.Format(Utilities.GetSentence("12.40"), category) , Wrap = true, Size = TextSize.ExtraLarge  },
+                            new TextBlock  { Text = textValue, Wrap = true, Size = TextSize.Large  },
                         }
                     }
                 }
