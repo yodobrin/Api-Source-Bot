@@ -52,15 +52,15 @@ namespace Tapi.Bot.SophiBot
                 // *************************
                
                 // Create a new UserLog object
-                BotLog NewUserLog = new BotLog();
-                // Set the properties on the UserLog object
-                NewUserLog.Channel = activity.ChannelId;
-                NewUserLog.UserID = activity.From.Id;
-                NewUserLog.UserName = activity.From.Name;
-                NewUserLog.created = DateTime.UtcNow;
-                NewUserLog.Message = activity.Text;
-                // Add the UserLog object to UserLogs
-                Utilities.WriteToDB(NewUserLog);
+                //BotLog NewUserLog = new BotLog();
+                //// Set the properties on the UserLog object
+                //NewUserLog.Channel = activity.ChannelId;
+                //NewUserLog.UserID = activity.From.Id;
+                //NewUserLog.UserName = activity.From.Name;
+                //NewUserLog.created = DateTime.UtcNow;
+                //NewUserLog.Message = activity.Text;
+                //// Add the UserLog object to UserLogs
+                //Utilities.WriteToDB(NewUserLog);
 
 
                 await Conversation.SendAsync(activity, () => new RootDialog());
