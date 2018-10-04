@@ -70,8 +70,11 @@ namespace Tapi.Bot.SophiBot
                 Dictionary<string,string> properties = new Dictionary<string, string>();
                 properties["Channel"] = activity.ChannelId;
                 properties["Message"] = activity.Text;
+                properties["UserID"] = activity.From.Id;
+                properties["UserName"] = activity.From.Name;
+                
 
-                telemetry.TrackEvent("Chat", properties);
+                telemetry.TrackEvent("UserTypeChat", properties);
                 await Conversation.SendAsync(activity, () => new RootDialog());
                 //await Conversation.SendAsync(activity, () => new CarouselCardsDialog());
                 
