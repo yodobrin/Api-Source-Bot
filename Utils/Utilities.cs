@@ -72,11 +72,38 @@ namespace Tapi.Bot.SophiBot.Utils
 		static string SearchServiceQueryApiKey = null;
 		static ISearchIndexClient IndexClient = null;
 
+        // sql area
+
+        static System.Data.SqlClient.SqlConnection SqlConnection = null;            
+        
+        
 
         // constants
         public static string PRODUCT = "product";
         public static string NONPRODUCT = "UnknownProduct";
 
+        static void InitSQL()
+        {
+            if(SqlConnection==null)
+            {
+                SqlConnection = new System.Data.SqlClient.SqlConnection(ConfigurationManager.AppSettings["SQLConnectionString"]);
+            }
+        }
+
+       
+
+        public static void WriteToDB(BotLog message)
+        {
+            InitSQL();
+            System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand();
+            cmd.CommandType = System.Data.CommandType.Text;
+            cmd.CommandText = message.GetWriteSql();
+            cmd.Connection = SqlConnection;
+
+            SqlConnection.Open();
+            cmd.ExecuteNonQuery();
+            SqlConnection.Close();
+        }
 
         static void InitSentences()
         {
@@ -229,6 +256,7 @@ namespace Tapi.Bot.SophiBot.Utils
         }
 
     }
+
 
     public static class RegexConstants
     {

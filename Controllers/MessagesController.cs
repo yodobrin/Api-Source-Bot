@@ -28,6 +28,7 @@ using System.Linq;
 using System.Threading;
 
 using Tapi.Bot.SophiBot.Utils;
+using Tapi.Bot.SophiBot.DataTypes;
 namespace Tapi.Bot.SophiBot
 {
     [BotAuthentication]
@@ -45,6 +46,23 @@ namespace Tapi.Bot.SophiBot
             
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
+
+                // *************************
+                // Log to Database
+                // *************************
+               
+                // Create a new UserLog object
+                BotLog NewUserLog = new BotLog();
+                // Set the properties on the UserLog object
+                NewUserLog.Channel = activity.ChannelId;
+                NewUserLog.UserID = activity.From.Id;
+                NewUserLog.UserName = activity.From.Name;
+                NewUserLog.created = DateTime.UtcNow;
+                NewUserLog.Message = activity.Text;
+                // Add the UserLog object to UserLogs
+                Utilities.WriteToDB(NewUserLog);
+
+
                 await Conversation.SendAsync(activity, () => new RootDialog());
                 //await Conversation.SendAsync(activity, () => new CarouselCardsDialog());
                 
@@ -55,6 +73,8 @@ namespace Tapi.Bot.SophiBot
             }
             return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
         }
+
+
 
         private Task<ResourceResponse> Typing(Microsoft.Bot.Connector.Activity message, ConnectorClient client)
         {
