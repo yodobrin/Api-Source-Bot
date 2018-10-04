@@ -29,11 +29,16 @@ using System.Threading;
 
 using Tapi.Bot.SophiBot.Utils;
 using Tapi.Bot.SophiBot.DataTypes;
+using Microsoft.ApplicationInsights;
+using System.Collections.Generic;
+
 namespace Tapi.Bot.SophiBot
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        private TelemetryClient telemetry = new TelemetryClient();
+
         /// <summary>
         /// POST: api/Messages
         /// receive a message from a user and send replies
@@ -50,7 +55,7 @@ namespace Tapi.Bot.SophiBot
                 // *************************
                 // Log to Database
                 // *************************
-               
+
                 // Create a new UserLog object
                 //BotLog NewUserLog = new BotLog();
                 //// Set the properties on the UserLog object
@@ -62,7 +67,11 @@ namespace Tapi.Bot.SophiBot
                 //// Add the UserLog object to UserLogs
                 //Utilities.WriteToDB(NewUserLog);
 
+                Dictionary<string,string> properties = new Dictionary<string, string>();
+                properties["Channel"] = activity.ChannelId;
+                properties["Message"] = activity.Text;
 
+                telemetry.TrackEvent("Chat", properties);
                 await Conversation.SendAsync(activity, () => new RootDialog());
                 //await Conversation.SendAsync(activity, () => new CarouselCardsDialog());
                 
