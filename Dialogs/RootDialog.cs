@@ -25,7 +25,7 @@ using Tapi.Bot.SophiBot.DataTypes;
 using System.Threading;
 using Newtonsoft.Json;
 using Microsoft.Bot.Connector;
-using Microsoft.ApplicationInsights;
+
 
 namespace Tapi.Bot.SophiBot.Dialogs
 {
@@ -39,7 +39,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         Lead MyLead; 
         public IList<ProductDocument> tproducts;
         string Action = Lead.SEARCH;
-        private TelemetryClient telemetry = new TelemetryClient();
+        
 
         public RootDialog() : base(new LuisService(GetLuisModelAttribute()))
         {
