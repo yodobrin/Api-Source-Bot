@@ -403,8 +403,9 @@ namespace Tapi.Bot.SophiBot.Dialogs
 
         public async Task CRMCOAIntent(IDialogContext context, LuisResult result)
         {
-            string productName = (tproducts != null && tproducts[0] != null)?tproducts[0].TapiProductName: "N/A";
+            string productName = (tproducts != null && tproducts[0] != null && tproducts[0].TapiProductName !=null) ?tproducts[0].TapiProductName: "N/A";
             await context.PostAsync(string.Format(Utilities.GetSentence("24"), productName));
+            Thread.Sleep(750);
             await context.PostAsync(Utilities.GetSentence("24.1"));
             Lead alead;
 
