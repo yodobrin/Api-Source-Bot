@@ -69,10 +69,10 @@ namespace Tapi.Bot.SophiBot.Dialogs
         {
             var message = await result;
             string output = null;
-           
+
             if (message.Value != null)
-            {                
-                dynamic value = message.Value;                           
+            {
+                dynamic value = message.Value;
                 try
                 {
                     output = ParseForm(value);
@@ -84,7 +84,12 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     // need to move to log - doing nothing for now
                 }
             }
-            else await context.PostAsync("You have selected to opt out from providing details");
+            else
+            {
+                await context.PostAsync("You have selected to opt out from providing details.");
+                await context.PostAsync(Utilities.GetSentence("0.2"));
+            }
+
             // pass control back to the calling dialog (root)
             context.Done<object>(output);
         }

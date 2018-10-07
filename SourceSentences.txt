@@ -19,6 +19,7 @@
 0 = Hi, My name is Sophi and I will help you source for the API you need. 
 0.01 = To start, please type in the name of the API you are looking for. 
 0.02 = (at any stage you can start over by typing **restart**)
+0.03 = Ok. Let's start over, please type in the name of the API you are looking for. 
 #0.1 = To start, please type in the name of the **API** you are looking for.
 0.1 = HI there, I would like to help you source for the **API** you need, type in its name and I'll take you through it
 0.2 = Thanks for that, how can I help with sourcing for the API you are looking for?

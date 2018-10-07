@@ -25,6 +25,7 @@ using Tapi.Bot.SophiBot.DataTypes;
 using System.Threading;
 using Newtonsoft.Json;
 using Microsoft.Bot.Connector;
+using Microsoft.ApplicationInsights;
 
 namespace Tapi.Bot.SophiBot.Dialogs
 {
@@ -38,6 +39,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         Lead MyLead; 
         public IList<ProductDocument> tproducts;
         string Action = Lead.SEARCH;
+        private TelemetryClient telemetry = new TelemetryClient();
 
         public RootDialog() : base(new LuisService(GetLuisModelAttribute()))
         {
@@ -225,15 +227,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
             // this intent, remove any and all conversation left overs. similar to closing the browser.
             context.EndConversation(ActivityTypes.EndOfConversation);
             // show the start conversation message again
-            //var message = context.MakeMessage();
-            //message.AsTypingActivity();
-            //message.Attachments.Add(AttachmentsUtil.GetConversationStartCard());
-            //await context.PostAsync(message);
-            await context.PostAsync(Utilities.GetSentence("0"));                 
-            Thread.Sleep(750);
-            await context.PostAsync(Utilities.GetSentence("0.1"));
-            Thread.Sleep(750);
-            await context.PostAsync(Utilities.GetSentence("0.2"));
+            await context.PostAsync(Utilities.GetSentence("0.03"));                 
         }
 
         [LuisIntent("Cancel")]
