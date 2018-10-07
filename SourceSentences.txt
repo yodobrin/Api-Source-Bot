@@ -39,7 +39,7 @@
 12 = I found {0} in TAPI's catalog. 
 12.0 = {0}
 12.01 = Addtional information exist
-12.02 = {0} - What would you like to do next?
+12.02 = Yes we do have {0} - What would you like to do next?
 12.1 = We have more information for it.
 12.2 = {0} Is this the API you are interested in? 
 12.3 = Send me all information by mail
@@ -89,6 +89,8 @@
 #19.80 = A request was sent to our communication auto-broker to the address:***{0}*** provided.
 19.80 = Thank you for your inquiry, an email with the details will be sent to ***{0}***
 22 = Thank you for your inquiry, an email with the details will be sent to ***{0}***
+24 = TAPI's team will be happy to share information regarding the CoA for {0}.  
+24.1 = Please fill in the following form and specify in the comments section that you need a CoA and the name of the product
 911.0 = Please type the API you are looking for ... 
 950 = An Error has occured - 
 951 = Please try your operation again {0}

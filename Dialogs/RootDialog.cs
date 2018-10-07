@@ -29,17 +29,17 @@ using Microsoft.Bot.Connector;
 
 namespace Tapi.Bot.SophiBot.Dialogs
 {
-    
+
     [Serializable]
     public class RootDialog : LuisDialog<object>
     {
 
 
         private readonly BingSpellService spellService = new BingSpellService();
-        Lead MyLead; 
+        Lead MyLead;
         public IList<ProductDocument> tproducts;
         string Action = Lead.SEARCH;
-        
+
 
         public RootDialog() : base(new LuisService(GetLuisModelAttribute()))
         {
@@ -85,7 +85,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
             string altered = await this.spellService.GetCorrectedTextAsync(result.Query);
             if (altered.Equals(result.Query))
             {
-                await context.PostAsync(string.Format(Utilities.GetSentence("1.2"),altered));
+                await context.PostAsync(string.Format(Utilities.GetSentence("1.2"), altered));
             }
             else
             {
@@ -122,7 +122,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
         {
             Action = Lead.PDF;
             Lead alead;
-            
+
             LeadDialog diag = new LeadDialog();
             diag.LeadType = AttachmentsUtil.MINIMAL;
 
@@ -130,30 +130,30 @@ namespace Tapi.Bot.SophiBot.Dialogs
             {
                 alead.SetMessageType(Lead.PDF);
                 alead.SetSubject("PDF");
-                await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
+                await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.TRANSIENT_Q);
                 var message = context.MakeMessage();
-                message.Text = string.Format(Utilities.GetSentence("19.80"),alead.Email);
+                message.Text = string.Format(Utilities.GetSentence("19.80"), alead.Email);
                 await context.PostAsync(message);
             }
 
             else context.Call(diag, this.ResumeAfterLeadForm);
 
-           
+
         }
 
         [LuisIntent("Catalog.GetCategory")]
         public async Task CatalogGetCategoryIntent(IDialogContext context, LuisResult result)
         {
             var message = context.MakeMessage();
-            if (tproducts!=null && tproducts.Count>0 && tproducts[0]!=null)
+            if (tproducts != null && tproducts.Count > 0 && tproducts[0] != null)
             {
                 if (ProductDocument.IsPackingPic(result.Query) && !"N/A".Equals(tproducts[0].PackagingPIC))
-                {                    
+                {
                     message.AttachmentLayout = AttachmentLayoutTypes.Carousel;
                     message.Attachments = tproducts[0].GetProductPicCarousel();
-                }else 
+                } else
                     message.Attachments.Add(tproducts[0].GetProductCat(result.Query));
-            }else message.Attachments.Add(AttachmentsUtil.GetErrorCard("No products in search results"));
+            } else message.Attachments.Add(AttachmentsUtil.GetErrorCard("No products in search results"));
             //context.
             await context.PostAsync(message);
             //await context.PostAsync("what about it?");
@@ -169,7 +169,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                 case ProductDocument.SHOW_ME_MORE:
                     var message = context.MakeMessage();
                     message.AsTypingActivity();
-                    message.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.FULL));                    
+                    message.Attachments.Add(tproducts[0].GetProductCard(ProductDocument.FULL));
                     await context.PostAsync(message);
                     break;
                 case ProductDocument.FLUSH:
@@ -177,7 +177,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     break;
                 case ProductDocument.FETCH_BY_MAIL:
                     Lead alead;
-                    
+
                     LeadDialog diag = new LeadDialog();
                     diag.LeadType = AttachmentsUtil.FULL;
                     if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
@@ -186,7 +186,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                         alead.SetSubject(currSearch);
                         alead.SetProduct(tproducts[0].MoleculeID);
                         // need to create a lead and send the search results
-                        await Utilities.AddMessageToQueueAsync(alead.ToMessage(),Utilities.TRANSIENT_Q);
+                        await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.TRANSIENT_Q);
                         await Utilities.AddMessageToQueueAsync(alead.ToMessage(), Utilities.LEAD_Q);
                         await context.PostAsync(string.Format(Utilities.GetSentence("22"), alead.Email));
                     }
@@ -203,13 +203,13 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     await context.PostAsync(message1);
                     break;
 
-                default: break;                 
+                default: break;
             }
-            
+
 
         }
 
-        
+
         [LuisIntent("Conversation.End")]
         public async Task ConversationEndIntent(IDialogContext context, LuisResult result)
         {
@@ -217,8 +217,8 @@ namespace Tapi.Bot.SophiBot.Dialogs
             var message = context.MakeMessage();
             message.AsTypingActivity();
             message.Attachments.Add(AttachmentsUtil.GetConversationEndCard(result.Query));
-            await context.PostAsync(message);            
-            
+            await context.PostAsync(message);
+
         }
 
         [LuisIntent("Conversation.Terminate")]
@@ -227,7 +227,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
             // this intent, remove any and all conversation left overs. similar to closing the browser.
             context.EndConversation(ActivityTypes.EndOfConversation);
             // show the start conversation message again
-            await context.PostAsync(Utilities.GetSentence("0.03"));                 
+            await context.PostAsync(Utilities.GetSentence("0.03"));
         }
 
         [LuisIntent("Cancel")]
@@ -238,20 +238,20 @@ namespace Tapi.Bot.SophiBot.Dialogs
 
         [LuisIntent("Help")]
         public async Task HelpIntent(IDialogContext context, LuisResult result)
-        {           
-           await context.PostAsync(Utilities.GetSentence("911.0"));
+        {
+            await context.PostAsync(Utilities.GetSentence("911.0"));
         }
 
         [LuisIntent("CRM.Share")]
         public async Task CRMShareIntent(IDialogContext context, LuisResult result)
         {
 
-            string dispName = (MyLead!=null && !string.IsNullOrEmpty(MyLead.Name)) ? MyLead.Name : MyLead.Email;
+            string dispName = (MyLead != null && !string.IsNullOrEmpty(MyLead.Name)) ? MyLead.Name : MyLead.Email;
             var message = context.MakeMessage();
             message.AsTypingActivity();
             message.Attachments.Add(AttachmentsUtil.GetShareCard(dispName));
             await context.PostAsync(message);
-            
+
         }
 
         /**
@@ -261,8 +261,8 @@ namespace Tapi.Bot.SophiBot.Dialogs
          * 
          */
         [LuisIntent("Catalog.FindItem")]
-		public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
-		{
+        public async Task CatalogFindItemIntent(IDialogContext context, LuisResult result)
+        {
             context.ConversationData.SetValue("initialsearch", result.Query);
             // setting the action to search
             Action = ProductDocument.FETCH_BY_MAIL;
@@ -284,7 +284,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                 EntityRecommendation inst = entities[0];
                 // send the result to the persist queue
                 string surveyMessage = $"{{\"Answer\":\"{inst.Entity}\", \"TimeStamp\":\"{DateTime.Now}\",\"Name\":\"{locName}\"}}";
-                await Utilities.AddMessageToQueueAsync(surveyMessage,Utilities.SURVEY_Q);
+                await Utilities.AddMessageToQueueAsync(surveyMessage, Utilities.SURVEY_Q);
 
                 switch (inst.Entity)
                 {
@@ -309,8 +309,8 @@ namespace Tapi.Bot.SophiBot.Dialogs
                         break;
                     default: break;
                 }
-            }else
-            {                
+            } else
+            {
                 message.Attachments.Add(AttachmentsUtil.GetSurveyCard(locName));
                 await context.PostAsync(message);
             }
@@ -323,23 +323,23 @@ namespace Tapi.Bot.SophiBot.Dialogs
         public async Task CRMLeadIntent(IDialogContext context, LuisResult result)
         {
             Lead alead;
-            
+
             Action = Lead.LEADCREATE;
             if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
             {
                 MyLead = alead;
-            }else
+            } else
             {
                 LeadDialog diag = new LeadDialog();
                 diag.LeadType = AttachmentsUtil.FULL;
                 context.Call(diag, ResumeAfterLeadForm);
             }
-        
+
 
         }
 
         [LuisIntent("CRM.SubmitLead")]
-       
+
         public async Task CRMSubmitLeadIntent(IDialogContext context, LuisResult result)
         {
             // check if lead exist
@@ -361,7 +361,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     MyLead.SetSubject("PDF");
                     await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.TRANSIENT_Q);
                     // post a nice end message with an option to provide feedback (and share - not functional)
-                    
+
                     message.Attachments.Add(AttachmentsUtil.GetEndCard(dispName));
                     await context.PostAsync(message);
                     // Inform the lead process ended
@@ -372,7 +372,7 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     MyLead.SetSubject(currSearch);
                     await Utilities.AddMessageToQueueAsync(MyLead.ToMessage(), Utilities.LEAD_Q);
                     // post a nice end message with an option to provide feedback (and share - not functional)
-                    
+
                     message.Attachments.Add(AttachmentsUtil.GetEndCard(dispName));
                     await context.PostAsync(message);
                     // Inform the lead process ended
@@ -393,11 +393,34 @@ namespace Tapi.Bot.SophiBot.Dialogs
                     LeadDialog diag = new LeadDialog();
                     diag.Temporary = MyLead;
                     diag.LeadType = AttachmentsUtil.REVISIT;
-                    context.Call(diag, this.ResumeAfterLeadForm);                    
+                    context.Call(diag, this.ResumeAfterLeadForm);
                     break;
             }
         }
 
+
+        [LuisIntent("CRM.COA")]
+
+        public async Task CRMCOAIntent(IDialogContext context, LuisResult result)
+        {
+            string productName = (tproducts != null && tproducts[0] != null)?tproducts[0].TapiProductName: "N/A";
+            await context.PostAsync(string.Format(Utilities.GetSentence("24"), productName));
+            await context.PostAsync(Utilities.GetSentence("24.1"));
+            Lead alead;
+
+            Action = Lead.LEADCREATE;
+            if (context.PrivateConversationData.TryGetValue("bot-lead", out alead))
+            {
+                MyLead = alead;
+            }
+            else
+            {
+                LeadDialog diag = new LeadDialog();
+                diag.LeadType = AttachmentsUtil.FULL;
+                context.Call(diag, ResumeAfterLeadForm);
+            }
+        }
+            
 
         private async Task ShowLuisResult(IDialogContext context, LuisResult result)
         {
