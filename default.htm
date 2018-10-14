@@ -20,8 +20,8 @@
 
     div.wc-header1 {
         color: #ffd800;
-        font-size:14px;
-        margin-top:5px;
+        font-size: 14px;
+        margin-top: 5px;
     }
 
     Style Attribute {
@@ -53,8 +53,8 @@
     <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
 </head>
 <body>
-    
-    <div id="bot"/>
+
+    <div id="bot" />
     <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
     <script>
         BotChat.App({
@@ -64,45 +64,30 @@
             resize: 'detect'
         }, document.getElementById("bot"));
 
+        window.addEventListener('DOMNodeInserted', function (e) {
+            if (e.target.className == 'ac-container') {
+                setTimeout(function () {
+                    try {
+                        e.target.scrollIntoView();
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                }, 300);
+            }
+        });
+
         window.onload = function () {
             var legalText = "The information detailed herein, including that with regard to active pharmaceutical ingredients , their use in treatments and possible mechanism(s) of action, was all obtained from public sources. For more information on our services and products – including product suitability, intended uses and current availability – please contact TAPI Customer Service. CAS Registry Number is a Registered Trademark of the American Chemical Society. This webpage and any reference to the above product is to be read within the meaning and terms of the Legal Notes (https://www.tapi.com/LegalNotes/).";
             var legaluri = "https://www.tapi.com/LegalNotes/";
-            var legalNote = "<a href=\"" + legaluri+"\"> Legal Notes </a>";
+            var legalNote = "<a href=\"" + legaluri + "\"> Legal Notes </a>";
             document.getElementsByClassName("wc-header")[0].lastChild.innerText = legalText;
             var innerDiv = document.createElement('div');
             innerDiv.innerText = "Please note that this is a beta version of our API sourcing tool and you may experience some bugs while in use.";
             innerDiv.className = "wc-header1";
             document.getElementsByClassName("wc-header")[0].appendChild(innerDiv)
-            
+
         };
-
-       //window.addEventListener('click', function () { scrl() });
-        window.addEventListener("wheel", function () { gotoBottom('wc-shellinput') });
-
-        var pic = 'https://www.tapi.com/globalassets/dissolution-article-2.jpg';
-
-        function scrl() {            
-            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);            
-        }
-
-        function gotoBottom(id) {
-            var element = document.getElementsByClassName(id)[0];
-            element.placeholder = "New messages Exist !! Scroll to view";
-
-            //element.lastChild.innerText = "New messages Exist !! Scroll to view";
-            //element.className = 'topcorner';
-
-        }
     </script>
-
-
-
-
-     
-
-
-
-
-
 </body>
 </html>
