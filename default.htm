@@ -1,65 +1,46 @@
 ﻿<!DOCTYPE html>
 
 <style>
-    div.wc-header {
-        background-color: #0078d7;
-        box-shadow: 0 1px rgba(0, 0, 0, 0.2);
-        box-sizing: content-box;
-        color: #ffffff;
-        font-weight: 300;
-        font-size: 10px;
-        height: 50px;
-        left: 0;
-        letter-spacing: 0.5px;
-        padding: 8px 8px 0 8px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        z-index: 1;
+    div.ac-image img {
+        width: 100%;
     }
 
-    div.wc-header1 {
+    div.wc-header {
+        height: auto;
+        font-size: 14px;
+    }
+
+    div.wc-header-beta-msg {
         color: #ffd800;
         font-size: 14px;
         margin-top: 5px;
+        padding-bottom: 10px;
     }
 
-    Style Attribute {
-        overflow: hidden;
-        font-family: "Segoe UI", sans-serif;
-        text-align: left;
-        font-size: 20px;
-        line-height: 17.29px;
-        color: rgb(0, 0, 0);
-        font-weight: 400;
-        word-wrap: break-word;
-        box-sizing: border-box;
-        flex: 0 0 auto;
-    }
-
-    moreMessages {
-        color: #FF0000;
-    }
-
-    topcorner {
-        position: absolute;
-        bottom: 0;
-        right: 0;
+    div.wc-header-div-btn {
+        text-align: right;
+        padding-bottom: 10px;
     }
 </style>
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
 </head>
 <body>
 
     <div id="bot" />
+    <![if IE]>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat-es5.js"></script>
+    <![endif]>
+    <![if !IE]>
     <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+    <![endif]>
     <script>
         BotChat.App({
             directLine: { secret: 'xcBwSd2aeaA.cwA.s9A.yB_PKkHMAQp5kRtwweps13e7qEYFtUN6YUUj0UnVMZM' },
-            user: { id: 'userid' },
+            user: { id: 'userid', name: 'You' },
             bot: { id: 'botid' },
             resize: 'detect'
         }, document.getElementById("bot"));
@@ -82,11 +63,24 @@
             var legaluri = "https://www.tapi.com/LegalNotes/";
             var legalNote = "<a href=\"" + legaluri + "\"> Legal Notes </a>";
             document.getElementsByClassName("wc-header")[0].lastChild.innerText = legalText;
+
             var innerDiv = document.createElement('div');
             innerDiv.innerText = "Please note that this is a beta version of our API sourcing tool and you may experience some bugs while in use.";
-            innerDiv.className = "wc-header1";
+            innerDiv.className = "wc-header-beta-msg";
             document.getElementsByClassName("wc-header")[0].appendChild(innerDiv)
 
+            var btnDiv = document.createElement('div');
+            btnDiv.className = "wc-header-div-btn";
+
+            var btnMinimize = document.createElement('button');
+            btnMinimize.addEventListener("click", function () {
+                this.parentElement.parentElement.lastChild.previousSibling.previousSibling.innerText = "";
+                this.parentElement.parentElement.removeChild(this.parentElement.parentElement.lastChild);
+            });
+            btnMinimize.innerText = "I Understand, Please minimized";
+            btnDiv.appendChild(btnMinimize);
+
+            document.getElementsByClassName("wc-header")[0].appendChild(btnDiv)
         };
     </script>
 </body>
