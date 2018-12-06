@@ -1,0 +1,16 @@
+div.ac-image img {
+    width: 100%;
+}
+div.wc-header {
+    height: auto;
+    font-size: 14px;
+}
+div.wc-header-beta-msg {
+    color: #ffd800;
+    font-size: 14px;
+    padding-bottom: 5px;
+}
+div.wc-header-div-btn {
+    text-align: right;
+    padding-bottom: 5px;
+}

@@ -265,6 +265,9 @@
   <ItemGroup>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
+    <Content Include="Resources\custombotchat.css" />
+    <Content Include="Resources\custombotchat.js" />
+    <Content Include="Resources\favicon.ico" />
     <Content Include="SourceSentences.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
