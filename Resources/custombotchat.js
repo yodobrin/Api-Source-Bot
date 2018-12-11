@@ -1,11 +1,12 @@
 window.addEventListener('DOMNodeInserted', function (e) {
-    if(e.target.className == 'ac-container'){
-        setTimeout(function(){
-            try{
-            e.target.scrollIntoView();
+    if (e.target.className == 'ac-container') {
+        setTimeout(function () {
+            try {
+                //e.target.scrollIntoView();
+                e.target.scrollIntoViewIfNeeded();
             }
-            catch(e){
-            console.log(e);
+            catch (e) {
+                console.log(e);
             }
         }, 300);
     }
@@ -33,7 +34,7 @@ window.onload = function () {
     btnDiv.className = "wc-header-div-btn";
 
     var btnMinimize = document.createElement('button');
-    btnMinimize.addEventListener ("click", function() {
+    btnMinimize.addEventListener("click", function () {
         this.parentElement.parentElement.lastChild.previousSibling.previousSibling.innerText = "";
         this.parentElement.parentElement.removeChild(this.parentElement.parentElement.lastChild);
     });
